@@ -1,0 +1,20 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?q?=5Buverodev=2Ecom=5D_Por_favor_confirmar_direcci=C3=B3n_de_correo_?=
+ =?utf-8?q?electr=C3=B3nico?=
+From: webmaster@localhost
+To: juan@juan.com
+Date: Mon, 29 Jun 2020 20:59:58 -0000
+Message-ID: <159346439801.7816.538455510201899974@DESKTOP-3ITVCLU>
+
+¡Te saluda uverodev.com!
+
+Estás recibiendo este correo electrónico porque el usuario  juan ha dado su correo electrónico para conectar su cuenta.
+
+Para confirmar que esto es correcto, haz clic en http://localhost:8000/accounts/confirm-email/MTA:1jq0sf:9OqF3CgSXrWcZIF1_OjnFFQ6nUA/
+
+Gracias uverodev.com!
+Uverodev
+-------------------------------------------------------------------------------

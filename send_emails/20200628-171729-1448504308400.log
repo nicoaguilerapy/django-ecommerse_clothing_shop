@@ -1,0 +1,20 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?q?=5Bexample=2Ecom=5D_Por_favor_confirmar_direcci=C3=B3n_de_correo_e?=
+ =?utf-8?q?lectr=C3=B3nico?=
+From: webmaster@localhost
+To: sadfh@gmail.com
+Date: Sun, 28 Jun 2020 21:17:29 -0000
+Message-ID: <159337904990.6400.362327735608830685@DESKTOP-3ITVCLU>
+
+¡Te saluda example.com!
+
+Estás recibiendo este correo electrónico porque el usuario  pedro ha dado su correo electrónico para conectar su cuenta.
+
+Para confirmar que esto es correcto, haz clic en http://localhost:8000/accounts/confirm-email/OQ:1jpeg5:b9hJDKA_tcxE1rdBOnyaDvCZU_0/
+
+Gracias example.com!
+example.com
+-------------------------------------------------------------------------------

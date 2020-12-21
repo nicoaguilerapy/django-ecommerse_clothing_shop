@@ -1,0 +1,18 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% block tittle %}Producto{% endblock %}
+{% block barra_busqueda %}
+{% endblock barra_busqueda %}
+{% block body %}
+    <div class="row mt-3 mb-5">
+      <div class="col-md-9 mx-auto">
+            <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                    {{ form.as_p }}
+                    <br>
+                <div class="text-center">                   
+                  <input type="submit" class="btn btn-primary btn-block" value="Aceptar" />
+                </div>
+            </form>
+      </div>
+    </div>
+{% endblock body %}

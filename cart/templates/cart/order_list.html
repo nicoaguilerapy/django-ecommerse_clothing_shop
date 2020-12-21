@@ -1,0 +1,77 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load productos_extras %}
+{% load humanize %}
+{% load cart_extras %}
+{% load accounts_extras %}
+{% load social_extras %}
+{% load thumbnail %}
+{% block titulo %}Mis Pedidos{% endblock titulo %} 
+{% block barra_busqueda %}
+{% endblock barra_busqueda %}
+{% block body %}
+	<!-- breadcrumb -->
+	<div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
+		<a href="{% url 'home' %}" class="s-text16">
+			Inicio
+			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+		</a>
+		<span class="s-text17">
+			Mis Pedidos
+		</span>
+	</div>
+  <br>
+  <div class="containter">
+  <div class="row justify-content-center">
+    <h4>Mis Pedidos</h4>
+  </div>
+</div>
+<br>
+<br>
+{% get_number_one as number_first %}
+<div class="container-table-cart pos-relative">
+<div class="wrap-table-shopping-cart bgwhite">
+<table class="table-shopping-cart">
+  <thead>
+    <tr>
+      <th scope="col"><center>Pedido #</center></th>
+      <th scope="col"><center>Fecha</center></th>
+      <th scope="col"><center>Monto</center></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in order_list %}
+        {% get_link_wha_order number_first order.id dato_url as link_wha %}
+    {% if order.status == 'CA' %}
+      <tr class="table-danger">
+		{% elif order.status == 'PR' %}
+      <tr class="table-primary">
+    {% elif order.status == 'FI' %}
+      <tr class="table-success">
+    {% else %}
+      <tr class="table-active">
+    {% endif %}
+      <th scope="row"><center>{{order.id}}</center></th>
+      <td><center>{{order.date_ordered|date:'SHORT_DATE_FORMAT'}}</center></td>
+      <td><center>₲. {{order.total|intcomma}}</center></td>
+      <td><span><a href="{% url 'detail_order' order.id %}">Detalles <i class="fa fa-file-text" aria-hidden="true"></i></a></span></td>
+      <td><span><a href="{{link_wha}}cart/my-orders/{{order.id}}/">Compartir <i class="fa fa-whatsapp" aria-hidden="true"></i></a></span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<div class="row justify-content-center">
+					{% for i in paginator.page_range %}
+						{% if page_obj.number == i %}
+						<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{i}}</a>
+						{% else %}
+						<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="item-pagination flex-c-m trans-0-4">{{i}}</a>
+						{% endif %}
+					{% endfor %}
+</div>
+</div>
+{% endblock body %}

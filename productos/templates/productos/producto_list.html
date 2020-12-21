@@ -1,0 +1,150 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load productos_extras %}
+{% load humanize %}
+{% load thumbnail %}
+{% block titulo %}{% if request.GET.buscar %} Buscar {{ request.GET.buscar }} | {% endif %}Tienda{% endblock titulo %} 
+{% block barra_busqueda %}
+{% endblock barra_busqueda %}
+
+{% block body %}
+<!-- Content page -->
+	<section class="bgwhite p-t-55 p-b-65">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+					<div class="leftbar p-r-20 p-r-0-sm">
+						<!-- Barra Izquierda -->
+						{% if not 'ofertas/' in request.path %}
+						<h4 class="m-text14 p-b-7">
+							Categorias {{id}}
+						</h4>
+
+						<ul class="p-b-54">
+								<li class="p-t-4">
+								<a href="{% url 'productos' %}{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}" class="s-text13 active1">
+									All
+								</a>
+							</li>
+						{% for categoria in categorias %}
+						<li class="p-t-4">
+								<a href="{% url 'categoria' categoria.id categoria.nombre|slugify %}{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}" class="s-text13 active1">
+									{{categoria.nombre}}
+								</a>
+							</li>
+						{% endfor %}
+						</ul>
+						{% endif %}
+
+						<!-- Buscador -->
+						<div class="p-t-22 p-b-22 bo3">
+							<form method="get" action="{% if 'categoria/' in request.path %}{{reques.path}}{% else %}{% if 'ofertas/' in request.path %}{{request.path}}{% else %}/tienda/{% endif %}{% endif %}">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Buscar un Producto" name="buscar" value="{{request.GET.buscar}}">
+									<div class="input-group-append">
+									<a location.>
+									<button class="btn btn-secondary" href="" type="submit"> <i class="fa fa-search"></i></button>
+									 </a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+					<!--  -->
+					<form method="POST" action="index.php?action=contact_agent">
+					<div class="flex-sb-m flex-w p-b-35">
+						
+					<div class="w-size12 m-t-5 m-b-5 m-r-10">
+								<select name="forma" onchange="location = this.value;" class="selection-2" name="sorting">
+									<option value="">Nuevos</option>
+									<option value="/tienda/{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}">Más Vendidos</option>
+									<option value="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&orden=menor-mayor{% else %}?orden=menor-mayor{% endif %}"> Precio: Bajo a Alto</option>
+									<option value="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&orden=mayor-menor{% else %}?orden=mayor-menor{% endif %}">Precio: Alto a Bajo</option>
+								</select>
+					</div>						
+					</form>
+					<!-- Lista de Objetos -->
+						<span class="s-text8 p-t-5 p-b-5">
+							{% if count <= 12 %}
+							Showing {{ count }} of {{ count }} results
+							{% else %}
+								{% if paginator.num_pages ==  page_obj.number %}
+									Showing {{ count }} of {{ count }} results
+								{% else %}								
+									{% if page_obj.number == 1  %}
+										Showing  1-12 of {{ count }} results
+									{% else %}
+										Showing  {% multipli page_obj.previous_page_number  12 %}-{% widthratio 12 1 page_obj.number %} of {{ count }} results
+									{% endif %}
+								{% endif %}
+							{% endif %}
+						</span>
+					</div>
+					<!-- Productos -->
+					<div class="row">
+						{% for producto in producto_list %}
+						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+						<form action="{% url 'detalle_producto' producto.id producto.slug %}">	
+							<div class="block2">				
+								<div class="block2-img wrap-pic-w of-hidden pos-relative">
+									{% thumbnail producto.imagen "270x360" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
+									{% endthumbnail %}
+									<div class="block2-overlay trans-0-4">
+										<input type="hidden" id="" name="item_id" id="item_id" value="{{producto.id}}">
+										<input type="hidden" id="" name="cantidad" id="cantidad" value="1">
+										<div class="block2-btn-addcart w-size1 trans-0-4">
+											<!-- Button -->
+											<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+												Detalles
+											</button>
+										</div>
+									</div>
+								</div>
+							
+
+								<div class="block2-txt p-t-20">
+									<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="block2-name dis-block s-text3 p-b-5">
+										{{producto.titulo}}
+									</a>
+									{% if producto.oferta %}
+									<span class="block2-oldprice m-text6 p-r-5">
+										₲. <strike>{{producto.precio|intcomma }}</strike>
+									</span>
+									<span class="block2-newprice m-text8 p-r-5">
+										₲. {{producto.precio_oferta|intcomma }}
+									</span>
+									{% else %}
+									<span class="block2-price m-text6 p-r-5">
+										₲. {{producto.precio|intcomma }}
+									</span>
+									{% endif %}
+								</div>
+							</div>
+						</form>
+						</div>
+					{% endfor %}
+					</div>
+					<!-- Pagination -->
+					<div class="pagination flex-m flex-w p-t-26">
+				{% if count > 0 %}
+					{% for i in paginator.page_range %}
+						{% if page_obj.number == i %}
+						<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{i}}</a>
+						{% else %}
+						<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="item-pagination flex-c-m trans-0-4">{{i}}</a>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+				<h2>No hay resultados</h2>					   
+				{% endif %}
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock body %}

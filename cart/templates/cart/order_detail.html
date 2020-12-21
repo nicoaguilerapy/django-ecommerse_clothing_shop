@@ -1,0 +1,75 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load humanize %}
+{% block tittle %}Lista de Pedidos{% endblock %}
+{% block body %}
+
+	<!-- breadcrumb -->
+	<div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
+		<a href="{% url 'home' %}" class="s-text16">
+			Inicio
+			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+		</a>
+
+		<a href="{% url 'my_orders' %}"" class="s-text16">
+			Mis Pedidos
+			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+		</a>
+		<span class="s-text17">
+			Pedido Nº: {{user_order.id}}
+		</span>
+	</div>
+  <br>
+<div class="containter">
+  <div class="row justify-content-center">
+    <h4>Pedido Nº: {{user_order.id}}</h4>
+  </div>
+  <br>
+  <div class="row justify-content-center"> 
+    <h4>Fecha: {{user_order.date_ordered|date:'SHORT_DATE_FORMAT'}}</h4>
+  </div>
+</div>
+<br>
+<br>
+<div class="container-table-cart pos-relative">
+<div class="wrap-table-shopping-cart bgwhite">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Producto #</th>
+      <th scope="col">Modelo</th>
+      <th scope="col">Talle</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Precio Unit</th>
+      <th scope="col">Sub Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+		{% if forloop.counter|divisibleby:2 %}
+    <tr class="table-light">
+		{% else %}
+		<tr class="table-active">
+		{% endif %}
+      <th scope="row">{{item.producto.titulo}}</th>
+      <td>{{item.model}}</td>
+      <td>{{item.size}}</td>
+      <td>{{item.quantity}}</td>
+      <td>₲. {{item.producto.precio|intcomma}}</td>
+      <td>₲. {{item.get_item_total|intcomma}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table-info">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <th scope="row">Total</th>
+      <th scope="row">₲. {{user_order.total|intcomma}}</th>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+{% endblock body %}

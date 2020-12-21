@@ -1,0 +1,73 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load productos_extras %}
+{% load humanize %}
+{% load cart_extras %}
+{% load accounts_extras %}
+{% load social_extras %}
+{% load thumbnail %}
+{% block titulo %}Pedidos{% endblock titulo %} 
+{% block barra_busqueda %}
+{% endblock barra_busqueda %}
+{% block tittle %}Lista de Pedidos{% endblock %}
+{% block body %}
+
+<div class="containter">
+  <div class="row justify-content-center">
+  <br>
+    <h4>Pedido Nº: {{order.id}}</h4>
+  </div>
+</div>
+<br>
+<div class="row">
+<div class="col-3">
+  <div class="p-2">{{profile_order.nombre}}</div>
+  <div class="p-2">{{profile_order.apellido}}</div>
+  <div class="p-2"><a href="https://api.whatsapp.com/send?phone=595{{profile_order.celular}}&text=Tu Pedido Nº {{order.id}}">{{profile_order.celular}}</a></div>
+</div>
+<br>
+ <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+<div>
+ 
+    <div class="col-3">
+      {{ form.as_p }}
+    </div>
+    <div class="col">               
+      <input type="submit" class="btn btn-primary btn-block" value="Cambiar Estado" />
+    </div>
+
+</div>
+  </form>
+</div>
+<br>
+<div class="container-table-cart pos-relative">
+<div class="wrap-table-shopping-cart bgwhite">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Producto #</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Precio Unit</th>
+      <th scope="col">Sub Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+		{% if forloop.counter|divisibleby:2 %}
+    <tr class="table-light">
+		{% else %}
+		<tr class="table-active">
+		{% endif %}
+      <th scope="row">{{item.producto.titulo}}</th>
+      <td>{{order.date_ordered|date:'SHORT_DATE_FORMAT'}}</td>
+      <td>{{item.quantity}}</td>
+      <td>₲. {{item.producto.precio|intcomma}}</td>
+      <td>₲. {{item.get_item_total|intcomma}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+</div>
+{% endblock body %}

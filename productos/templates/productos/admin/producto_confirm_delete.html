@@ -1,0 +1,19 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% block tittle %}Productos{% endblock %}
+{% block body %}
+<main role="main">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-9 mx-auto">
+        <div>
+          <form action="" method="post">{% csrf_token %}
+            <p>¿Estás seguro de que quieres borrar <b>"{{ object }}"</b>?</p>
+            <input type="submit" class="btn btn-primary btn-block" value="Sí" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

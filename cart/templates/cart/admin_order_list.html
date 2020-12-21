@@ -1,0 +1,105 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load productos_extras %}
+{% load humanize %}
+{% load cart_extras %}
+{% load accounts_extras %}
+{% load social_extras %}
+{% load thumbnail %}
+{% block titulo %}Pedidos{% endblock titulo %} 
+{% block barra_busqueda %}
+{% endblock barra_busqueda %}
+{% block body %}
+<div class="animated fadeIn">
+          <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">Pedidos</strong>
+                            </div>
+							<div class="row">
+								<div class="col">
+								 <select name="select" onchange="location = this.value;" id="select" class="form-control">
+                                                  <option value="0">Filtrar</option>
+                                                <option value="{% url 'admin_order_list' %}">Todos</option>
+                                                <option value="{% if request.GET.date %}?date={{request.GET.date}}&status=PE{% else %}?status=PE{% endif %}">Pendientes</option>
+                                                <option value="{% if request.GET.date %}?date={{request.GET.date}}&status=PR{% else %}?status=PR{% endif %}">En Proceso</option>
+                                                <option value="{% if request.GET.date %}?date={{request.GET.date}}&status=FI{% else %}?status=FI{% endif %}">Finalizado</option>
+                                                <option value="{% if request.GET.date %}?date={{request.GET.date}}&status=CA{% else %}?status=CA{% endif %}">CANCELADO</option>
+                                </select>
+								
+							</div>
+							<div class="col">
+								 <select name="select" onchange="location = this.value;" id="select" class="form-control">
+                                                <option value="0">Fechas</option>
+                                                <option value="{% url 'admin_order_list' %}">Todos</option>
+                                                <option value="{% if request.GET.status %}?status={{request.GET.status}}&date=today{% else %}?date=today{% endif %}">Hoy</option>
+                                                <option value="{% if request.GET.status %}?status={{request.GET.status}}&date=today{% else %}?date=today{% endif %}">Ultimos 7 dias</option>
+                                                <option value="{% if request.GET.status %}?status={{request.GET.status}}&date=month{% else %}?date=month{% endif %}">Este Mes</option>
+                                </select>
+								
+							</div>
+                            </div>
+                                        
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><center>ID</center></th>
+                                            <th><center>Usuario</center></th>
+											<th><center>Monto</center></th>
+											<th><center>Fecha</center></th>
+											<th><center>Estado</center></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for object in order_list %}
+									    {% if object.status == 'CA' %}
+                                            <tr class="table-danger">
+		                                {% elif object.status == 'PR' %}
+                                            <tr class="table-primary">
+                                        {% elif object.status == 'FI' %}
+                                            <tr class="table-success">
+                                        {% else %}
+                                            <tr class="table-active">
+                                        {% endif %}
+											<td><center>{{object.id}}</center></td>
+                                            <td><center>{{object.owner}}</center></td>
+                                            <td><center>₲. {{object.total}}</center></td>
+											<td><center>{{object.date_ordered|date:'SHORT_DATE_FORMAT'}}</center></td>
+
+                                        {% if object.status == 'CA' %}
+                                            <td><center>Cancelado</center></td>
+		                                {% elif object.status == 'PR' %}
+                                            <td><center>En Proceso</center></td>
+                                        {% elif object.status == 'FI' %}
+                                            <td><center>Finalizado</center></td>
+                                        {% else %}
+                                            <td><center>Pendiente</center></td>
+                                        {% endif %}
+
+                                            <td><center>                                          
+                                               <a href="{% url 'admin_order_edit' object.id %}" class="btn btn-primary">Detalles</a></center>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+<div class="row justify-content-center">
+				
+{% for i in paginator.page_range %}
+	{% if page_obj.number == i %}
+	<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="btn btn-light rounded-circle">{{i}}</a>
+	{% else %}
+	<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="btn btn-secondary rounded-circle">{{i}}</a>
+	{% endif %}
+	{% endfor %}
+</div>
+</div>
+</div><!-- .animated -->
+
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load productos_extras %}
+{% load humanize %}
+{% load thumbnail %}
+{% block titulo %} {{post.titulo}} | Blog{% endblock titulo %} 
+{% block barra_busqueda %}
+{% endblock barra_busqueda %}
+{% block body %}
+<section class="bgwhite p-t-60 p-b-25">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-lg-9 p-b-80">
+					<div class="p-r-50 p-r-0-lg">
+						<div class="p-b-40">
+							<div class="blog-detail-img wrap-pic-w">
+								{% thumbnail post.imagen "820x481" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-BLOG">
+									{% endthumbnail %}
+							</div>
+
+							<div class="blog-detail-txt p-t-33">
+								<h4 class="p-b-11 m-text24">
+									{{post.titulo}}
+								</h4>
+
+								<div class="s-text8 flex-w flex-m p-b-21">
+                                    	<span>
+                                        <span class="m-l-3 m-r-6">|</span>
+										{{post.fecha_creacion|date:'SHORT_DATE_FORMAT'}}
+										<span class="m-l-3 m-r-6">|</span>
+									</span>
+								</div>
+                                {{post.contenido|safe }}								
+							</div>
+							<br><br>
+							{% if request.user.is_staff %}
+                    			<p><a href="{% url 'admin:blog_post_change' object.id %}">Editar</a></p>
+                    		{% endif %}
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4 col-lg-3 p-b-80">
+				<div class="rightbar">
+						<!-- Categories -->				
+                        {% get_productos 4 as producto_list %}
+						<!-- Featured Products -->
+						<h4 class="m-text23 p-t-65 p-b-34">
+							Recomendaciones de Productos
+						</h4>
+
+						<ul class="bgwhite">
+                            {% for producto in producto_list %}
+							<li class="flex-w p-b-20">
+								<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="dis-block wrap-pic-w w-size22 m-r-20 trans-0-4 hov4">
+									{% thumbnail producto.imagen "90x120" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
+									{% endthumbnail %}
+								</a>
+
+								<div class="w-size23 p-t-5">
+									<div class="row"> 
+										<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="s-text20">
+										{{producto.titulo}}
+										</a>
+									</div>
+									{% if producto.oferta %}
+									<div class="row">
+										<span class="block2-oldprice m-text6 p-r-5">
+											₲. <strike>{{producto.precio|intcomma }}</strike>
+										</span>
+										<span class="block2-newprice m-text8 p-r-5">
+											₲. {{producto.precio_oferta|intcomma }}
+										</span>
+									</div>
+									{% else %}
+									<div class="row">
+										<span class="block2-price m-text6 p-r-5">
+											₲. {{producto.precio|intcomma }}
+										</span>
+									</div>
+									{% endif %}
+								</div>
+							</li>
+                            {% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+{% endblock body %}

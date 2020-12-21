@@ -1,0 +1,784 @@
+{% load static %}
+{% load humanize %}
+{% load blog_extras %}
+{% load accounts_extras %}
+{% load productos_extras %}
+{% load pages_extras %}
+{% load social_extras %}
+{% load cart_extras %}
+{% load thumbnail %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</script>
+	<title>{% block titulo %}Inicio{% endblock titulo %} - {{dato_nombre_pagina}}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/buscador.css' %}">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/lightbox2/css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body class="animsition">
+	<!-- Header -->
+	<header class="header1">
+		<!-- Header desktop -->
+		<div class="container-menu-header">
+			<div class="topbar">
+				<div class="topbar-social">					
+					{% if link_facebook %}<a href="{{ link_facebook }}" class="topbar-social-item fa fa-facebook"></a>{% endif %}
+					{% if link_instagram %}<a href="{{ link_instagram }}" class="topbar-social-item fa fa-instagram"></a>{% endif %}
+					{% if link_twitter %}<a href="{{ link_twitter }}" class="topbar-social-item fa fa-twitter"></a>{% endif %}
+					<!--<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
+					<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
+					 <a href="#" class="topbar-social-item fa fa-youtube-play"></a>-->
+				</div>
+
+				<div class="topbar-child2">
+					<span class="topbar-email">
+						{{ dato_correo }}
+					</span>
+
+					<div class="topbar-language rs1-select2">
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap_header">
+				<!-- Logo -->
+				<a href="{% url 'productos' %}" class="logo">
+					<img src="{% static 'images/icons/logo.png' %}" alt="IMG-LOGO">
+				</a>
+
+				<!-- Menu -->
+				<div class="wrap_menu">
+					<nav class="menu">
+						<ul class="main_menu">
+							<li {% if request.path == '/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'home' %}">Inicio</a>
+								<!-- <ul class="sub_menu">
+									<li><a href="index.html">Homepage V1</a></li>
+									<li><a href="home-02.html">Homepage V2</a></li>
+									<li><a href="home-03.html">Homepage V3</a></li> 
+								</ul>!-->
+							</li>
+
+							<li {% if request.path == '/tienda/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'productos' %}">Tienda</a>
+							</li>
+
+							<li {% if request.path == '/ofertas/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'ofertas' %}">Ofertas</a>
+							</li>
+
+							<li {% if request.path == '/blog/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'blog' %}">Blog</a>
+							</li>						
+
+							<li {% if request.path == '/paginas/1/acerca-de/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'page' 1 %}">Acerca de</a>
+							</li>
+
+							<li {% if request.path == '/contacto/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'contacto' %}">Contacto</a>
+							</li>
+							<li {% if request.path == '/cart/' %}class="sale-noti"{% endif %}>
+								<a href="{% url 'my_cart' %}">Mi Carrito</a>
+							</li>
+							<li>
+								{% if request.user.is_authenticated %}
+								<a href="">{{request.user}}</a>
+								<ul class="sub_menu">
+									{% if request.user|has_group:"Personal" or user.is_superuser %}
+									<li><a href="{% url 'admin:index' %}">Administración</a></li>
+									{% endif %}
+									<li><a href="{% url 'my_cart' %}">Carrito</a></li>
+									<li><a href="{% url 'my_profile' %}">Perfil</a></li>
+									<li><a href="{% url 'my_orders' %}">Mis Pedidos</a></li>
+									<li><a href="/accounts/logout/">Cerrar Sesión</a></li>
+								</ul>
+								{% else %}
+								<a href="/accounts/login/">Iniciar Sesion</a>
+								<ul class="sub_menu">
+									<li><a href="/accounts/signup/">Registrarse</a></li>
+								</ul>
+								{% endif %}
+							</li>
+						</ul>
+					</nav>
+				</div>
+
+				<!-- Header Icon -->
+				<div class="header-icons">
+					<a href="#" class="header-wrapicon1 dis-block">
+						{% if request.user.profile.avatar %}
+						<img src="{{request.user.profile.avatar.url}}" class="header-icon1" alt="ICON">
+						{% else %}
+						<img src="{% static 'images/no-perfil.jpg' %}" class="header-icon1" alt="ICON">
+						{% endif %}					
+					</a>
+
+					<span class="linedivide1"></span>
+					{% get_profile request as profile %}
+					
+					{% if profile %}
+						{% get_order profile as order %}
+						{% get_order_count order as contador %}
+					<div class="header-wrapicon2">
+						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">{{contador}}</span>
+
+						<!-- Header cart noti -->
+						<div class="header-cart header-dropdown">
+							<ul class="header-cart-wrapitem">
+								{% for item in order.items.all %}
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="{{item.producto.imagen.url}}" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											{{item.producto.titulo}}
+										</a>
+										
+										{% if item.producto.oferta %}
+										<span class="header-cart-item-info block2-newprice">
+											{{item.quantity}} x ₲. {{item.producto.precio_oferta|intcomma }}
+										</span>
+										{% else %}
+										<span class="header-cart-item-info">
+											{{item.quantity}} x ₲. {{item.producto.precio|intcomma }}
+										</span>
+										{% endif %}
+									</div>
+								</li>
+								{% endfor %}
+
+							<div class="header-cart-total">
+								Total: ₲. {{order.get_cart_total|intcomma }}
+							</div>
+
+							<div class="header-cart-buttons">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="{% url 'my_cart' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Mi Carrito
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% else %}
+					<div class="header-wrapicon2">
+						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		
+		<!-- Header Mobile -->
+		<div class="wrap_header_mobile">
+			<!-- Logo moblie -->
+			<a href="{% url 'home' %}" class="logo-mobile">
+				<img src="{% static 'images/icons/logo.png' %}" alt="IMG-LOGO">
+			</a>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu">
+				<!-- Header Icon mobile -->
+				<div class="header-icons-mobile">
+					<a href="{% url 'my_profile' %}" class="header-wrapicon1 dis-block">
+						{% if request.user.profile.avatar %}
+						<img src="{{request.user.profile.avatar.url}}" class="header-icon1" alt="ICON">
+						{% else %}
+						<img src="{% static 'images/no-perfil.jpg' %}" class="header-icon1" alt="ICON">
+						{% endif %}
+					</a>
+
+					<span class="linedivide2"></span>
+				<div class="header-wrapicon2">
+						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">{{contador}}</span>
+
+						<!-- Header cart noti -->
+						{% if profile %}
+						<div class="header-cart header-dropdown">						
+							<ul class="header-cart-wrapitem">
+								{% for item in order.items.all %}
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="{{item.producto.imagen.url}}" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											{{item.producto.titulo}}
+										</a>
+										
+										{% if item.producto.oferta %}
+										<span class="header-cart-item-info block2-newprice">
+											{{item.quantity}} x ₲. {{item.producto.precio_oferta|intcomma }}
+										</span>
+										{% else %}
+										<span class="header-cart-item-info">
+											{{item.quantity}} x ₲. {{item.producto.precio|intcomma }}
+										</span>
+										{% endif %}
+									</div>
+								</li>
+							{% endfor %} 
+							</ul>
+							
+							<div class="header-cart-total">
+								Total: ₲. {{order.get_cart_total|intcomma }}
+							</div>
+
+							<div class="header-cart-buttons">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="{% url 'my_cart' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										View Cart
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Menu Mobile -->
+		<div class="wrap-side-menu" >
+			<nav class="side-menu">
+				<ul class="main-menu">
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<span class="topbar-child1">
+							{{dato_eslogan}}
+						</span>
+					</li>
+
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<div class="topbar-child2-mobile">
+							<span class="topbar-email">
+								{{ dato_correo }}
+							</span>
+
+							<div class="topbar-language rs1-select2">
+					
+								</select>
+							</div>
+						</div>
+					</li>
+
+					<li class="item-topbar-mobile p-l-10">
+						<div class="topbar-social-mobile">
+					{% if link_facebook %}<a href="{{ link_facebook }}" class="topbar-social-item fa fa-facebook"></a>{% endif %}
+					{% if link_instagram %}<a href="{{ link_instagram }}" class="topbar-social-item fa fa-instagram"></a>{% endif %}
+					{% if link_twitter %}<a href="{{ link_twitter }}" class="topbar-social-item fa fa-twitter"></a>{% endif %}
+						</div>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="{% url 'home' %}">Inicio</a>
+						<!-- <ul class="sub-menu">
+							<li><a href="index.html">Homepage V1</a></li>
+							<li><a href="home-02.html">Homepage V2</a></li>
+							<li><a href="home-03.html">Homepage V3</a></li>
+						</ul> !
+						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>-->
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="{% url 'productos' %}">Tienda</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="{% url 'ofertas' %}">Ofertas</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="{% url 'blog' %}">Blog</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="{% url 'page' 1 %}">Acerca de</a>
+					</li>
+					
+					<li class="item-menu-mobile">
+						<a href="{% url 'my_cart' %}">Mi Carrito</a>
+					</li>
+					
+					<li class="item-menu-mobile">
+						<a href="{% url 'contacto' %}">Contacto</a>
+					</li>
+					
+					<li class="item-menu-mobile">
+						{% if request.user.is_authenticated %}
+						<a href="">{{request.user}}</a>
+							<ul class="sub-menu">
+									{% if request.user|has_group:"Personal" or user.is_superuser %}
+									<li><a href="/admin/">Administración</a></li>
+									{% endif %}
+									<li><a href="{% url 'my_cart' %}">Carrito</a></li>
+									<li><a href="{% url 'my_profile' %}">Perfil</a></li>
+									<li><a href="{% url 'my_orders' %}">Mis Pedidos</a></li>
+									<li><a href="/accounts/logout/">Cerrar Sesión</a></li>
+							</ul>
+						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
+						{% else %}
+						<a href="/accounts/login/">Iniciar Sesion</a>
+						<ul class="sub-menu">
+							<li><a href="/accounts/signup/">Registrarse</a></li>
+						</ul>
+						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
+						{% endif %}
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+
+	<!-- Slide1 -->
+{% block barra_busqueda %}	
+<div class="container">
+	<nav class="navbar navbar-light bg-light">
+	<div class="col-md-12 search">
+      <form method="get" action="{% if 'categoria/' in request.path %}{{reques.path}}{% else %}/tienda/{% endif %}">
+        <div id="custom-search-input" class="">
+          <div class="input-group col-md-12">
+            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{request.GET.buscar}}">
+            <span class="input-group-list" >
+              <i class="icon icon-search"></i>
+			  <a location.>
+              <button class="btn btn-outline-success my-2 my-sm-0" href="" type="submit">Buscar</button>
+			  </a>
+            </span>
+        </div>
+      </form>
+    </div>
+    </div>
+	</nav>
+</div>
+{% endblock barra_busqueda %}
+{% block content %}
+{% endblock content %}
+
+{% block adminmenu %}
+	{% if '/' == request.path  %}
+		{% include 'core/includes/index_menu.html' %}
+	{% else %}
+		{% if '/tienda/' in request.path  %}
+			{% include 'core/includes/tienda_menu.html' %}
+		{% else %}
+			{% if '/tienda/' in request.path  %}
+				{% include 'core/includes/tienda_menu.html' %}
+			{% else %}
+
+			{% endif %}
+		{% endif %}
+	{% endif %}
+{% endblock adminmenu %}
+
+{% block body %}
+	<section class="slide1">
+		<div class="wrap-slick1">
+			<div class="slick1">
+				{% get_portadas as portadas_list %}
+				{% for portada in portadas_list %}
+				{% get_slug_categoria portada.categoria.id as categoria_slug %}
+				<div class="item-slick1 item1-slick1" style="background-image: url({{ portada.imagen_principal.url }});">
+					
+					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="fadeInDown">
+							{{ portada.subtitulo }}
+						</span>
+
+						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
+							{{ portada.titulo }}
+						</h2>
+
+						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
+							<!-- Button -->
+							<a href="{% url 'categoria' portada.categoria.id categoria_slug %}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+								{{portada.boton}}
+								
+							</a>
+						</div>
+					</div>
+				</div> 
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+	<!-- Banner -->
+	<section class="banner bgwhite p-t-40 p-b-40">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{categoria1.imagen_principal.url}}" alt="IMG-BENNER">
+
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="{% url 'categoria' categoria1.id categoria1.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								{{ categoria1.nombre }}
+							</a>
+						</div>
+					</div>	
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{categoria2.imagen_principal.url}}" alt="IMG-BENNER">
+
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="{% url 'categoria' categoria2.id categoria2.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								{{ categoria2.nombre }}
+							</a>
+						</div>
+						</div>
+				</div>
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+					<!-- block1 -->
+					
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{categoria3.imagen_principal.url}}" alt="IMG-BENNER">
+
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="{% url 'categoria' categoria3.id categoria3.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								{{ categoria3.nombre }}
+							</a>
+						</div>
+					</div>
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{categoria4.imagen_principal.url}}" alt="IMG-BENNER">
+
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="{% url 'categoria' categoria4.id categoria4.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								{{ categoria4.nombre }}
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{categoria5.imagen_principal.url}}" alt="IMG-BENNER">
+
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="{% url 'categoria' categoria5.id categoria5.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								{{ categoria5.nombre }}
+							</a>
+						</div>
+					</div
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- New Product -->
+	<section class="newproduct bgwhite p-t-45 p-b-105">
+		<div class="container">
+			<div class="sec-title p-b-60">
+				<h3 class="m-text5 t-center">
+					Featured Products
+				</h3>
+			</div>
+
+			<!-- Slide2 -->
+			<div class="wrap-slick2">
+				<div class="slick2">
+
+					{% get_productos 4 as producto_list %}
+					{% for producto in producto_list %}
+					<div class="item-slick2 p-l-15 p-r-15">
+						<!-- Block2 -->
+					<form action="{% url 'detalle_producto' producto.id producto.slug %}">	
+						<div class="block2">
+							<div class="block2-img wrap-pic-w of-hidden pos-relative">
+								{% thumbnail producto.imagen "270x360" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
+									{% endthumbnail %}
+																		<div class="block2-overlay trans-0-4">
+										<input type="hidden" id="" name="item_id" id="item_id" value="{{producto.id}}">
+										<input type="hidden" id="" name="cantidad" id="cantidad" value="1">
+										<div class="block2-btn-addcart w-size1 trans-0-4">
+											<!-- Button -->
+											<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+												Detalles
+											</button>
+										</div>
+									</div>
+
+							</div>
+								<div class="block2-txt p-t-20">
+									<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="block2-name dis-block s-text3 p-b-5">
+										{{producto.titulo}}
+									</a>
+									{% if producto.oferta %}
+									<span class="block2-oldprice m-text6 p-r-5">
+										₲. <strike>{{producto.precio|intcomma }}</strike>
+									</span>
+									<span class="block2-newprice m-text8 p-r-5">
+										₲. {{producto.precio_oferta|intcomma }}
+									</span>
+									{% else %}
+									<span class="block2-price m-text6 p-r-5">
+										₲. {{producto.precio|intcomma }}
+									</span>
+									{% endif %}
+								</div>
+						</div>
+					</form>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="blog bgwhite p-t-94 p-b-65">
+		<div class="container">
+			<div class="sec-title p-b-52">
+				<h3 class="m-text5 t-center">
+					Nuestro Blog
+				</h3>
+			</div>
+
+			<div class="row">
+				{% get_posts as posts_list %}
+				{% for post in posts_list %}
+				<div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
+					<!-- Block3 -->
+					<div class="block3">
+						<a href="{% url 'detalles_post' post.id post.slug %}" class="block3-img dis-block hov-img-zoom">
+							{% thumbnail post.imagen "370x275" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-BLOG">
+									{% endthumbnail %}
+						</a>
+
+						<div class="block3-txt p-t-14">
+							<h4 class="p-b-7">
+								<a href="{% url 'detalles_post' post.id post.slug %}" class="m-text11">
+									{{post.titulo}}
+								</a>
+							</h4>
+							
+							<span class="s-text6"></span> <span class="s-text7">{{post.fecha_creacion|date:'SHORT_DATE_FORMAT'}}</span>
+
+							<p class="s-text8 p-t-16">
+							{{post.descripcion}}	
+							</p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+	<!-- Shipping -->
+	<section class="shipping bgwhite p-t-62 p-b-46">
+		<div class="flex-w p-l-15 p-r-15">
+			{% get_destacados as pages_destacado %}
+			{% for page_d in pages_destacado %}
+			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
+				<h4 class="m-text12 t-center">
+					{{page_d.titulo}}
+				</h4>
+				
+				<a href="{% if page_d.pagina %}{% url 'page' page_d.pagina.id %}{% else %}{% endif %}" class="s-text11 t-center">
+					{{page_d.subtitulo}}
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+
+{% endblock body %}
+	<!-- Footer -->
+	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+		<div class="flex-w p-b-90">
+			<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
+				<h4 class="s-text12 p-b-30">
+					DANOS UN TOQUE
+				</h4>
+
+				<div>
+					<p class="s-text7 w-size27">
+					{{dato_pie_pagina}}
+					</p>
+
+					<div class="flex-m p-t-30">
+					{% if link_facebook %}<a href="{{ link_facebook }}" class="topbar-social-item fa fa-facebook"></a>{% endif %}
+					{% if link_instagram %}<a href="{{ link_instagram }}" class="topbar-social-item fa fa-instagram"></a>{% endif %}
+					{% if link_twitter %}<a href="{{ link_twitter }}" class="topbar-social-item fa fa-twitter"></a>{% endif %}
+					</div>
+				</div>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					Categorias
+				</h4>
+
+				<ul>
+				
+				{% for categoria in categorias %}
+					<li class="p-b-9">
+						<a href="{% url 'categoria' categoria.id categoria.slug %}" class="s-text7">
+							{{ categoria.nombre }}
+						</a>
+					</li>
+				{% endfor %}
+				
+				</ul>
+			</div>
+
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					Help
+				</h4>
+
+				<ul>
+					{% get_pages as pages_list  %}
+					{% for page in pages_list %}
+					<li class="p-b-9">
+						<a href="{% url 'page' page.id %}" class="s-text7">
+							{{page.nombre}}
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
+				<h4 class="s-text12 p-b-30">
+					Newsletter
+				</h4>
+
+				<form>
+					<div class="effect1 w-size9">
+						<input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="email@example.com">
+						<span class="effect1-line"></span>
+					</div>
+
+					<div class="w-size2 p-t-20">
+						<!-- Button -->
+						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+							Subscribe
+						</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+		<div class="t-center p-l-15 p-r-15">
+			<div class="t-center s-text8 p-t-20">
+				Copyright © 2018 All rights reserved. | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+			</div>
+		</div>
+	</footer>
+
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+	</div>
+
+	<!-- Container Selection1 -->
+	<div id="dropDownSelect1"></div>
+
+
+
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script type="text/javascript">
+		$(".selection-1").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+	</script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/slick/slick.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
+<!--===============================================================================================-->
+		<script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/lightbox2/js/lightbox.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+	
+
+</body>
+</html>
