@@ -639,20 +639,7 @@
 
 	<!-- Shipping -->
 	<section class="shipping bgwhite p-t-62 p-b-46">
-		<div class="flex-w p-l-15 p-r-15">
-			{% get_destacados as pages_destacado %}
-			{% for page_d in pages_destacado %}
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					{{page_d.titulo}}
-				</h4>
-				
-				<a href="{% if page_d.pagina %}{% url 'page' page_d.pagina.id %}{% else %}{% endif %}" class="s-text11 t-center">
-					{{page_d.subtitulo}}
-				</a>
-			</div>
-			{% endfor %}
-		</div>
+
 	</section>
 
 {% endblock body %}
