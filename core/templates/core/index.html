@@ -412,9 +412,19 @@
 		{% if '/tienda/' in request.path  %}
 			{% include 'core/includes/tienda_menu.html' %}
 		{% else %}
-			{% if '/tienda/' in request.path  %}
-				{% include 'core/includes/tienda_menu.html' %}
+			{% if '/paginas/' in request.path  %}
+				{% include 'core/includes/paginas_menu.html' %}
 			{% else %}
+				{% if '/blog/' in request.path  %}
+					{% include 'core/includes/blog_menu.html' %}
+				{% else %}
+					{% if '/contacto/' in request.path  %}
+						{% include 'core/includes/contacto_menu.html' %}
+					{% else %}
+
+					{% endif %}
+
+				{% endif %}
 
 			{% endif %}
 		{% endif %}
