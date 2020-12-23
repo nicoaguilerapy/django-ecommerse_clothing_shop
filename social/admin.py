@@ -19,7 +19,7 @@ class NumberResource(resources.ModelResource):
     class Meta:
         model = Number
 
-class SocialAdmin(admin.ModelAdmin):
+class SocialAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 	readonly_fields = ('fecha_creacion','fecha_modificacion')
 	search_fields = ['social']
 	list_display = ('social', 'url',)
@@ -31,7 +31,7 @@ class SocialAdmin(admin.ModelAdmin):
 		else:
 			return ('fecha_creacion','fecha_modificacion')
 
-class FactAdmin(admin.ModelAdmin):
+class FactAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 	readonly_fields = ('fecha_creacion','fecha_modificacion')
 	search_fields = ['fact']
 	list_display = ('fact', 'value',)
@@ -43,7 +43,7 @@ class FactAdmin(admin.ModelAdmin):
 		else:
 			return ('fecha_creacion','fecha_modificacion')
 		
-class EmailAdmin(admin.ModelAdmin):
+class EmailAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 	readonly_fields = ('fecha_creacion','fecha_modificacion')
 	search_fields = ['email']
 	list_display = ('category', 'email', 'estado',)
@@ -55,7 +55,7 @@ class EmailAdmin(admin.ModelAdmin):
 		else:
 			return ('fecha_creacion','fecha_modificacion')
 		
-class NumberAdmin(admin.ModelAdmin):
+class NumberAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 	readonly_fields = ('fecha_creacion','fecha_modificacion')
 	search_fields = ['number', 'category']
 	list_display = ('category', 'number', 'whatsapp', 'estado',)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 class Modelo(models.Model):
     id = models.AutoField(primary_key = True)
     Modelo = models.CharField('Talle', max_length = 100, blank = False, null = False)

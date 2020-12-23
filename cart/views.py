@@ -125,11 +125,24 @@ def finish_order(request):
 class OrderListView(ListView):
     model = Order
     paginate_by = 10
-
-    def get_queryset(self):
+    
+    def get_queryset(self, *args, **kwargs):
         profile = Profile.objects.get(user = self.request.user)
         qs = Order.objects.filter(is_ordered = True, owner = profile).order_by('-date_ordered')
         
+        if self.request.GET.get('status'):
+            qs = qs.filter(status = self.request.GET.get('status')).order_by('-date_ordered')
+        
+        if self.request.GET.get('date'):
+            today = date.today()
+            if self.request.GET.get('date') == 'today':
+                qs = qs.filter(date_ordered__year = today.year,
+                               date_ordered__month = today.month,
+                               date_ordered__day = today.day).order_by('-date_ordered')
+            else:
+                if self.request.GET.get('date') == 'month':
+                    qs = qs.filter(date_ordered__year = today.year,
+                                   date_ordered__month = today.month).order_by('-date_ordered')
         return qs
         
 @login_required()
