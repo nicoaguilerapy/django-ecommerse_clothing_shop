@@ -5,6 +5,17 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'djando-casafenix',
+            'USER': 'uverodevpy',
+            'PASSWORD': 'MejoresPrendas.357',
+            'HOST': 'uverodevpy.mysql.pythonanywhere-services.com',
+            'PORT': '3306',
+        }
+    }
+
 # Email
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'aventurerosdeleste@gmail.com'
