@@ -28,6 +28,7 @@ idna==2.8
 jdcal==1.4.1
 jmespath==0.10.0
 MarkupPy==1.14
+mysqlclient==2.0.2
 oauthlib==3.0.1
 odfpy==1.4.1
 openpyxl==3.0.3
