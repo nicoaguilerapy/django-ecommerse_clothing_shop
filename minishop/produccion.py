@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ["*"]
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'djando-casafenix',
+            'NAME': 'uverodevpy$djando-casafenix',
             'USER': 'uverodevpy',
             'PASSWORD': 'MejoresPrendas.357',
             'HOST': 'uverodevpy.mysql.pythonanywhere-services.com',
