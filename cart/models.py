@@ -96,36 +96,38 @@ class Order(models.Model):
 # method for updating
 @receiver(post_save, sender=Order, dispatch_uid="update_status_count")
 def update_status(sender, instance, **kwargs):
-    dato_url = Fact.objects.get(slug = "dato_url")
-    correo_pag = Email.objects.get(id = 1)
-    perfil = Profile.objects.get(user = instance.owner.id)
-    correo_per = perfil.user.email
-    fecha = instance.date_ordered.strftime("%d-%m-%Y %H:%M:%S")
-    estado_full = instance.status
+    if instance.is_ordered == True:
 
-    if estado_full == 'FI':
-        estado = 'Finalizado'
-    elif estado_full == 'CA':
-        estado = 'Cancelado'
-    elif estado_full == 'PR':
-        estado = 'En Proceso'
-    else:
-        estado = 'Pendiente'
+        dato_url = Fact.objects.get(slug = "dato_url")
+        correo_pag = Email.objects.get(id = 1)
+        perfil = Profile.objects.get(user = instance.owner.id)
+        correo_per = perfil.user.email
+        fecha = instance.date_ordered.strftime("%d-%m-%Y %H:%M:%S")
+        estado_full = instance.status
 
-    print(correo_pag.email)
-    print(correo_per)
+        link = "{}/cart/my-orders/{}/".format(dato_url.value, instance.id)
 
-    try:
-        send_mail(
-            "Pedido Nº {}".format(instance.id),
-                    "Tu Pedido actualmente está en estado: {}\nPedido creado el {}".format(estado, fecha),
+
+        if estado_full == 'FI':
+            estado = 'Finalizado'
+        elif estado_full == 'CA':
+            estado = 'Cancelado'
+        elif estado_full == 'PR':
+            estado = 'En Proceso'
+        else:
+            estado = 'Pendiente'
+
+        try:
+            send_mail(
+                    "Pedido Nº {}".format(instance.id),
+                    "Tu Pedido actualmente está en estado: {}\nPedido creado el {}\nMira tu pedido: {}".format(estado, fecha, link),
                     correo_pag.email,
                     [correo_per, correo_pag.email],
                     fail_silently=False,
                     )
-        print("Correo Enviado")
-    except:
-        print("Correo no Enviado")
+            print("Correo Enviado")
+        except:
+            print("Correo no Enviado")
 
     
 
