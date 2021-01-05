@@ -68,18 +68,11 @@
                             </div>
 
 
-
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePedidos" aria-expanded="false" aria-controls="collapsePedidos"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Pedidos
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                                <div class="sb-sidenav-collapse-arrow"></i></div
                             ></a>
-                            <div class="collapse" id="collapsePedidos" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Cagar Saldo</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Historial</a>
-                                </nav>
-                            </div>
                             
                         </div>
                     </div>
@@ -92,6 +85,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
+                    {% block content %}
                         <h1 class="mt-4"></h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">E-Wallet</li>
@@ -177,6 +171,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endblock content %}
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">

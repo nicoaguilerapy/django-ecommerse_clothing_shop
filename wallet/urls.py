@@ -4,4 +4,5 @@ from .views import *
 
 urlpatterns = [
     path('my-wallet/', MyWalletView.as_view(), name='my_wallet'),
+    path('order/', OrderView.as_view(), name='wallet_order'),
 ]

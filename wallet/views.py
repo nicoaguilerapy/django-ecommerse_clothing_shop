@@ -18,3 +18,7 @@ class MyWalletView(TemplateView):
         context['profile'] = profile
         context['orders'] = orders
         return context
+
+@method_decorator(login_required, name='dispatch')
+class OrderView(TemplateView):
+    template_name = 'wallet/order.html'
