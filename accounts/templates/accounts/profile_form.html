@@ -11,30 +11,102 @@
           <div class="row">
             <!-- Previa del avatar -->
             <div class="col-md-2">
-              {% if request.user.profile.avatar %}
-                <img src="{{request.user.profile.avatar.url}}" class="img-fluid">
-                <p class="mt-1">¿Borrar? <input type="checkbox" id="avatar-clear" name="avatar-clear" /></p>
+              {% if request.user.profile.image %}
+                <img src="{{request.user.profile.image.url}}" class="img-fluid">
+                <p class="mt-1">¿Borrar? <input type="checkbox" id="image-clear" name="image-clear" /></p>
                 <br><br>
                 <a href="/accounts/password/change/">Cambiar Contraseña</a>
                 <br><br>
               {% else %}
               <img src="{% static 'images/no-perfil.jpg' %}" class="img-fluid">
+              <br><br>
+                <a href="/accounts/password/change/">Cambiar Contraseña</a>
+                <br><br>
               {% endif %}
             </div>
             <!-- Formulario -->
-            <div class="col-md-10">
+            <div class="col-md-9">
               <h3>Perfil</h3>
-                <input type="file" name="avatar" class="form-control-file mt-3" id="id_avatar">
+                <input type="file" name="image" class="form-control-file mt-3" id="id_image">
                 <br><br>
-                {{ form.nombre.label }}
-                {{ form.nombre }}
+                <div class="row">
+                  <div class="col-6">
+                    {{ form.document.label }}
+                    {{ form.document }}
+                  </div>
+                  
+                </div>
                 <br>
-                {{ form.apellido.label }}
-                {{ form.apellido }}
+                <div class="row">
+                  <br>
+                  <div class="col">
+                    {{ form.first_name.label }}
+                    {{ form.first_name }}
+                  </div>
                 <br>
-                {{ form.celular.label }}
-                {{ form.celular }}
+                  <div class="col">
+                    {{ form.last_name.label }}
+                    {{ form.last_name }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    Departamento
+                    <select class="form-control bg-secondary text-white mt-3" name="region" required id="id_region">
+  <option value="" selected>-----------</option>
+
+  <option {% if profile.region == "PY01" %}selected {% endif %}value="PY01">Concepcion</option>
+
+  <option {% if profile.region == "PY02" %}selected {% endif %}value="PY02">San Pedro</option>
+
+  <option {% if profile.region == "PY03" %}selected {% endif %}value="PY03">Cordillera</option>
+
+  <option {% if profile.region == "PY04" %}selected {% endif %}value="PY04">Guaira</option>
+
+  <option {% if profile.region == "PY05" %}selected {% endif %}value="PY05">Caaguazu</option>
+
+  <option {% if profile.region == "PY06" %}selected {% endif %}value="PY06">Caazapa</option>
+
+  <option {% if profile.region == "PY07" %}selected {% endif %}value="PY07">Itapua</option>
+
+  <option {% if profile.region == "PY08" %}selected {% endif %}value="PY08">Misiones</option>
+
+  <option {% if profile.region == "PY09" %}selected {% endif %}value="PY09">Paraguari</option>
+
+  <option {% if profile.region == "PY10" %}selected {% endif %}value="PY10">Alto Parana</option>
+
+  <option {% if profile.region == "PY11" %}selected {% endif %}value="PY11">Central</option>
+
+  <option {% if profile.region == "PY12" %}selected {% endif %}value="PY12">Neembucu</option>
+
+  <option {% if profile.region == "PY13" %}selected {% endif %}value="PY13">Amambay</option>
+
+  <option {% if profile.region == "PY14" %}selected {% endif %}value="PY14">Canindeyu</option>
+
+  <option {% if profile.region == "PY15" %}selected {% endif %}value="PY15">Presidente Hayes</option>
+
+  <option {% if profile.region == "PY16" %}selected {% endif %}value="PY16">Boqueron</option>
+
+  <option {% if profile.region == "PY17" %}selected {% endif %}value="PY17">Alto Paraguay</option>
+
+</select>
+                  </div>
+                <br>
+                  <div class="col">
+                    {{ form.city.label }}
+                    {{ form.city }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                <div class="col">
+                    {{ form.phone.label }}
+                    {{ form.phone }}
+                  </div>
+                </div>
               <input type="submit" class="btn btn-primary btn-block mt-3" value="Actualizar">
+              </div>
             </div>
           </div>
         </form>

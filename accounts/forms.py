@@ -6,10 +6,12 @@ class ProfileForm(ModelForm):
     
     class Meta:
         model = Profile
-        fields = ['avatar', 'nombre', 'apellido', 'celular']
+        fields = ['image', 'document', 'first_name', 'last_name', 'region', 'city', 'phone']
         widgets = {
-            'avatar': forms.ClearableFileInput(attrs = {'class':'form-control mt-3', }),
-            'nombre': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
-            'apellido': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
-            'celular': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
+            'image': forms.ClearableFileInput(attrs = {'class':'form-control mt-3', }),
+            'document': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
+            'first_name': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
+            'last_name': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
+            'phone': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
+            'city': forms.TextInput(attrs = {'class':'form-control bg-secondary text-white mt-3', }),
         }

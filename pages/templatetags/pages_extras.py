@@ -1,5 +1,5 @@
 from django import template
-from pages.models import Page, Destacado
+from pages.models import Page
 
 register = template.Library()
 
@@ -8,10 +8,6 @@ def get_pages():
     pages = Page.objects.filter(estado = True)
     return pages
 
-@register.simple_tag
-def get_destacados():
-    destacados = Destacado.objects.filter(estado = True)
-    return destacados
 
 @register.simple_tag
 def get_page_sn():

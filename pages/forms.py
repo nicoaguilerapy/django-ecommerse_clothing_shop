@@ -20,26 +20,3 @@ class PageForm(forms.ModelForm):
                 }
             ),
         }
-
-class DestacadoForm(forms.ModelForm):
-    class Meta:
-        model = Destacado
-        fields = ['titulo','subtitulo', 'orden', 'estado', 'pagina']
-
-        widgets = {
-            'titulo': forms.TextInput(
-                attrs = {
-                    'class':'form-control',
-                    'placeholder':'Ingrese el Titulo',
-                    'id': 'titulo'
-                }
-            ),
-            'subtitulo': forms.TextInput(
-                attrs = {
-                    'class':'form-control',
-                    'placeholder':'Ingrese el subtitulo',
-                    'id': 'subtitulo'
-                }
-            ),
-
-        }
