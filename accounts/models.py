@@ -65,7 +65,7 @@ class Profile(models.Model):
         ordering = ['-document']
     
     def __str__(self):
-        return "{}, {}".format(self.nomfirst_namebre, self.last_name)
+        return "{}, {}".format(self.first_name, self.last_name)
 
 @receiver(post_save, sender=CustomUser)
 def ensure_profile_exists(sender, instance, **kwargs):
