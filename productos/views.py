@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Producto, Categoria, ProductoImagen
+from .models import Producto, Categoria, ProductoImagen, Detalle
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.admin.views.decorators import staff_member_required
@@ -69,6 +69,8 @@ class ProductoDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductoDetailView, self).get_context_data(**kwargs)
+        context['detalles'] = Detalle.objects.filter(producto = context['object'] )
+        print(context['detalles'])
         context['imagenes'] = ProductoImagen.objects.filter(producto = context['object'] )
         return context
     

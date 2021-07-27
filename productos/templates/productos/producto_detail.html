@@ -8,6 +8,22 @@
 {% block barra_busqueda %}
 {% endblock barra_busqueda %}
 {% block body %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+		var productosvar = $("#modelo");
+		$tallesvar=$("#talles")
+
+		$options = $tallesvar.find('option')
+		$productosvar.on('change', function(){
+			$tallesvar.html($options.filter('[value="'+this.value+'"]'))
+
+		}).trigger('change');
+
+	});
+
+</script>
 	<!-- Product Detail -->
 	<div class="container bgwhite p-t-35 p-b-80">
 		<div class="flex-w flex-sb">
@@ -58,22 +74,20 @@
 						<form method="GET" action="/cart/add-to-cart/">
 							<span class="s-text8">ID: <input type="text" readonly class="form-control-plaintext" id="item_id" name="item_id" value="{{producto.id}}"></span>
 							<br>
-							{% if object.modelos %}
-							{% get_modelos object.id as modelos_list %}
-							<span class="s-text8">Modelos:</span>
+							{% if detalles %}
+							<span class="s-text8">Modelo:</span>
 								<select name="modelo" id="modelo" class="">
-									{% for modelo in modelos_list %}
-									<option value="{{modelo}}">{{modelo}}</option>
+									{% for detalle in detalles %}
+									<option value="{{detalle.modelo}}">{{detalle.modelo}}</option>
 									{% endfor %}
 								</select>
 							{% endif %}
 							<br><br>
-							{% if object.talles %}
-							{% get_talles object.id as talles_list %}
+							{% if detalles %}
 							<span class="s-text8">Talles:</span>
 								<select name="talle" id="talle" class="">
-									{% for talle in talles_list %}
-									<option value="{{talle}}">{{talle}}</option>
+									{% for detalle in detalles %}
+									<option value="{{detalle.talle}}">{{detalle.talle}}</option>
 									{% endfor %}
 								</select>
 							{% endif %}

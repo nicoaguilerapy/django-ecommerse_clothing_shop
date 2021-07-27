@@ -1,0 +1,51 @@
+{% extends 'wallet/my_wallet.html' %}
+{% load static %}
+{% load humanize %}
+{% load blog_extras %}
+{% load accounts_extras %}
+{% load productos_extras %}
+{% load pages_extras %}
+{% load social_extras %}
+{% load cart_extras %}
+{% load wallet_extras %}
+{% load thumbnail %}
+<!DOCTYPE html>
+{% block content %}
+<br><br>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Concepto</th>
+        <th scope="col">Cod. Transacción</th>
+        <th scope="col">Cod. Anulación</th>
+        <th scope="col">Pedido</th>
+        <th scope="col">Monto</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for transaccion in transacciones %}
+        {% if transaccion.mount >= 0 %}
+        <tr class="table-success">
+        {% else %}
+        <tr class="table-danger">
+        {% endif %}
+        <th scope="row">{{transaccion.id}}</th>
+        <td>{{transaccion.date_transaction |date:'SHORT_DATE_FORMAT'}}</td>
+        <td>{{transaccion.concept}}</td>
+        <td>{{transaccion.code_transaction }}</td>
+        <td>{{transaccion.code_annulment }}</td>
+        {% if  transaccion.order %}
+        <td><a href="{% url 'detail_order' order.id %}">{{transaccion.order.id}}</a></td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{transaccion.mount |intcomma }}</td>
+      </tr>
+      {% endfor %}
+      
+        
+    </tbody>
+  </table>
+{% endblock content %}

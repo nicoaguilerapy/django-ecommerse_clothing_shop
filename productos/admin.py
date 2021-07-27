@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import Categoria, Producto, Portada, ProductoImagen
+from .models import Categoria, Producto, Portada, ProductoImagen, Detalle
 
 class ProductoImagenAdmin(admin.StackedInline):
     model = ProductoImagen
@@ -73,3 +73,5 @@ class PortadaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(Portada, PortadaAdmin)
+admin.site.register(Detalle)
+

@@ -23,7 +23,7 @@ class Transaction(models.Model):
     date_transaction = models.DateTimeField(auto_now=True)
     code_annulment = models.IntegerField(default = 0, null=True, blank = True)
     date_annulment = models.DateTimeField(auto_now=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank = True)
     mount = models.IntegerField(null=False, blank = False)
     
 

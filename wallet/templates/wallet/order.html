@@ -7,7 +7,65 @@
 {% load pages_extras %}
 {% load social_extras %}
 {% load cart_extras %}
+{% load wallet_extras %}
 {% load thumbnail %}
 <!DOCTYPE html>
 {% block content %}
+<div class="card mb-4">
+    <div class="card-header"><i class="fas fa-table mr-1"></i>Mis Pedidos</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                
+                </tfoot>
+                <tbody>
+                {% for order in orders %}
+
+                    {% if order.status == 'CA' %}
+                        <tr class="table-danger">
+                    {% elif order.status == 'PR' %}
+                        <tr class="table-primary">
+                    {% elif order.status == 'FI' %}
+                        <tr class="table-success">
+                    {% else %}
+                        <tr class="table-active">
+                    {% endif %}
+                        <td>{{order.id}}</td>
+                        <td>{{order.date_ordered|date:'SHORT_DATE_FORMAT'}}</td>
+                        {% if order.status == 'CA' %}
+                            <td>Cancelado</td>
+                        {% elif order.status == 'PR' %}
+                            <td>En Proceso</td>
+                        {% elif order.status == 'FI' %}
+                            <td>Finalizado</td>
+                        {% else %}
+                            <td>Pendiente</td>
+                        {% endif %}
+                        <td><a href="{% url 'detail_order' order.id %}">Detalles <i class="fa fa-file-text" aria-hidden="true"></i></a></td>
+                        <td><a href="{% url 'detail_order' order.id %}">Pagar <i class="fa fa-file-text" aria-hidden="true"></i></a></td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock content %}

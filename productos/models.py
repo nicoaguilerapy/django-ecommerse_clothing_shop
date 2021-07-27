@@ -2,18 +2,6 @@ from django.db import models
 from django.utils.text import slugify
 
 
-class Modelo(models.Model):
-    id = models.AutoField(primary_key = True)
-    Modelo = models.CharField('Talle', max_length = 100, blank = False, null = False)
-    
-    class Meta:
-        verbose_name = 'Talle'
-        verbose_name_plural = 'Talles'
-        ordering = ["id"]
-    
-    def __str__(self):
-        return self.talle
-
 class Categoria(models.Model):
     id = models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre de la Categoria', max_length = 100, blank = False, null = False)
@@ -44,8 +32,6 @@ class Producto(models.Model):
     orden = models.IntegerField('Orden de Prioridades', blank = False, null = False, default = 5)
     oferta = models.BooleanField('En Oferta/Precio Normal', default = False)
     categorias = models.ManyToManyField(Categoria, related_name='get_categoria')
-    talles = models.CharField('Talles', max_length = 255, blank = True, null = True, default = 'Talles entre comas')
-    modelos = models.CharField('Modelos', max_length = 255, blank = True, null = True, default = 'Modelos entre comas')
     fecha_creacion = models.DateTimeField(auto_now_add = True)
     fecha_modificacion = models.DateTimeField(auto_now = True)
     estado = models.BooleanField('Activo/Inactivo', default = True)
@@ -90,7 +76,20 @@ class Portada(models.Model):
     def __str__(self):
         return self.titulo
     
+class Detalle(models.Model):
+    id = models.AutoField(primary_key = True)
+    producto = models.ManyToManyField(Producto, related_name='get_detalle')
+    modelo = models.CharField('Modelo', max_length = 100, blank = False, null = False, default = "")
+    talle = models.CharField('Talle', max_length = 100, blank = False, null = False, default = "")
+    cantidad = models.IntegerField('Cantidad', blank = False, null = False, default = 0)
     
+    class Meta:
+        verbose_name = 'Detalle'
+        verbose_name_plural = 'Detalles'
+        ordering = ["id"]
+    
+    def __str__(self):
+        return "{} - {} - {} - {}".format(self.producto, self.modelo, self.talle, self.cantidad)
 
     
     
