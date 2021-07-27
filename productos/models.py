@@ -76,9 +76,8 @@ class Portada(models.Model):
     def __str__(self):
         return self.titulo
     
-class Detalle(models.Model):
-    id = models.AutoField(primary_key = True)
-    producto = models.ManyToManyField(Producto, related_name='get_detalle')
+class DetalleProducto(models.Model):
+    producto = models.ForeignKey(Producto, default = None, on_delete = models.CASCADE)
     modelo = models.CharField('Modelo', max_length = 100, blank = False, null = False, default = "")
     talle = models.CharField('Talle', max_length = 100, blank = False, null = False, default = "")
     cantidad = models.IntegerField('Cantidad', blank = False, null = False, default = 0)

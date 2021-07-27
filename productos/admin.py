@@ -1,10 +1,14 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import Categoria, Producto, Portada, ProductoImagen, Detalle
+from .models import Categoria, Producto, Portada, ProductoImagen, DetalleProducto
+
 
 class ProductoImagenAdmin(admin.StackedInline):
     model = ProductoImagen
+
+class DetalleProductoAdmin(admin.StackedInline):
+    model = DetalleProducto
 
 class CategoriaResource(resources.ModelResource):
     class Meta:
@@ -37,7 +41,7 @@ class ProductoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ( 'id', 'titulo', 'estado', 'orden', 'fecha_creacion','fecha_modificacion',)
     resourse_class = ProductoResource
     readonly_fields = ('fecha_creacion','fecha_modificacion')
-    inlines = [ProductoImagenAdmin]
+    inlines = [ProductoImagenAdmin, DetalleProductoAdmin]
     
     def get_readonly_fields(self, request, obj = None):
         readonly_fields = []
@@ -53,6 +57,10 @@ class ProductoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(ProductoImagen)
 class ProductoImagenAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(DetalleProducto)
+class DetalleProductoAdmin(admin.ModelAdmin):
     pass
         
 class PortadaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -73,5 +81,4 @@ class PortadaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(Portada, PortadaAdmin)
-admin.site.register(Detalle)
 
