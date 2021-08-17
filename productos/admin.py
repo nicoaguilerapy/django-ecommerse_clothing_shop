@@ -81,4 +81,3 @@ class PortadaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(Portada, PortadaAdmin)
-

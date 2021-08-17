@@ -77,6 +77,7 @@ class Portada(models.Model):
         return self.titulo
     
 class DetalleProducto(models.Model):
+    id = models.AutoField(primary_key = True)
     producto = models.ForeignKey(Producto, default = None, on_delete = models.CASCADE)
     modelo = models.CharField('Modelo', max_length = 100, blank = False, null = False, default = "")
     talle = models.CharField('Talle', max_length = 100, blank = False, null = False, default = "")

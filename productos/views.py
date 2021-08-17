@@ -69,8 +69,8 @@ class ProductoDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductoDetailView, self).get_context_data(**kwargs)
-        print(context['detalles'])
         context['imagenes'] = ProductoImagen.objects.filter(producto = context['object'] )
+        context['detalles'] = DetalleProducto.objects.filter(producto = context['object'] )
         return context
     
 class OfertasListView(ListView):
