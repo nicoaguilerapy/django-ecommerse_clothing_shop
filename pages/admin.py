@@ -9,14 +9,14 @@ class PageResource(resources.ModelResource):
     
 
 class PagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-	readonly_fields = ('fecha_modificacion', 'fecha_creacion')
-	list_display = ('nombre', 'orden', 'estado', 'fecha_creacion','fecha_modificacion',)
+	readonly_fields = ('date_updated', 'date_created')
+	list_display = ('title', 'order', 'status', 'date_created','date_updated',)
 	resourse_class = PageResource
 	
 	def get_readonly_fields(self, request, obj = None):
 		if request.user.groups.filter(name="Personal").exists():
-			return ('fecha_creacion','fecha_modificacion', 'slug')
+			return ('date_created','date_updated', 'slug')
 		else:
-			return ('fecha_creacion','fecha_modificacion')
+			return ('date_created','date_updated')
 
 admin.site.register(Page, PagesAdmin)

@@ -1,24 +1,45 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Category
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
+#category
+class CategoryResource(resources.ModelResource):
+    class Meta:
+        model = Category
 
+class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ('name', 'date_created',)
+    list_display = ('name', 'date_created',)
+    resourse_class = CategoryResource
+    date_hierarchy = 'date_created'
+    readonly_fields = ('date_created','date_updated')
+    
+    def get_readonly_fields(self, request, obj = None):
+        if request.user.groups.filter(name="Personal").exists():
+            return ('date_created','date_updated', 'slug')
+        else:
+            return ('date_created','date_updated')
+        
+
+#posts
 class PostResource(resources.ModelResource):
     class Meta:
         model = Post
 
 class PostAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    search_fields = ('titulo', 'descripcion', 'fecha_creacion','fecha_modificacion',)
-    list_display = ('titulo', 'estado', 'fecha_creacion','fecha_modificacion',)
+    search_fields = ('title', 'description', 'date_created','date_updated',)
+    list_display = ('title', 'status', 'get_categories','date_created','date_updated',)
     resourse_class = PostResource
-    date_hierarchy = 'fecha_creacion'
-    readonly_fields = ('fecha_creacion','fecha_modificacion')
+    date_hierarchy = 'date_created'
+    readonly_fields = ('date_created','date_updated')
     
     def get_readonly_fields(self, request, obj = None):
         if request.user.groups.filter(name="Personal").exists():
-            return ('fecha_creacion','fecha_modificacion', 'slug')
+            return ('date_created','date_updated', 'slug')
         else:
-            return ('fecha_creacion','fecha_modificacion')
-        
+            return ('date_created','date_updated')
+
+
 admin.site.register(Post, PostAdmin)
+admin.site.register(Category, CategoryAdmin)

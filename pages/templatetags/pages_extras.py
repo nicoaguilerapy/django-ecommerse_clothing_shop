@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.simple_tag
 def get_pages():
-    pages = Page.objects.filter(estado = True)
+    pages = Page.objects.filter(status = True)
     return pages
 
 

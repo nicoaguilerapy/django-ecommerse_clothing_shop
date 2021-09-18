@@ -2,25 +2,49 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 
+class Category(models.Model):
+    id = models.AutoField(primary_key = True)
+    name = models.CharField('Nombre', max_length = 90, blank = False, null = False)
+    slug = models.CharField(max_length = 100, blank = True, null = True)
+    date_created = models.DateField('Fecha de Creacion', auto_now = False, auto_now_add = True)
+    date_updated = models.DateTimeField(auto_now = True)
+
+    class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+        
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
     id = models.AutoField(primary_key = True)
-    titulo = models.CharField('Titulo', max_length = 90, blank = False, null = False)
-    descripcion = models.CharField('Descripcion', max_length = 150, blank = False, null = False)
-    contenido = RichTextField()
-    imagen = models.ImageField(upload_to = 'blog')
-    estado = models.BooleanField('Activo/Inactivo', default = True)
+    title = models.CharField('Titulo', max_length = 90, blank = False, null = False)
+    description = models.TextField('Descripcion', blank = False, null = False)
+    categories = models.ManyToManyField(Category, related_name='get_categories')
+    content = RichTextField()
+    image = models.ImageField(upload_to = 'post')
+    author = models.CharField('Autor', max_length = 90, blank = False, null = False, default= "Casa Fenix")
+    status = models.BooleanField('Activo/Inactivo', default = True)
     slug = models.CharField(max_length = 100, blank = True, null = True)
-    fecha_creacion = models.DateField('Fecha de Creacion', auto_now = False, auto_now_add = True)
-    fecha_modificacion = models.DateTimeField(auto_now = True)
+    date_created = models.DateField('Fecha de Creacion', auto_now = False, auto_now_add = True)
+    date_updated = models.DateTimeField(auto_now = True)
+    
 
     class Meta:
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
+        verbose_name = 'Publicación'
+        verbose_name_plural = 'Publicaciones'
         
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.titulo)
+        self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
+    
+    def get_categories(self):
+        return " | ".join([str(p) for p in self.categories.all()])
+    get_categories.short_description = 'Categorias'
 
     def __str__(self):
-        return self.titulo
+        return self.title

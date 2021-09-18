@@ -1,6 +1,26 @@
 from django.db import models
 from django.utils.text import slugify
 
+class Portada(models.Model):
+    id = models.AutoField(primary_key = True)
+    titulo = models.CharField('Titulo de la Portada', max_length = 100, blank = False, null = False)
+    subtitulo = models.CharField('Subtitulo de la Portada', max_length = 100, blank = False, null = False)
+    precio = models.CharField('Precio del Título', max_length = 100, blank = True, null = True)
+    boton = models.CharField('Boton de la Portada', max_length = 20, blank = False, null = False, default = "Compre Ahora")
+    imagen_principal = models.ImageField('Imagen de Presentación', upload_to='portadas', blank = True, null = True)
+    orden = models.IntegerField('Orden de Prioridades', blank = False, null = False, default = 5)
+    enlace = models.URLField('Enlace', blank = True, null = True)
+    estado = models.BooleanField('Activo/Inactivo', default = True)
+    fecha_creacion = models.DateTimeField(auto_now_add = True)
+    fecha_modificacion = models.DateTimeField(auto_now = True)
+    
+    class Meta:
+        verbose_name = 'Portada'
+        verbose_name_plural = 'Portadas'
+        ordering = ['orden', 'fecha_creacion']
+
+    def __str__(self):
+        return self.titulo
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key = True)
@@ -56,26 +76,6 @@ class ProductoImagen(models.Model):
     def __str__(self):
         return self.producto.titulo
 
-class Portada(models.Model):
-    id = models.AutoField(primary_key = True)
-    titulo = models.CharField('Titulo de la Portada', max_length = 100, blank = False, null = False)
-    subtitulo = models.CharField('Subtitulo de la Portada', max_length = 100, blank = False, null = False)
-    boton = models.CharField('Boton de la Portada', max_length = 20, blank = False, null = False, default = "Compre Ahora")
-    imagen_principal = models.ImageField('Imagen de Presentación', upload_to='portadas', blank = True, null = True)
-    orden = models.IntegerField('Orden de Prioridades', blank = False, null = False, default = 5)
-    categoria = models.OneToOneField(Categoria, on_delete = models.DO_NOTHING)
-    estado = models.BooleanField('Activo/Inactivo', default = True)
-    fecha_creacion = models.DateTimeField(auto_now_add = True)
-    fecha_modificacion = models.DateTimeField(auto_now = True)
-    
-    class Meta:
-        verbose_name = 'Portada'
-        verbose_name_plural = 'Portadas'
-        ordering = ['orden', 'fecha_creacion']
-
-    def __str__(self):
-        return self.titulo
-    
 class DetalleProducto(models.Model):
     id = models.AutoField(primary_key = True)
     producto = models.ForeignKey(Producto, default = None, on_delete = models.CASCADE)

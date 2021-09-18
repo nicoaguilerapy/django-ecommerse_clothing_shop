@@ -4,25 +4,25 @@ from .models import *
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['titulo','descripcion', 'contenido', 'imagen', 'estado']
+        fields = ['title','description', 'content', 'image', 'status']
 
         widgets = {
-            'titulo': forms.TextInput(
+            'title': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el Titulo',
-                    'id': 'titulo'
+                    'id': 'title'
                 }
             ),
-            'descripcion': forms.Textarea(
+            'description': forms.Textarea(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese una descripción breve',
                     'rows':3,
-                    'id': 'descripcion'
+                    'id': 'description'
                 }
             ),
-            'contenido': forms.Textarea(
+            'content': forms.Textarea(
                 attrs = {
                     'class':'form-control',
                 }

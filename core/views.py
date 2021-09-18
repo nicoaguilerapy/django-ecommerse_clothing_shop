@@ -42,6 +42,19 @@ class Index(ListView):
 			c=c+1
 		return context
 
+class Index2(TemplateView):
+	template_name = 'core/index-2.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(Index2, self).get_context_data(**kwargs)
+		portadas = Portada.objects.filter(estado = True)
+		productos = Producto.objects.filter(estado = True)
+		categorias = Categoria.objects.all()
+		posts = Post.objects.filter(status = True)
+		context['portadas'] = portadas
+		context['productos'] = productos
+		context['posts'] = posts
+		return context
 
 
 @method_decorator(staff_member_required, name='dispatch')

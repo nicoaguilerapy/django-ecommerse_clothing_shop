@@ -4,17 +4,17 @@ from .models import *
 class PageForm(forms.ModelForm):
     class Meta:
         model = Page
-        fields = ['nombre','contenido', 'orden', 'estado']
+        fields = ['title','content', 'order', 'status']
 
         widgets = {
-            'nombre': forms.TextInput(
+            'title': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el Nombre Corto',
-                    'id': 'nombre'
+                    'id': 'title'
                 }
             ),
-            'contenido': forms.Textarea(
+            'content': forms.Textarea(
                 attrs = {
                     'class':'form-control',
                 }

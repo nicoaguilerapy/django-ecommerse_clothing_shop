@@ -19,7 +19,7 @@ class CategoriaForm(forms.ModelForm):
 class PortadaForm(forms.ModelForm):
     class Meta:
         model = Portada
-        fields = ['titulo','subtitulo','boton', 'orden', 'categoria', 'estado', 'imagen_principal']
+        fields = ['titulo','subtitulo','boton', 'orden', 'enlace', 'estado', 'imagen_principal']
         labels = {
             'precio_oferta': 'Precio Oferta',
             'categoria': 'Categorias',
@@ -37,6 +37,13 @@ class PortadaForm(forms.ModelForm):
                     'class':'form-control',
                     'placeholder':'Ingrese el subtitulo',
                     'id': 'subtitulo'
+                }
+            ),
+            'enlace': forms.TextInput(
+                attrs = {
+                    'class':'form-control',
+                    'placeholder':'Ingrese el enlace',
+                    'id': 'enlace'
                 }
             ),
             'boton': forms.TextInput(
