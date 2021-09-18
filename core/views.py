@@ -28,25 +28,13 @@ class StaffRequired(object):
     def dispatch(self, request, *args, **kwargs):
         return super(StaffRequired, self).dispatch(request, *args, **kwargs)
 
-class Index(ListView):
-	model = Categoria
+
+
+class Index(TemplateView):
 	template_name = 'core/index.html'
-	
+
 	def get_context_data(self, **kwargs):
-		queryset = Categoria.objects.all()[:5]
 		context = super(Index, self).get_context_data(**kwargs)
-		c=0
-		listado=["categoria1", "categoria2", "categoria3", "categoria4", "categoria5"]
-		for cate in queryset:
-			context[listado[c]] = cate
-			c=c+1
-		return context
-
-class Index2(TemplateView):
-	template_name = 'core/index-2.html'
-
-	def get_context_data(self, **kwargs):
-		context = super(Index2, self).get_context_data(**kwargs)
 		portadas = Portada.objects.filter(estado = True)
 		productos = Producto.objects.filter(estado = True)
 		categorias = Categoria.objects.all()

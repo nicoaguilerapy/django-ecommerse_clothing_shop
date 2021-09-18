@@ -7,775 +7,864 @@
 {% load social_extras %}
 {% load cart_extras %}
 {% load thumbnail %}
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-</script>
-	<title>{% block titulo %}Inicio{% endblock titulo %} - {{dato_nombre_pagina}}</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/buscador.css' %}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/themify/themify-icons.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/elegant-font/html-css/style.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/lightbox2/css/lightbox.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-<!--===============================================================================================-->
+    <title>Main 02 - Moren - Fashion Bootstrap 5 HTML Template</title>
+
+    <!--== Favicon ==-->
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.ico' %}" type="image/x-icon" />
+
+    <!--== Google Fonts ==-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,400i,700,700i" rel="stylesheet">
+
+    <!--== Bootstrap CSS ==-->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <!--== Font-awesome Icons CSS ==-->
+    <link href="{% static 'assets/css/font-awesome.min.css' %}" rel="stylesheet"/>
+    <!--== Icofont Min Icons CSS ==-->
+    <link href="{% static 'assets/css/icofont.min.css' %}" rel="stylesheet"/>
+    <!--== lastudioIcons CSS ==-->
+    <link href="{% static 'assets/css/lastudioIcons.css' %}" rel="stylesheet"/>
+    <!--== Animate CSS ==-->
+    <link href="{% static 'assets/css/animate.cs' %}s" rel="stylesheet"/>
+    <!--== Aos CSS ==-->
+    <link href="{% static 'assets/css/aos.css' %}" rel="stylesheet"/>
+    <!--== FancyBox CSS ==-->
+    <link href="{% static 'assets/css/jquery.fancybox.min.css' %}" rel="stylesheet"/>
+    <!--== Slicknav CSS ==-->
+    <link href="{% static 'assets/css/slicknav.css' %}" rel="stylesheet"/>
+    <!--== Swiper CSS ==-->
+    <link href="{% static 'assets/css/swiper.min.css' %}" rel="stylesheet"/>
+    <!--== Slick CSS ==-->
+    <link href="{% static 'assets/css/slick.css' %}" rel="stylesheet"/>
+    <!--== Main Style CSS ==-->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+
 </head>
-<body class="animsition">
-	<!-- Header -->
-	<header class="header1">
-		<!-- Header desktop -->
-		<div class="container-menu-header">
-			<div class="topbar">
-				<div class="topbar-social">					
-					{% if link_facebook %}<a href="{{ link_facebook }}" class="topbar-social-item fa fa-facebook"></a>{% endif %}
-					{% if link_instagram %}<a href="{{ link_instagram }}" class="topbar-social-item fa fa-instagram"></a>{% endif %}
-					{% if link_twitter %}<a href="{{ link_twitter }}" class="topbar-social-item fa fa-twitter"></a>{% endif %}
-					<!--<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-					<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
-					 <a href="#" class="topbar-social-item fa fa-youtube-play"></a>-->
-				</div>
 
-				<div class="topbar-child2">
-					<span class="topbar-email">
-						{{ dato_correo }}
-					</span>
+<body>
 
-					<div class="topbar-language rs1-select2">
-						
-					</div>
-				</div>
-			</div>
+<!--wrapper start-->
+<div class="wrapper home-two-wrapper">
 
-			<div class="wrap_header">
-				<!-- Logo -->
-				<a href="{% url 'productos' %}" class="logo">
-					<img src="{% static 'images/icons/logo.png' %}" alt="IMG-LOGO">
-				</a>
+  <!--== Start Preloader Content ==-->
+  <div class="preloader-wrap">
+    <div class="preloader">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!--== End Preloader Content ==-->
 
-				<!-- Menu -->
-				<div class="wrap_menu">
-					<nav class="menu">
-						<ul class="main_menu">
-							<li {% if request.path == '/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'home' %}">Inicio</a>
-								<!-- <ul class="sub_menu">
-									<li><a href="index.html">Homepage V1</a></li>
-									<li><a href="home-02.html">Homepage V2</a></li>
-									<li><a href="home-03.html">Homepage V3</a></li> 
-								</ul>!-->
-							</li>
-
-							<li {% if request.path == '/tienda/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'productos' %}">Tienda</a>
-							</li>
-
-							<li {% if request.path == '/ofertas/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'ofertas' %}">Ofertas</a>
-							</li>
-
-							<li {% if request.path == '/blog/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'blog' %}">Blog</a>
-							</li>						
-
-							<li {% if request.path == '/paginas/1/acerca-de/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'page' 1 %}">Acerca de</a>
-							</li>
-
-							<li {% if request.path == '/contacto/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'contacto' %}">Contacto</a>
-							</li>
-							<li {% if request.path == '/cart/' %}class="sale-noti"{% endif %}>
-								<a href="{% url 'my_cart' %}">Mi Carrito</a>
-							</li>
-							<li>
-								{% if request.user.is_authenticated %}
-								<a href="">{{request.user}}</a>
-								<ul class="sub_menu">
-									{% if request.user|has_group:"Personal" or user.is_superuser %}
-									<li><a href="{% url 'admin:index' %}">Administración</a></li>
-									{% endif %}
-									<li><a href="{% url 'my_cart' %}">Carrito</a></li>
-									<li><a href="{% url 'my_profile' %}">Perfil</a></li>
-									<li><a href="{% url 'my_orders' %}">Mis Pedidos</a></li>
-									<li><a href="/accounts/logout/">Cerrar Sesión</a></li>
-								</ul>
-								{% else %}
-								<a href="/accounts/login/">Iniciar Sesion</a>
-								<ul class="sub_menu">
-									<li><a href="/accounts/signup/">Registrarse</a></li>
-								</ul>
-								{% endif %}
-							</li>
-						</ul>
-					</nav>
-				</div>
-
-				<!-- Header Icon -->
-				<div class="header-icons">
-					<a href="#" class="header-wrapicon1 dis-block">
-						{% if request.user.profile.avatar %}
-						<img src="{{request.user.profile.avatar.url}}" class="header-icon1" alt="ICON">
-						{% else %}
-						<img src="{% static 'images/no-perfil.jpg' %}" class="header-icon1" alt="ICON">
-						{% endif %}					
-					</a>
-
-					<span class="linedivide1"></span>
-					{% get_profile request as profile %}
-					
-					{% if profile %}
-						{% get_order profile as order %}
-						{% get_order_count order as contador %}
-					<div class="header-wrapicon2">
-						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">{{contador}}</span>
-
-						<!-- Header cart noti -->
-						<div class="header-cart header-dropdown">
-							<ul class="header-cart-wrapitem">
-								{% for item in order.items.all %}
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{{item.producto.imagen.url}}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											{{item.producto.titulo}}
-										</a>
-										
-										{% if item.producto.oferta %}
-										<span class="header-cart-item-info block2-newprice">
-											{{item.quantity}} x ₲. {{item.producto.precio_oferta|intcomma }}
-										</span>
-										{% else %}
-										<span class="header-cart-item-info">
-											{{item.quantity}} x ₲. {{item.producto.precio|intcomma }}
-										</span>
-										{% endif %}
-									</div>
-								</li>
-								{% endfor %}
-
-							<div class="header-cart-total">
-								Total: ₲. {{order.get_cart_total|intcomma }}
-							</div>
-
-							<div class="header-cart-buttons">
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="{% url 'my_cart' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										Mi Carrito
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% else %}
-					<div class="header-wrapicon2">
-						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
-					</div>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-
-		
-		<!-- Header Mobile -->
-		<div class="wrap_header_mobile">
-			<!-- Logo moblie -->
-			<a href="{% url 'home' %}" class="logo-mobile">
-				<img src="{% static 'images/icons/logo.png' %}" alt="IMG-LOGO">
-			</a>
-
-			<!-- Button show menu -->
-			<div class="btn-show-menu">
-				<!-- Header Icon mobile -->
-				<div class="header-icons-mobile">
-					<a href="{% url 'my_profile' %}" class="header-wrapicon1 dis-block">
-						{% if request.user.profile.avatar %}
-						<img src="{{request.user.profile.avatar.url}}" class="header-icon1" alt="ICON">
-						{% else %}
-						<img src="{% static 'images/no-perfil.jpg' %}" class="header-icon1" alt="ICON">
-						{% endif %}
-					</a>
-
-					<span class="linedivide2"></span>
-				<div class="header-wrapicon2">
-						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">{{contador}}</span>
-
-						<!-- Header cart noti -->
-						{% if profile %}
-						<div class="header-cart header-dropdown">						
-							<ul class="header-cart-wrapitem">
-								{% for item in order.items.all %}
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{{item.producto.imagen.url}}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											{{item.producto.titulo}}
-										</a>
-										
-										{% if item.producto.oferta %}
-										<span class="header-cart-item-info block2-newprice">
-											{{item.quantity}} x ₲. {{item.producto.precio_oferta|intcomma }}
-										</span>
-										{% else %}
-										<span class="header-cart-item-info">
-											{{item.quantity}} x ₲. {{item.producto.precio|intcomma }}
-										</span>
-										{% endif %}
-									</div>
-								</li>
-							{% endfor %} 
-							</ul>
-							
-							<div class="header-cart-total">
-								Total: ₲. {{order.get_cart_total|intcomma }}
-							</div>
-
-							<div class="header-cart-buttons">
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="{% url 'my_cart' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										View Cart
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% endif %}
-				</div>
-
-				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
-				</div>
-			</div>
-		</div>
-
-		<!-- Menu Mobile -->
-		<div class="wrap-side-menu" >
-			<nav class="side-menu">
-				<ul class="main-menu">
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<span class="topbar-child1">
-							{{dato_eslogan}}
-						</span>
-					</li>
-
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<div class="topbar-child2-mobile">
-							<span class="topbar-email">
-								{{ dato_correo }}
-							</span>
-
-							<div class="topbar-language rs1-select2">
-					
-								</select>
-							</div>
-						</div>
-					</li>
-
-					<li class="item-topbar-mobile p-l-10">
-						<div class="topbar-social-mobile">
-					{% if link_facebook %}<a href="{{ link_facebook }}" class="topbar-social-item fa fa-facebook"></a>{% endif %}
-					{% if link_instagram %}<a href="{{ link_instagram }}" class="topbar-social-item fa fa-instagram"></a>{% endif %}
-					{% if link_twitter %}<a href="{{ link_twitter }}" class="topbar-social-item fa fa-twitter"></a>{% endif %}
-						</div>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="{% url 'home' %}">Inicio</a>
-						<!-- <ul class="sub-menu">
-							<li><a href="index.html">Homepage V1</a></li>
-							<li><a href="home-02.html">Homepage V2</a></li>
-							<li><a href="home-03.html">Homepage V3</a></li>
-						</ul> !
-						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>-->
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="{% url 'productos' %}">Tienda</a>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="{% url 'ofertas' %}">Ofertas</a>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="{% url 'blog' %}">Blog</a>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="{% url 'page' 1 %}">Acerca de</a>
-					</li>
-					
-					<li class="item-menu-mobile">
-						<a href="{% url 'my_cart' %}">Mi Carrito</a>
-					</li>
-					
-					<li class="item-menu-mobile">
-						<a href="{% url 'contacto' %}">Contacto</a>
-					</li>
-					
-					<li class="item-menu-mobile">
-						{% if request.user.is_authenticated %}
-						<a href="">{{request.user}}</a>
-							<ul class="sub-menu">
-									{% if request.user|has_group:"Personal" or user.is_superuser %}
-									<li><a href="/admin/">Administración</a></li>
-									{% endif %}
-									<li><a href="{% url 'my_cart' %}">Carrito</a></li>
-									<li><a href="{% url 'my_profile' %}">Perfil</a></li>
-									<li><a href="{% url 'my_orders' %}">Mis Pedidos</a></li>
-									<li><a href="/accounts/logout/">Cerrar Sesión</a></li>
-							</ul>
-						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
-						{% else %}
-						<a href="/accounts/login/">Iniciar Sesion</a>
-						<ul class="sub-menu">
-							<li><a href="/accounts/signup/">Registrarse</a></li>
-						</ul>
-						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
-						{% endif %}
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</header>
-
-
-	<!-- Slide1 -->
-{% block barra_busqueda %}	
-<div class="container">
-	<nav class="navbar navbar">
-	<div class="col-md-12 search">
-      <form method="get" action="{% if 'categoria/' in request.path %}{{reques.path}}{% else %}/tienda/{% endif %}">
-        <div id="custom-search-input" class="">
-          <div class="input-group col-md-12">
-            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{request.GET.buscar}}">
-            <span class="input-group-list" >
-              <i class="icon icon-search"></i>
-			  <a location.>
-              <button class="btn btn-outline-success my-2 my-sm-0" href="" type="submit">Buscar</button>
-			  </a>
-            </span>
+  <!--== Start Header Wrapper ==-->
+  <header class="header-area header-default header-style3 header-transparent sticky-header">
+    <div class="container-fluid">
+      <div class="row row-gutter-0 align-items-center">
+        <div class="col-12">
+          <div class="header-align">
+            <div class="header-align-left">
+              <button class="btn-menu">
+                <i class="lastudioicon-menu-3-1"></i>
+              </button>
+              <div class="header-logo-area">
+                <a href="index.html">
+                  <img class="logo-main" src="{% static 'assets/img/logo-main.svg' %}" alt="Logo" />
+                  <img class="logo-light" src="{% static 'assets/img/logo-main-light.svg' %}" alt="Logo" />
+                </a>
+              </div>
+              <div class="header-navigation-area">
+                <ul class="main-menu nav justify-content-center position-relative">
+                  <li class="has-submenu active"><a href="index.html">Home</a>
+                    <ul class="submenu-nav">
+                      <li><a href="index.html">Main 01</a></li>
+                      <li><a href="index-2.html">Main 02</a></li>
+                      <li><a href="index-3.html">Main 03</a></li>
+                      <li><a href="index-4.html">Main 04</a></li>
+                      <li><a href="index-5.html">Main 05</a></li>
+                      <li><a href="index-6.html">Main 06</a></li>
+                      <li><a href="index-7.html">Main 07</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-submenu"><a href="index.html">Shop</a>
+                    <ul class="submenu-nav submenu-nav-mega">
+                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 01</a>
+                        <ul>
+                          <li><a href="shop.html">Shop Sidebar</a></li>
+                          <li><a href="shop-fullwidth.html">Shop Fullwidth 01</a></li>
+                          <li><a href="shop-fullwidth2.html">Shop Fullwidth 02</a></li>
+                          <li><a href="shop-fullwidth3.html">Shop Fullwidth 03</a></li>
+                          <li><a href="shop-masonry.html">Shop Masonry</a></li>
+                        </ul>
+                      </li>
+                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 02</a>
+                        <ul>
+                          <li><a href="shop-account.html">My Account</a></li>
+                          <li><a href="shop-cart.html">Cart</a></li>
+                          <li><a href="shop-checkout.html">Checkout</a></li>
+                          <li><a href="shop-wishlist.html">Wishlist</a></li>
+                          <li><a href="shop-compare.html">Compare</a></li>
+                          <li><a href="shop-order-tracking.html">Order Tracking</a></li>
+                        </ul>
+                      </li>
+                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 03</a>
+                        <ul>
+                          <li><a href="shop-single-product.html">Product Simple</a></li>
+                          <li><a href="shop-single-product-variable.html">Product Variable</a></li>
+                          <li><a href="shop-single-product-grouped.html">Product Grouped</a></li>
+                          <li><a href="shop-single-product-affiliate.html">Product Affiliate</a></li>
+                        </ul>
+                      </li>
+                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 04</a>
+                        <ul>
+                          <li><a href="shop-product-layout1.html">Product Layout 01</a></li>
+                          <li><a href="shop-product-layout2.html">Product Layout 02</a></li>
+                          <li><a href="shop-product-layout3.html">Product Layout 03</a></li>
+                          <li><a href="shop-product-layout4.html">Product Layout 04</a></li>
+                        </ul>
+                      </li>
+                      <li class="mega-menu-item banner-menu-content-wrap">
+                        <ul>
+                          <li>
+                            <a href="shop.html">
+                              <img src="assets/img/photos/menu1.jpg" alt="Moren-Shop">
+                            </a>
+                            <div class="banner-menu-content">
+                              <span>Shop Now</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="has-submenu"><a href="blog.html">Pages</a>
+                    <ul class="submenu-nav">
+                      <li><a href="about.html">About Us</a></li>
+                      <li><a href="coming-soon.html">Coming Soon</a></li>
+                      <li><a href="page-not-found.html">404</a></li>
+                      <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="shop-collections.html">Collections</a></li>
+                  <li class="has-submenu"><a href="blog.html">Blog</a>
+                    <ul class="submenu-nav">
+                      <li><a href="blog.html">Blog Grid Left Sidebar</a></li>
+                      <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Sidebar</a></li>
+                      <li><a href="blog-grid-no-sidebar.html">Blog Grid No Sidebar</a></li>
+                      <li><a href="blog-details-left-sidebar.html">Blog Single Left Sidebar</a></li>
+                      <li><a href="blog-details-right-sidebar.html">Blog Single Right Sidebar</a></li>
+                      <li><a href="blog-details-no-sidebar.html">Blog Single No Sidebar</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="contact.html">Contact</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="header-align-right">
+              <div class="header-action-area">
+                <div class="header-action-search">
+                  <button class="btn-search btn-search-menu">
+                    <i class="lastudioicon-zoom-1"></i>
+                  </button>
+                </div>
+                <div class="header-action-login">
+                  <button class="btn-login" onclick="window.location.href='login.html'">
+                    <i class="lastudioicon-single-01-2"></i>
+                  </button>
+                </div>
+                <div class="header-action-cart">
+                  <button class="btn-cart cart-icon">
+                    <span class="cart-count">2</span>
+                    <i class="lastudioicon-shopping-cart-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
+  </header>
+  <!--== End Header Wrapper ==-->
+  
+  <main class="main-content">
+    <!--== Start Hero Area Wrapper ==-->
+    <section class="home-slider-area slider-home2">
+      <div class="home-slider-content">
+        <div class="swiper-container home-slider2-container">
+          <div class="swiper-wrapper">
+            {% for portada in portadas|slice:":3" %}
+            <div class="swiper-slide">              
+              <!-- Start Slide Item -->
+              
+              <div class="home-slider-item">
+                <div class="thumb">
+                  <div class="bg-thumb bg-overlay bg-img" data-bg-img="{{portada.imagen_principal.url}}"></div>
+                </div>
+                <div class="slider-content-area">
+                  <div class="content">
+                    <div class="inner-content">
+                      <h2>{{portada.titulo}}</h2>
+                      <p>{{portada.subtitulo}}</p>
+                      <div class="price">{{portada.precio}}</div>
+                      <a href="{{portadas.enlace}}" class="btn-theme btn-black btn-border">{{portada.boton}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- End Slide Item -->
+            </div>
+            {% endfor %}
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+    <!--== End Hero Area Wrapper ==-->
+
+    <!--== Start New Collection Area Wrapper ==-->
+    <section class="product-area new-collection-product-area">
+      <div class="container-fluid">
+        <div class="title-rotate" data-aos="fade-up" data-aos-duration="1000">
+          <h2 class="title">Nuevos Modelos</h2>
+        </div>
+        <div class="row row-gutter-50" data-aos="fade-up" data-aos-duration="1000">
+          {% for producto in productos|slice:":3" %}
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <!-- Start Product Item -->
+            <div class="product-item">
+              <div class="product-thumb">
+                <a href="#">
+                  {% thumbnail producto.imagen "500x650" crop="center" as im %}
+                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
+                  {% endthumbnail %}
+                  <span class="thumb-overlay"></span>
+                </a>
+                <div class="product-action">
+                  <a class="action-cart ht-tooltip" data-tippy-content="Añadir al Carrito" href="shop-cart.html" title="Add to cart">
+                    <i class="lastudioicon-shopping-cart-3"></i>
+                  </a>
+                  <a class="action-quick-view ht-tooltip" data-tippy-content="Vista Rápida" href="javascript:void(0);" title="Wishlist">
+                    <i class="lastudioicon-search-zoom-in"></i>
+                  </a>
+                  <a class="action-wishlist ht-tooltip" data-tippy-content="Añadir a Mis Deseos" href="shop-wishlist.html" title="Add to wishlist">
+                    <i class="lastudioicon-heart-2"></i>
+                  </a>
+                </div>
+                <div class="product-action-info">
+                  <div class="content-inner">
+                    <h4 class="title"><a href="shop-single-product.html">{{producto.titulo}}</a></h4>
+                    <div class="prices">
+                      <span class="price">{{producto.precio}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Product Item -->
+          </div>
+          {% endfor %}
+  
+        </div>
+      </div>
+    </section>
+    <!--== End New Collection Area Wrapper ==-->
+
+    <!--== Start Divider Area Wrapper ==-->
+    <section class="divider-area bg-overlay2 bg-img" data-bg-img="{% static 'images/segunda-portada.jpg' %}">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-8 col-lg-12 m-auto">
+            <div class="divider-content divider-content-style1" data-aos="fade-up" data-aos-duration="1000">
+              <h2>¿Tienes un encuentro <br> y no sabes que llevar?</h2>
+              <p>Te invitamos a mirar la tienda,<br> donde hay un prenda especial para ti.</p>
+              <a href="shop.html" class="btn-theme btn-white">Ir a la Tienda</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Divider Area Wrapper ==-->
+
+    <!--== Start Products Area Wrapper ==-->
+    <section class="product-area top-product-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-lg-6 m-auto">
+            <div class="section-title text-center" data-aos="fade-up" data-aos-duration="1000">
+              <h2 class="title">MÁS VENDIDOS</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row row-gutter-60" data-aos="fade-up" data-aos-duration="1200">
+          {% for producto in productos|slice:":9" %}
+          <div class="col-sm-6 col-md-4">
+            <!-- Start Product Item -->
+            <div class="product-item">
+              <div class="product-thumb">
+                <a href="shop-single-product.html">
+                  <img src="{{producto.imagen.url}}" alt="Moren-Shop">
+                  <span class="thumb-overlay"></span>
+                </a>
+                <div class="product-action">
+                  <a class="action-cart ht-tooltip" data-tippy-content="Añadir al Carrito" href="shop-cart.html" title="Add to cart">
+                    <i class="lastudioicon-shopping-cart-3"></i>
+                  </a>
+                  <a class="action-quick-view ht-tooltip" data-tippy-content="Vista Rápida" href="javascript:void(0);" title="Wishlist">
+                    <i class="lastudioicon-search-zoom-in"></i>
+                  </a>
+                  <a class="action-wishlist ht-tooltip" data-tippy-content="Añadir a Mis Deseos" href="shop-wishlist.html" title="Add to wishlist">
+                    <i class="lastudioicon-heart-2"></i>
+                  </a>
+                  </a>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="content-inner">                  
+                  <h4 class="title"><a href="shop-single-product.html">{{producto.titulo}}</a></h4>
+                  <div class="prices">
+                    <span class="price">{{producto.precio}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Product Item -->
+          </div>
+          {% endfor %}
+        </div>
+        <div class="rew">
+          <div class="col-12 text-center">
+            <a href="shop.html" class="btn-theme btn-border btn-white">Mirar TODOS</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Products Area Wrapper ==-->
+
+    <!--== Start Category Area Wrapper ==-->
+    <section class="category-area category-default-area">
+      <div class="container-fluid xs-pr-15 xs-pl-15 p-0">
+        
+        <div class="row row-gutter-6 category-items-style2">
+          {% for categoria in categorias %}
+          <div class="col-sm-6 col-lg-3">
+            <div class="category-item">
+              <div class="thumb">
+                <a href="shop.html">{% thumbnail categoria.imagen_principal "477x477" crop="center" as im %}
+                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
+                  {% endthumbnail %}</a>
+              </div>
+              <div class="content">
+                <h4 class="title">{{categoria.nombre}}</h4>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!--== End Category Area Wrapper ==-->
+
+    <!--== Start Blog Area Wrapper ==-->
+    <section class="blog-area blog-default-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-lg-6 m-auto">
+            <div class="section-title text-center" data-aos="fade-up" data-aos-duration="1000">
+              <h2 class="title">Nuestro Blog</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row post-items" data-aos="fade-up" data-aos-duration="1200">
+          <div class="col-12">
+            <div class="swiper-container post-slider-container">
+              <div class="swiper-wrapper">
+                {% for post in posts %}
+                <div class="swiper-slide">
+                  <!--== Start Blog Post Item ==-->
+                  <div class="post-item">
+                    <div class="thumb">
+                      <a href="#">{% thumbnail post.image "345x283" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
+                        {% endthumbnail %}</a>
+                    </div>
+                    <div class="content">
+                      <div class="post-meta">
+                        <img src="{% static 'assets/img/icons/s1.jpg' %}" alt="Image">
+                        <a href="blog.html">{{post.author}}</a>
+                      </div>
+                      <div class="inner-content">
+                        <h4 class="title">
+                          <a href="#">{{post.title}}</a>
+                        </h4>
+                        <p>{{post.description}}</p>
+                      </div>
+                      <a href="#" class="btn-theme btn-border btn-black">Continuar Leyendo</a>
+                    </div>
+                  </div>
+                  <!--== End Blog Post Item ==-->
+                </div>
+                {% endfor %}
+              </div>
+              <!-- Add Pagination -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Blog Area Wrapper ==-->
+
+    <!--== Start Newsletter Area ==-->
+    <section class="newsletter-area bg-overlay2-6 bg-img" data-bg-img="assets/img/photos/bg-d4.jpg">
+      {% if hola %}
+      <div class="testimonial-area">
+        <div class="testimonial-slider-content">
+          <div class="swiper-container testimonial-slider-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <!-- Start Product Item -->
+                
+                <div class="testimonial-single">
+                  <div class="client-thumb">
+                    <img src="assets/img/testimonial/1.jpg" alt="Image">
+                  </div>
+                  <div class="client-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida dolor quam arcu hac sit. Vestibulum amet montes, congue ut sit ipsum enim, vitae fringilla. Habitasse sed velit dignissim.</p>
+                  </div>
+                  <div class="client-rating">
+                    <ul>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                    </ul>
+                  </div>
+                  <div class="client-info">
+                    <div class="desc">
+                      <h4 class="name">Steven Elliott - Italia</h4>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- End Product Item -->
+              </div>
+              <div class="swiper-slide">
+                <!-- Start Product Item -->
+                <div class="testimonial-single">
+                  <div class="client-thumb">
+                    <img src="assets/img/testimonial/1.jpg" alt="Image">
+                  </div>
+                  <div class="client-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida dolor quam arcu hac sit. Vestibulum amet montes, congue ut sit ipsum enim, vitae fringilla. Habitasse sed velit dignissim.</p>
+                  </div>
+                  <div class="client-rating">
+                    <ul>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                      <li><i class="lastudioicon-star-rate-1"></i></li>
+                    </ul>
+                  </div>
+                  <div class="client-info">
+                    <div class="desc">
+                      <h4 class="name">John Borthwick</h4>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Product Item -->
+              </div>
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-xl-8 m-auto">
+            <div class="newsletter-content content-style1">
+              <h1 class="title">Quiero estar al TANTO!</h1>
+              <p>Enterate de todas las novedades, productos, estilos y nuevo blogs.</p>
+              <form class="newsletter-form" action="#">
+                <input class="form-control" type="text" id="email" placeholder="Ingrese su Correo Electronico">
+                <button class="btn btn-submit" type="submit">Suscribirse</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Newsletter Area ==-->
+    {% if hola %}
+    <!--== Start Brand Logo Area ==-->
+    <div class="brand-logo-area brand-logo-default-area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-12">
+            <div class="swiper-container brand-logo-slider-container">
+              <div class="swiper-wrapper brand-logo-slider">
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="assets/img/brand-logo/1.webp" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="assets/img/brand-logo/2.webp" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="assets/img/brand-logo/3.webp" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="assets/img/brand-logo/4.webp" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="assets/img/brand-logo/5.webp" alt="Brand-Logo"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-	</nav>
+    <!--== End Brand Logo Area ==-->
+    {% endif %}
+  </main>
+
+  <!--== Start Footer Area Wrapper ==-->
+  <footer class="footer-area footer-style2">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row row-gutter-0">
+          <div class="col-md-4 col-lg-4">
+            <div class="footer-logo-area">
+              <a href="index.html">
+                <img class="logo-main" src="{% static 'assets/img/logo-main-light.svg' %}" alt="Logo" />
+              </a>
+              <p>{{fact_description}}</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <div class="widget-item mt-sm-40">
+              <h4>Compañia</h4>
+              <nav class="widget-menu-wrap">
+                <ul class="nav-menu nav">
+                  <li><a href="{% url 'page_detail' 1 %}">Sobre Nosotros</a></li>
+                  <li><a href="{% url 'page_detail' 2 %}">Servicios</a></li>
+                  <li><a href="">Contacto</a></li>
+                </ul>
+              </nav>
+            </div>
+            <div class="widget-item widget-item-style2 mb-sm-30">
+              <h4>Informaciones</h4>
+              <nav class="widget-menu-wrap">
+                <ul class="nav-menu nav">
+                  <li><a href="{% url 'page_detail' 4 %}">Preguntas Frecuentes</a></li>
+                  <li><a href="{% url 'page_detail' 3 %}">Reembolso</a></li>
+                  <li><a href="{% url 'page_detail' 0 %}">Terminos y condiciones</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <div class="widget-item">
+              <h4>Categorias</h4>
+              <nav class="widget-menu-wrap menu-col-2">
+                {% for categoria in categorias|slice:":4" %}
+                  {% if forloop.first %}
+                <ul class="nav-menu nav">
+                  <li><a href="#"></a></li>            
+                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  </ul>
+                  {% endif %}
+                  {% if forloop.counter == 3 %}
+                <ul class="nav-menu nav">
+                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  {% endif %}
+                  {% if forloop.counter == 4 %}
+                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  {% endif %}
+                  {% if forloop.counter == 5 %}
+                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  {% endif %}
+                  {% if forloop.last %}
+                </ul>
+                {% endif %}
+                  {% endfor %}
+              </nav>
+            </div>
+          </div>
+          <div class="col-lg-3 d-block d-md-none d-lg-block">
+            <div class="widget-item mt-sm-40">
+              <h4>Nuestras Redes Sociales</h4>
+              <div class="widget-social-icons">
+                <a href="{{ link_facebook }}"><i class="lastudioicon lastudioicon-b-facebook"></i></a> 
+                <a href="{{ link_instagram }}"><i class="lastudioicon lastudioicon-b-instagram"></i></a>
+              </div>
+            </div>
+            <div class="widget-item widget-item-style3">
+              <h4>Información de Contacto</h4>
+              <ul class="widget-contact-info">
+                <li><a href="tel://">Phone: {{fact_number}}</a></li>
+                <li><a href="mailto://">Email: {{fact_email}}</a></li>
+                <li><a href="l">Horario: {{fact_opentime}}</a></li>
+                <li class="info-address"><a href="">Dirección: {{fact_address}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--== End Footer Area Wrapper ==-->
+  
+  <!--== Scroll Top Button ==-->
+  <div class="scroll-to-top"><span class="icofont-arrow-up"></span></div>
+
+  <!--== Start Product Quick View ==-->
+  <aside class="product-quick-view-modal">
+    <div class="product-quick-view-inner">
+      <div class="product-quick-view-content">
+        <button type="button" class="btn-close">
+          <span class="close-icon"><i class="lastudioicon-e-remove"></i></span>
+        </button>
+        <div class="row row-gutter-0">
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="thumb">
+              <img src="assets/img/shop/quick-view1.jpg" alt="Moren-Shop">
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="single-product-info">
+              <h4 class="title">Product Simple</h4>
+              <div class="product-rating">
+                <div class="review">
+                  <p><span></span>99 in stock</p>
+                </div>
+              </div>
+              <div class="prices">
+                <span class="price">£49.90</span>
+              </div>
+              <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fringilla quis ipsum enim viverra. Enim in morbi tincidunt ante luctus tincidunt integer. Sed adipiscing vehicula.</p>
+              <div class="quick-product-action">
+                <div class="action-top">
+                  <div class="pro-qty-area">
+                    <div class="pro-qty">
+                      <input type="text" id="quantity" title="Quantity" value="1">
+                    <a href="#" class="inc qty-btn">+</a><a href="#" class="dec qty-btn">-</a></div>
+                  </div>
+                  <a class="btn-theme btn-black" href="shop-cart.html">Add to cart</a>
+                </div>
+                <div class="action-bottom">
+                  <a class="btn-wishlist" href="shop-wishlist.html"><i class="labtn-icon labtn-icon-wishlist"></i>Add to wishlist</a>
+                  <a class="btn-compare" href="shop-compare.html"><i class="labtn-icon labtn-icon-compare"></i>Add to compare</a>
+                </div>
+              </div>
+              <div class="product-ratting">
+                <div class="product-sku">
+                  SKU: <span>REF. LA-276</span>
+                </div>
+              </div>
+              <div class="product-categorys">
+                <div class="product-category">
+                  Category: <span>Uncategorized</span>
+                </div>
+              </div>
+              <div class="widget">
+                <h3 class="title">Tags:</h3>
+                <div class="widget-tags">
+                  <ul>
+                    <li><a href="shop.html">Blazer,</a></li>
+                    <li><a href="shop.html">Fashion,</a></li>
+                    <li><a href="shop.html">wordpress,</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="product-social-info">
+                <a href="#"><span class="lastudioicon-b-facebook"></span></a>
+                <a href="#"><span class="lastudioicon-b-twitter"></span></a>
+                <a href="#"><span class="lastudioicon-b-linkedin"></span></a>
+                <a href="#"><span class="lastudioicon-b-pinterest"></span></a>
+              </div>
+              <div class="product-nextprev">
+                <a href="shop-single-product.html">
+                  <i class="lastudioicon-arrow-left"></i>
+                </a>
+                <a href="shop-single-product.html">
+                  <i class="lastudioicon-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="canvas-overlay"></div>
+  </aside>
+  <!--== End Product Quick View ==-->
+
+  <!--== Start Aside Search Menu ==-->
+  <div class="search-box-wrapper">
+    <div class="search-box-content-inner">
+      <div class="search-box-form-wrap">
+        <div class="search-note">
+          <p>Start typing and press Enter to search</p>
+        </div>
+        <form action="#" method="post">
+          <div class="search-form position-relative">
+            <label for="search-input" class="sr-only">Search</label>
+            <input type="search" class="form-control" placeholder="Search" id="search-input">
+            <button class="search-button"><i class="lastudioicon-zoom-1"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--== End Aside Search Menu ==-->
+    <a href="javascript:;" class="search-close"><i class="lastudioicon-e-remove"></i></a>
+  </div>
+  <!--== End Aside Search Menu ==-->
+
+  <!--== Start Sidebar Cart Menu ==-->
+  <aside class="sidebar-cart-modal">
+    <div class="sidebar-cart-inner">
+      <div class="sidebar-cart-content">
+        <a class="cart-close" href="javascript:void(0);"><i class="lastudioicon-e-remove"></i></a>
+        <div class="sidebar-cart">
+          <h4 class="sidebar-cart-title">Shopping Cart</h4>
+          <div class="product-cart">
+            <div class="product-cart-item">
+              <div class="product-img">
+                <a href="shop.html"><img src="assets/img/shop/cart/1.jpg" alt=""></a>
+              </div>
+              <div class="product-info">
+                <h4 class="title"><a href="shop.html">I’m a Unicorn Earrings</a></h4>
+                <span class="info">1 × £69.00</span>
+              </div>
+              <div class="product-delete"><a href="#/">×</a></div>
+            </div>
+            <div class="product-cart-item">
+              <div class="product-img">
+                <a href="shop.html"><img src="assets/img/shop/cart/2.jpg" alt=""></a>
+              </div>
+              <div class="product-info">
+                <h4 class="title"><a href="shop.html">Knit cropped cardigan</a></h4>
+                <span class="info">1 × £29.90</span>
+              </div>
+              <div class="product-delete"><a href="#/">×</a></div>
+            </div>
+          </div>
+          <div class="cart-total">
+            <h4>Subtotal: <span class="money">£98.90</span></h4>
+          </div>
+          <div class="shipping-info">
+            <div class="loading-bar">
+              <div class="load-percent"></div>
+              <div class="label-free-shipping">
+                <div class="free-shipping svg-icon-style">
+                  <span class="svg-icon" id="svg-icon-shipping" data-svg-icon="assets/img/icons/shop1.svg"></span>
+                </div>
+                <p>Spend £101.10 to get Free Shipping</p>
+              </div>
+            </div>
+          </div>
+          <div class="cart-checkout-btn">
+            <a class="btn-theme" href="shop-cart.html">View cart</a>
+            <a class="btn-theme" href="shop-checkout.html">Checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-cart-overlay"></div>
+  <!--== End Sidebar Cart Menu ==-->
+
+  <!--== Start Side Menu ==-->
+  <aside class="off-canvas-wrapper canvas-fullpage-menu">
+    <div class="off-canvas-inner">
+      <div class="off-canvas-overlay"></div>
+      <!-- Start Off Canvas Content Wrapper -->
+      <div class="off-canvas-content">
+        <!-- Off Canvas Header -->
+        <div class="off-canvas-header">
+          <div class="close-action">
+            <button class="btn-close"><i class="lastudioicon-e-remove"></i></button>
+          </div>
+        </div>
+
+        <div class="off-canvas-item">
+          <!-- Start Mobile Menu Wrapper -->
+          <div class="res-mobile-menu">
+            <!-- Note Content Auto Generate By Jquery From Main Menu -->
+          </div>
+          <!-- End Mobile Menu Wrapper -->
+        </div>
+        <!-- Off Canvas Footer -->
+        <div class="off-canvas-footer"></div>
+      </div>
+      <!-- End Off Canvas Content Wrapper -->
+    </div>
+  </aside>
+  <!--== End Side Menu ==-->
 </div>
-{% endblock barra_busqueda %}
-{% block content %}
-{% endblock content %}
 
-{% block adminmenu %}
-	{% if '/' == request.path  %}
-		{% include 'core/includes/index_menu.html' %}
-	{% else %}
-		{% if '/tienda/' in request.path  %}
-			{% include 'core/includes/tienda_menu.html' %}
-		{% else %}
-			{% if '/paginas/' in request.path  %}
-				{% include 'core/includes/paginas_menu.html' %}
-			{% else %}
-				{% if '/blog/' in request.path  %}
-					{% include 'core/includes/blog_menu.html' %}
-				{% else %}
-					{% if '/contacto/' in request.path  %}
-						{% include 'core/includes/contacto_menu.html' %}
-					{% else %}
+<!--=======================Javascript============================-->
 
-					{% endif %}
+<!--=== Modernizr Min Js ===-->
+<script src="{% static 'assets/js/modernizr.js' %}"></script>
+<!--=== jQuery Min Js ===-->
+<script src="{% static 'assets/js/jquery-main.js' %}"></script>
+<!--=== jQuery Migration Min Js ===-->
+<script src="{% static 'assets/js/jquery-migrate.js' %}"></script>
+<!--=== Popper Min Js ===-->
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<!--=== jquery Appear Js ===-->
+<script src="{% static 'assets/js/jquery.appear.js' %}"></script>
+<!--=== jquery Swiper Min Js ===-->
+<script src="{% static 'assets/js/swiper.min.js' %}"></script>
+<!--=== jquery Fancybox Min Js ===-->
+<script src="{% static 'assets/js/fancybox.min.js' %}"></script>
+<!--=== jquery Aos Min Js ===-->
+<script src="{% static 'assets/js/aos.min.js' %}"></script>
+<!--=== jquery Slicknav Js ===-->
+<script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
+<!--=== jquery Countdown Js ===-->
+<script src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+<!--=== jquery Tippy Js ===-->
+<script src="{% static 'assets/js/tippy.all.min.js' %}"></script>
+<!--=== Isotope Min Js ===-->
+<script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+<!--=== jquery Vivus Js ===-->
+<script src="{% static 'assets/js/vivus.js' %}"></script>
+<!--=== Parallax Min Js ===-->
+<script src="{% static 'assets/js/parallax.min.js' %}"></script>
+<!--=== Slick  Min Js ===-->
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+<!--=== jquery Wow Min Js ===-->
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<!--=== jquery Zoom Min Js ===-->
+<script src="{% static 'assets/js/jquery-zoom.min.js' %}"></script>
 
-				{% endif %}
-
-			{% endif %}
-		{% endif %}
-	{% endif %}
-{% endblock adminmenu %}
-
-{% block body %}
-	<section class="slide1">
-		<div class="wrap-slick1">
-			<div class="slick1">
-				{% get_portadas as portadas_list %}
-				{% for portada in portadas_list %}
-				{% get_slug_categoria portada.categoria.id as categoria_slug %}
-				<div class="item-slick1 item1-slick1" style="background-image: url({{ portada.imagen_principal.url }});">
-					
-					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="fadeInDown">
-							{{ portada.subtitulo }}
-						</span>
-
-						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
-							{{ portada.titulo }}
-						</h2>
-
-						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
-							<!-- Button -->
-							<a href="{% url 'categoria' portada.categoria.id categoria_slug %}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-								{{portada.boton}}
-								
-							</a>
-						</div>
-					</div>
-				</div> 
-				{% endfor %}
-			</div>
-		</div>
-	</section>
-
-	<!-- Banner -->
-	<section class="banner bgwhite p-t-40 p-b-40">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{categoria1.imagen_principal.url}}" alt="IMG-BENNER">
-
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="{% url 'categoria' categoria1.id categoria1.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								{{ categoria1.nombre }}
-							</a>
-						</div>
-					</div>	
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{categoria2.imagen_principal.url}}" alt="IMG-BENNER">
-
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="{% url 'categoria' categoria2.id categoria2.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								{{ categoria2.nombre }}
-							</a>
-						</div>
-						</div>
-				</div>
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
-					<!-- block1 -->
-					
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{categoria3.imagen_principal.url}}" alt="IMG-BENNER">
-
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="{% url 'categoria' categoria3.id categoria3.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								{{ categoria3.nombre }}
-							</a>
-						</div>
-					</div>
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{categoria4.imagen_principal.url}}" alt="IMG-BENNER">
-
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="{% url 'categoria' categoria4.id categoria4.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								{{ categoria4.nombre }}
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{categoria5.imagen_principal.url}}" alt="IMG-BENNER">
-
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="{% url 'categoria' categoria5.id categoria5.nombre|slugify %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								{{ categoria5.nombre }}
-							</a>
-						</div>
-					</div
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- New Product -->
-	<section class="newproduct bgwhite p-t-45 p-b-105">
-		<div class="container">
-			<div class="sec-title p-b-60">
-				<h3 class="m-text5 t-center">
-					Featured Products
-				</h3>
-			</div>
-
-			<!-- Slide2 -->
-			<div class="wrap-slick2">
-				<div class="slick2">
-
-					{% get_productos 4 as producto_list %}
-					{% for producto in producto_list %}
-					<div class="item-slick2 p-l-15 p-r-15">
-						<!-- Block2 -->
-					<form action="{% url 'detalle_producto' producto.id producto.slug %}">	
-						<div class="block2">
-							<div class="block2-img wrap-pic-w of-hidden pos-relative">
-								{% thumbnail producto.imagen "270x360" crop="center" as im %}
-									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
-									{% endthumbnail %}
-																		<div class="block2-overlay trans-0-4">
-										<input type="hidden" id="" name="item_id" id="item_id" value="{{producto.id}}">
-										<input type="hidden" id="" name="cantidad" id="cantidad" value="1">
-										<div class="block2-btn-addcart w-size1 trans-0-4">
-											<!-- Button -->
-											<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-												Detalles
-											</button>
-										</div>
-									</div>
-
-							</div>
-								<div class="block2-txt p-t-20">
-									<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="block2-name dis-block s-text3 p-b-5">
-										{{producto.titulo}}
-									</a>
-									{% if producto.oferta %}
-									<span class="block2-oldprice m-text6 p-r-5">
-										₲. <strike>{{producto.precio|intcomma }}</strike>
-									</span>
-									<span class="block2-newprice m-text8 p-r-5">
-										₲. {{producto.precio_oferta|intcomma }}
-									</span>
-									{% else %}
-									<span class="block2-price m-text6 p-r-5">
-										₲. {{producto.precio|intcomma }}
-									</span>
-									{% endif %}
-								</div>
-						</div>
-					</form>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-
-		</div>
-	</section>
-
-	<section class="blog bgwhite p-t-94 p-b-65">
-		<div class="container">
-			<div class="sec-title p-b-52">
-				<h3 class="m-text5 t-center">
-					Nuestro Blog
-				</h3>
-			</div>
-
-			<div class="row">
-				{% get_posts as posts_list %}
-				{% for post in posts_list %}
-				<div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
-					<!-- Block3 -->
-					<div class="block3">
-						<a href="{% url 'detalles_post' post.id post.slug %}" class="block3-img dis-block hov-img-zoom">
-							{% thumbnail post.imagen "370x275" crop="center" as im %}
-									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-BLOG">
-									{% endthumbnail %}
-						</a>
-
-						<div class="block3-txt p-t-14">
-							<h4 class="p-b-7">
-								<a href="{% url 'detalles_post' post.id post.slug %}" class="m-text11">
-									{{post.titulo}}
-								</a>
-							</h4>
-							
-							<span class="s-text6"></span> <span class="s-text7">{{post.fecha_creacion|date:'SHORT_DATE_FORMAT'}}</span>
-
-							<p class="s-text8 p-t-16">
-							{{post.descripcion}}	
-							</p>
-						</div>
-					</div>
-				</div>
-				{% endfor %}
-			</div>
-		</div>
-	</section>
-
-	<!-- Shipping -->
-	<section class="shipping bgwhite p-t-62 p-b-46">
-
-	</section>
-
-{% endblock body %}
-	<!-- Footer -->
-	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
-		<div class="flex-w p-b-90">
-			<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
-				<h4 class="s-text12 p-b-30">
-					DANOS UN TOQUE
-				</h4>
-
-				<div>
-					<p class="s-text7 w-size27">
-					{{dato_pie_pagina}}
-					</p>
-
-					<div class="flex-m p-t-30">
-					{% if link_facebook %}<a href="{{ link_facebook }}" class="topbar-social-item fa fa-facebook"></a>{% endif %}
-					{% if link_instagram %}<a href="{{ link_instagram }}" class="topbar-social-item fa fa-instagram"></a>{% endif %}
-					{% if link_twitter %}<a href="{{ link_twitter }}" class="topbar-social-item fa fa-twitter"></a>{% endif %}
-					</div>
-				</div>
-			</div>
-
-			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
-				<h4 class="s-text12 p-b-30">
-					Categorias
-				</h4>
-
-				<ul>
-				
-				{% for categoria in categorias %}
-					<li class="p-b-9">
-						<a href="{% url 'categoria' categoria.id categoria.slug %}" class="s-text7">
-							{{ categoria.nombre }}
-						</a>
-					</li>
-				{% endfor %}
-				
-				</ul>
-			</div>
-
-
-			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
-				<h4 class="s-text12 p-b-30">
-					Help
-				</h4>
-
-				<ul>
-					{% get_pages as pages_list  %}
-					{% for page in pages_list %}
-					<li class="p-b-9">
-						<a href="{% url 'page' page.id %}" class="s-text7">
-							{{page.nombre}}
-						</a>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-
-			<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
-				<h4 class="s-text12 p-b-30">
-					Newsletter
-				</h4>
-
-				<form>
-					<div class="effect1 w-size9">
-						<input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="email@example.com">
-						<span class="effect1-line"></span>
-					</div>
-
-					<div class="w-size2 p-t-20">
-						<!-- Button -->
-						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-							Subscribe
-						</button>
-					</div>
-
-				</form>
-			</div>
-		</div>
-
-		<div class="t-center p-l-15 p-r-15">
-			<div class="t-center s-text8 p-t-20">
-				Copyright © 2018 All rights reserved. | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-			</div>
-		</div>
-	</footer>
-
-
-
-	<!-- Back to top -->
-	<div class="btn-back-to-top bg0-hov" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-		</span>
-	</div>
-
-	<!-- Container Selection1 -->
-	<div id="dropDownSelect1"></div>
-
-
-
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
-	<script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/select2/select2.min.js' %}"></script>
-	<script type="text/javascript">
-		$(".selection-1").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
-		});
-	</script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/slick/slick.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
-<!--===============================================================================================-->
-		<script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/lightbox2/js/lightbox.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
-
-
-
-<!--===============================================================================================-->
-	<script src="{% static 'js/main.js' %}"></script>
-	
+<!--=== Custom Js ===-->
+<script src="{% static 'assets/js/custom.js' %}"></script>
 
 </body>
+
 </html>
