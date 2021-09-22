@@ -23,11 +23,11 @@ class Category(models.Model):
 class Post(models.Model):
     id = models.AutoField(primary_key = True)
     title = models.CharField('Titulo', max_length = 90, blank = False, null = False)
+    author = models.CharField('Autor', max_length = 90, blank = False, null = False, default= "Casa Fenix")
+    content = RichTextField()
     description = models.TextField('Descripcion', blank = False, null = False)
     categories = models.ManyToManyField(Category, related_name='get_categories')
-    content = RichTextField()
     image = models.ImageField(upload_to = 'post')
-    author = models.CharField('Autor', max_length = 90, blank = False, null = False, default= "Casa Fenix")
     status = models.BooleanField('Activo/Inactivo', default = True)
     slug = models.CharField(max_length = 100, blank = True, null = True)
     date_created = models.DateField('Fecha de Creacion', auto_now = False, auto_now_add = True)
@@ -48,3 +48,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Tag(models.Model):
+    post = models.ForeignKey(Post, related_name='get_tagpost', default = None, on_delete = models.CASCADE)
+    tag = models.CharField('Tag', max_length = 90, blank = False, null = False)
+
+    def __str__(self):
+        return self.tag

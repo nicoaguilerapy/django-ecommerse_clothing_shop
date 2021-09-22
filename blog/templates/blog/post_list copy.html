@@ -1,0 +1,111 @@
+{% extends 'core/index.html' %}
+{% load static %}
+{% load productos_extras %}
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}Blog{% endblock title %} 
+{% block content %}
+      
+	<!-- content page -->
+	<section class="bgwhite p-t-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-lg-9 p-b-75">
+					<div class="p-r-50 p-r-0-lg">
+
+    					{% for post in post_list %}
+    					<div class="item-blog p-b-80">
+							<a href="{% url 'detalles_post' post.id post.slug %}" class="item-blog-img pos-relative dis-block hov-img-zoom">
+								{% thumbnail post.imagen "820x481" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-BLOG">
+									{% endthumbnail %}
+
+								<span class="item-blog-date dis-block flex-c-m pos1 size17 bg4 s-text1">
+									{{post.fecha_creacion|date:'SHORT_DATE_FORMAT'}}
+								</span>
+							</a>
+
+							<div class="item-blog-txt p-t-33">
+								<h4 class="p-b-11">
+									<a href="{% url 'detalles_post' post.id post.slug %}" class="m-text24">
+										{{post.titulo}}
+									</a>
+								</h4>
+							<div class="s-text8 flex-w flex-m p-b-21">
+
+								<p class="p-b-12">
+									{{post.descripcion}}
+								</p>
+                            </div>
+								<a href="{% url 'detalles_post' post.id post.slug %}" class="s-text20">
+									Continuar Leyendo
+									<i class="fa fa-long-arrow-right m-l-8" aria-hidden="true"></i>
+								</a>
+							
+                        </div>
+                </div>
+				{% endfor %}
+				<!-- Pagination -->
+				<div class="pagination flex-m flex-w p-t-26">
+					{% for i in paginator.page_range %}
+						{% if page_obj.number == i %}
+						<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{i}}</a>
+						{% else %}
+						<a href="{% if request.GET.buscar %}?buscar={{request.GET.buscar}}&{% else %}?{%endif%}page={{ i }}" class="item-pagination flex-c-m trans-0-4">{{i}}</a>
+						{% endif %}
+					{% endfor %}
+					</div>
+				</div>
+            </div>
+       
+
+
+				<div class="col-md-4 col-lg-3 p-b-75">
+					<div class="rightbar">
+						<!-- Categories -->				
+						{% get_productos 4 as producto_list %}
+						<!-- Featured Products -->
+						<h4 class="m-text23 p-t-65 p-b-34">
+							Recomendaciones de Productos
+						</h4>
+
+						<ul class="bgwhite">
+                            {% for producto in producto_list %}
+							<li class="flex-w p-b-20">
+								<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="dis-block wrap-pic-w w-size22 m-r-20 trans-0-4 hov4">
+									{% thumbnail producto.imagen "90x120" crop="center" as im %}
+									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
+									{% endthumbnail %}
+								</a>
+
+								<div class="w-size23 p-t-5">
+									<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="s-text20">
+										{{producto.titulo}}
+									</a>
+
+														{% if producto.oferta %}
+									<span class="block2-oldprice m-text6 p-r-5">
+										₲. <strike>{{producto.precio|intcomma }}</strike>
+									</span>
+									<span class="block2-newprice m-text8 p-r-5">
+										₲. {{producto.precio_oferta|intcomma }}
+									</span>
+									{% else %}
+									<span class="block2-price m-text6 p-r-5">
+										₲. {{producto.precio|intcomma }}
+									</span>
+									{% endif %}
+								</div>
+							</li>
+                            {% endfor %}
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+
+	</section>
+
+{% endblock content %}

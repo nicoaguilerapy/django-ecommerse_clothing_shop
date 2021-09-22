@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import Post, Category
+from .models import Post, Category, Tag
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+
+class PostTagAdmin(admin.StackedInline):
+    model = Tag
 
 #category
 class CategoryResource(resources.ModelResource):
@@ -31,6 +34,7 @@ class PostAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ('title', 'description', 'date_created','date_updated',)
     list_display = ('title', 'status', 'get_categories','date_created','date_updated',)
     resourse_class = PostResource
+    inlines = [PostTagAdmin]
     date_hierarchy = 'date_created'
     readonly_fields = ('date_created','date_updated')
     
