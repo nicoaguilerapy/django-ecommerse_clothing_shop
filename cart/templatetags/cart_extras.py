@@ -7,6 +7,7 @@ register = template.Library()
 @register.simple_tag
 def get_order(user_profile):
     user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
+    print(user_order)
     return user_order
 
 @register.simple_tag
@@ -31,6 +32,7 @@ def get_sum_total(a, b, c):
 @register.simple_tag
 def get_order_total(order):
     value = int(order.get_cart_total())
+    print("order total {}".format(value))
     return value
 
 @register.simple_tag

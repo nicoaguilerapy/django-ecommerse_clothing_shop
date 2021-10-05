@@ -7,6 +7,10 @@
 {% load social_extras %}
 {% load cart_extras %}
 {% load thumbnail %}
+{% get_profile request as profile %}
+{% if profile %}
+  {% get_order profile as order %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +31,8 @@
     <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet"/>
     <!--== Font-awesome Icons CSS ==-->
     <link href="{% static 'assets/css/font-awesome.min.css' %}" rel="stylesheet"/>
+
+    <link href="{% static 'assets/css/menuaux.css' %}" rel="stylesheet"/>
     <!--== Icofont Min Icons CSS ==-->
     <link href="{% static 'assets/css/icofont.min.css' %}" rel="stylesheet"/>
     <!--== lastudioIcons CSS ==-->
@@ -45,6 +51,8 @@
     <link href="{% static 'assets/css/slick.css' %}" rel="stylesheet"/>
     <!--== Main Style CSS ==-->
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+
+
 
 </head>
 
@@ -85,10 +93,10 @@
               <div class="header-navigation-area">
                 <ul class="main-menu nav justify-content-center position-relative">
                   <li><a href="{% url 'home' %}">Inicio</a></li>
-                  <li><a href="{% url 'home' %}">Tienda</a>
-                  <li ><a href="{% url 'post_list' %}">Blog</a>
-                  <li><a href="{% url 'home' %}">Sobre Nosotros</a>
-                  <li><a href="{% url 'home' %}">Contacto</a>
+                  <li><a href="{% url 'product_list' %}">Tienda</a></li>
+                  <li ><a href="{% url 'post_list' %}">Blog</a></li>
+                  <li><a href="{% url 'home' %}">Sobre Nosotros</a></li>
+                  <li><a href="{% url 'contact' %}">Contacto</a></li>
                 </ul>
               </div>
             </div>
@@ -99,14 +107,33 @@
                     <i class="lastudioicon-zoom-1"></i>
                   </button>
                 </div>
+
                 <div class="header-action-login">
-                  <button class="btn-login" onclick="window.location.href='login.html'">
+                  <button class="btn-login" onclick="window.location.href='/accounts/login/'">
                     <i class="lastudioicon-single-01-2"></i>
                   </button>
                 </div>
+
+                <div class="dropdown">
+                  <button class="btn-login dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="lastudioicon-single-01-2"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    {% if user.is_authenticated %}
+                    <li><a class="dropdown-item" href="{% url 'my_profile' %}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{% url 'order_list' %}">Mis Pedidos</a></li>
+                    <li><a class="dropdown-item" href="#">Mis Deseos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{% url 'account_login' %}">Iniciar Sesión</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account_signup' %}">Registrarse</a></li>
+                    {% endif %}
+                  </ul>
+                </div>
+                
                 <div class="header-action-cart">
                   <button class="btn-cart cart-icon">
-                    <span class="cart-count">2</span>
+                    <span class="cart-count">{{order.get_count}}</span>
                     <i class="lastudioicon-shopping-cart-2"></i>
                   </button>
                 </div>
@@ -170,16 +197,11 @@
             <div class="product-item">
               <div class="product-thumb">
                 <a href="#">
-                  {% thumbnail producto.imagen "500x650" crop="center" as im %}
-                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
-                  {% endthumbnail %}
+                  <img src="{{producto.imagen.url}}" alt="Moren-Shop">
                   <span class="thumb-overlay"></span>
                 </a>
                 <div class="product-action">
-                  <a class="action-cart ht-tooltip" data-tippy-content="Añadir al Carrito" href="shop-cart.html" title="Add to cart">
-                    <i class="lastudioicon-shopping-cart-3"></i>
-                  </a>
-                  <a class="action-quick-view ht-tooltip" data-tippy-content="Vista Rápida" href="javascript:void(0);" title="Wishlist">
+                  <a class="action-quick-view ht-tooltip" data-tippy-content="Ver Prenda" href="javascript:void({{ forloop.counter }});" title="Wishlist">
                     <i class="lastudioicon-search-zoom-in"></i>
                   </a>
                   <a class="action-wishlist ht-tooltip" data-tippy-content="Añadir a Mis Deseos" href="shop-wishlist.html" title="Add to wishlist">
@@ -188,9 +210,9 @@
                 </div>
                 <div class="product-action-info">
                   <div class="content-inner">
-                    <h4 class="title"><a href="shop-single-product.html">{{producto.titulo}}</a></h4>
+                    <h4 class="title"><a href="{% url 'product_detail' producto.id producto.slug %}">{{producto.titulo}}</a></h4>
                     <div class="prices">
-                      <span class="price">{{producto.precio}}</span>
+                      <span class="price">₲. {{producto.precio|intcomma}}</span>
                     </div>
                   </div>
                 </div>
@@ -206,7 +228,7 @@
     <!--== End New Collection Area Wrapper ==-->
 
     <!--== Start Divider Area Wrapper ==-->
-    <section class="divider-area bg-overlay2 bg-img" data-bg-img="{% static 'images/segunda-portada.jpg' %}">
+    <section class="divider-area bg-overlay2 bg-img" data-bg-img="{% static 'assets/img/portada-1.jpg' %}">
       <div class="container">
         <div class="row">
           <div class="col-xl-8 col-lg-12 m-auto">
@@ -258,7 +280,7 @@
                 <div class="content-inner">                  
                   <h4 class="title"><a href="shop-single-product.html">{{producto.titulo}}</a></h4>
                   <div class="prices">
-                    <span class="price">{{producto.precio}}</span>
+                    <span class="price">₲. {{producto.precio|intcomma }}</span>
                   </div>
                 </div>
               </div>
@@ -351,7 +373,7 @@
     <!--== End Blog Area Wrapper ==-->
 
     <!--== Start Newsletter Area ==-->
-    <section class="newsletter-area bg-overlay2-6 bg-img" data-bg-img="assets/img/photos/bg-d4.jpg">
+    <section class="newsletter-area bg-overlay2-6 bg-img" data-bg-img="{% static 'assets/img/portada-2.jpg' %}">
       {% if hola %}
       <div class="testimonial-area">
         <div class="testimonial-slider-content">
@@ -561,7 +583,8 @@
   
   <!--== Scroll Top Button ==-->
   <div class="scroll-to-top"><span class="icofont-arrow-up"></span></div>
-
+  {% if hola %}
+  {% for producto in productos|slice:":3" %}
   <!--== Start Product Quick View ==-->
   <aside class="product-quick-view-modal">
     <div class="product-quick-view-inner">
@@ -577,16 +600,16 @@
           </div>
           <div class="col-lg-6 col-md-6 col-12">
             <div class="single-product-info">
-              <h4 class="title">Product Simple</h4>
+              <h4 class="title">{{producto.titulo}}</h4>
               <div class="product-rating">
                 <div class="review">
                   <p><span></span>99 in stock</p>
                 </div>
               </div>
               <div class="prices">
-                <span class="price">£49.90</span>
+                <span class="price">{{producto.precio|intcomma}}</span>
               </div>
-              <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fringilla quis ipsum enim viverra. Enim in morbi tincidunt ante luctus tincidunt integer. Sed adipiscing vehicula.</p>
+              <p class="product-desc">{{producto.description}}</p>
               <div class="quick-product-action">
                 <div class="action-top">
                   <div class="pro-qty-area">
@@ -643,17 +666,19 @@
     <div class="canvas-overlay"></div>
   </aside>
   <!--== End Product Quick View ==-->
+  {% endfor %}
+  {% endif %}
 
   <!--== Start Aside Search Menu ==-->
   <div class="search-box-wrapper">
     <div class="search-box-content-inner">
       <div class="search-box-form-wrap">
         <div class="search-note">
-          <p>Start typing and press Enter to search</p>
+          
         </div>
         <form action="#" method="post">
           <div class="search-form position-relative">
-            <label for="search-input" class="sr-only">Search</label>
+            <label for="search-input" class="sr-only">¿Qué quieres buscar?</label>
             <input type="search" class="form-control" placeholder="Search" id="search-input">
             <button class="search-button"><i class="lastudioicon-zoom-1"></i></button>
           </div>
@@ -666,51 +691,34 @@
   <!--== End Aside Search Menu ==-->
 
   <!--== Start Sidebar Cart Menu ==-->
+
   <aside class="sidebar-cart-modal">
     <div class="sidebar-cart-inner">
       <div class="sidebar-cart-content">
         <a class="cart-close" href="javascript:void(0);"><i class="lastudioicon-e-remove"></i></a>
         <div class="sidebar-cart">
-          <h4 class="sidebar-cart-title">Shopping Cart</h4>
+          <h4 class="sidebar-cart-title">Carrito</h4>
           <div class="product-cart">
+            {% for item in order.get_cart_items %}
             <div class="product-cart-item">
               <div class="product-img">
-                <a href="shop.html"><img src="assets/img/shop/cart/1.jpg" alt=""></a>
+                <a href="shop.html"><img src="{{item.producto.imagen.url}}" alt=""></a>
               </div>
               <div class="product-info">
-                <h4 class="title"><a href="shop.html">I’m a Unicorn Earrings</a></h4>
-                <span class="info">1 × £69.00</span>
+                <h4 class="title"><a href="shop.html">{{item.producto.titulo}}</a></h4>
+                <span class="info">{{item.quantity}} - ₲. {{item.get_item_total|intcomma}}</span>
               </div>
-              <div class="product-delete"><a href="#/">×</a></div>
+              <div class="product-delete"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}">X</a></div>
             </div>
-            <div class="product-cart-item">
-              <div class="product-img">
-                <a href="shop.html"><img src="assets/img/shop/cart/2.jpg" alt=""></a>
-              </div>
-              <div class="product-info">
-                <h4 class="title"><a href="shop.html">Knit cropped cardigan</a></h4>
-                <span class="info">1 × £29.90</span>
-              </div>
-              <div class="product-delete"><a href="#/">×</a></div>
-            </div>
+            {% endfor %}
           </div>
           <div class="cart-total">
-            <h4>Subtotal: <span class="money">£98.90</span></h4>
+            <h4>Total: <span class="money">₲. {{order.get_cart_total|intcomma}}</span></h4>
           </div>
-          <div class="shipping-info">
-            <div class="loading-bar">
-              <div class="load-percent"></div>
-              <div class="label-free-shipping">
-                <div class="free-shipping svg-icon-style">
-                  <span class="svg-icon" id="svg-icon-shipping" data-svg-icon="assets/img/icons/shop1.svg"></span>
-                </div>
-                <p>Spend £101.10 to get Free Shipping</p>
-              </div>
-            </div>
-          </div>
+         
           <div class="cart-checkout-btn">
-            <a class="btn-theme" href="shop-cart.html">View cart</a>
-            <a class="btn-theme" href="shop-checkout.html">Checkout</a>
+            <a class="btn-theme" href="{% url 'my_cart' %}">Mirar mi Carrito</a>
+            <a class="btn-theme" href="#">Relizar Compra</a>
           </div>
         </div>
       </div>
@@ -751,6 +759,10 @@
 <!--=======================Javascript============================-->
 
 <!--=== Modernizr Min Js ===-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+
 <script src="{% static 'assets/js/modernizr.js' %}"></script>
 <!--=== jQuery Min Js ===-->
 <script src="{% static 'assets/js/jquery-main.js' %}"></script>

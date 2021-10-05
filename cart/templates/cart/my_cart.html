@@ -5,11 +5,134 @@
 {% load cart_extras %}
 {% load accounts_extras %}
 {% load thumbnail %}
-{% block titulo %}Mi Carrito{% endblock titulo %} 
-{% block barra_busqueda %}
-{% endblock barra_busqueda %}
-{% block body %}
+{% block title %}Mi Carrito{% endblock title %} 
+{% block content %}
     {% if profile %}
+	<section class="page-title-area bg-img" data-bg-img="">
+		<div class="container">
+		  <div class="row">
+			<div class="col-lg-12">
+			  <div class="page-title-content">
+				</div>
+			</div>
+		  </div>
+		</div>
+	  </section>
+
+	  <section class="product-area cart-page-area">
+		<div class="container">
+		  <div class="row">
+			<div class="col-lg-8">>
+			  <div class="cart-table-wrap">
+				<div class="cart-table table-responsive">
+				  <table>
+					<thead>
+					  <tr>
+						<th class="pro-remove"> </th>
+						<th class="pro-thumbnail"> </th>
+						<th class="pro-name">Producto</th>
+						<th class="pro-price">Precio</th>
+						<th class="pro-quantity">Cantidad</th>
+						<th class="pro-subtotal">Subtotal</th>
+					  </tr>
+					</thead>
+					<tbody>
+						{% for item in order.get_cart_items %}
+					  <tr>
+						<td class="pro-remove"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}"><i class="lastudioicon-e-remove"></i></a></td>
+						<td class="pro-thumbnail">
+						  <div class="pro-info">
+							<div class="pro-img">
+							  <a href="{% url 'product_detail' item.producto.id item.producto.slug  %}"><img src="{{item.producto.imagen.url}}" alt="Moren-Shop"></a>
+							</div>
+						  </div>
+						</td>
+						<td class="pro-name"><span>{{item.producto.titulo}}</span></td>
+						<td class="pro-price"><span> ₲. {{item.producto.get_price|intcomma}}</span></td>
+						<td class="pro-quantity"><span>{{item.quantity}}</span></td>
+						<td class="pro-subtotal"><span>₲. {{item.get_item_total|intcomma}}</span></td>
+					  </tr>
+					  {% endfor %}
+					</tbody>
+				  </table>
+				</div>
+			  </div>
+			  <form action="" method="POST">
+			  <div class="coupon-action">
+				<div class="coupon">
+					{% csrf_token %} 
+				  <input type="text" name="coupon" class="input-text" id="coupon" value="" placeholder="{{coupon.code}}">
+				  <button type="submit" class="button" name="apply_coupon" value="Apply coupon">Aplicar Cupon</button>
+				
+				</div>
+				<button type="submit" class="button" name="apply_coupon" value="Apply coupon">Update cart</button>
+			  </div>
+			</form>
+			</div>
+			{% get_order_total order as total_order %}
+			<div class="col-lg-4">
+			  <div class="cart-payment">
+				<div class="cart-subtotal">
+				  <h2 class="title">Carrito</h2>
+				  <table>
+					<tbody>
+					  <tr>
+						<th>Subtotal</th>
+						<td><span class="amount">₲. {{total_order|intcomma}}</span></td>
+					  </tr>
+					  <tr class="shipping-totals">
+						<th>Shipping</th>
+						<td>
+						  <ul>
+							<li>
+							  <div class="form-check">
+								<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+								<label class="form-check-label" for="flexRadioDefault1">Flat rate: <span class="amount">total_order</span></label>
+							  </div>
+							  <div class="form-check">
+								<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+								<label class="form-check-label" for="flexRadioDefault2">Local pickup</label>
+							  </div>
+							</li>
+						  </ul>
+						  <p>Shipping options will be updated during checkout.</p>
+						  <p>Envío</p>
+						</td>
+					  </tr>
+					  <tr>
+						{% if coupon.amount > 0 %}
+                    	{% setvar coupon.amount as coupon_amount %}
+						<th>Descuento</th>
+						<td><span class="amount">₲. -{{coupon.amount|intcomma}}</span></td>
+                	{% else %}
+                    		{% setvar 0 as coupon_amount %}
+                	{% endif %}
+
+					{% if coupon.percentage > 0 %}
+                    	{% get_discount order coupon.percentage as coupon_percentage %}
+						<th>Descuento </th>
+						<td><span class="amount">{{coupon.percentage}}% | ₲. -{{coupon_percentage|intcomma}}</span></td>
+                	{% else %}
+                    	{% setvar 0 as coupon_percentage %}
+                	{% endif %}
+					  </tr>
+					  <tr class="amount-total">
+						{% get_sum_total total_order coupon_amount coupon_percentage as total_pagar %}
+						<th>Total</th>
+						<td><span class="amount">₲. {{total_pagar|intcomma}}</span></td>
+					  </tr>
+					</tbody>
+				  </table>
+				</div>
+				<a class="btn-theme" href="shop-checkout.html">Realizar el Pedido</a>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </section>
+	  <!--== End Cart Area Wrapper ==-->
+
+{% if hola %}
             <!-- Cart -->
 <section class="cart bgwhite p-t-70 p-b-100">
 		<div class="container">
@@ -162,4 +285,5 @@
 		</div>
 	</section>
 {% endif %}
-{% endblock body %}
+{% endif %}
+{% endblock content %}

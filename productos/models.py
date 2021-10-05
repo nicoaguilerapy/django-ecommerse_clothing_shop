@@ -66,6 +66,12 @@ class Producto(models.Model):
         self.slug = slugify(self.titulo)
         super(Producto, self).save(*args, **kwargs)
 
+    def get_price(self):
+        if self.oferta:
+            return self.precio_oferta
+        else:
+            return self.precio
+
     def __str__(self):
         return self.titulo
 

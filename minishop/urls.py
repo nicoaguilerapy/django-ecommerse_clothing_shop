@@ -20,9 +20,9 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('tienda/', include('productos.urls')),
+    path('shop/', include('productos.urls')),
     path('blog/', include('blog.urls')),
-    path('contacto/', include('contact.urls')),
+    path('contact/', include('contact.urls')),
     path('paginas/', include('pages.urls')),
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),

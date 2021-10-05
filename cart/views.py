@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -18,50 +19,73 @@ from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from datetime import date
 
+
 @login_required()
-def add_to_cart(request):
-    user_profile = Profile.objects.get(user=request.user)
-    producto_id = request.GET.get('item_id')
-    cantidad = request.GET.get('cantidad')
-    talle = request.GET.get('talle')
-    modelo = request.GET.get('modelo')
-    producto = Producto.objects.get(id=producto_id)
-    print("producto")
-    print(producto)
-    print("cantidad")
-    print(cantidad)
-    print("talle")
-    print(talle)
-    print("modelo")
-    print(modelo)
-    
-    user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-    code = user_order.id
-    if status:
-        user_order.ref_code += code
-        user_order.save()
-    
-    order_item, status = OrderItem.objects.get_or_create(producto = producto, size = talle, model = modelo, owner = user_profile, is_ordered=False)
-    order_item.quantity = cantidad
-    order_item.save()
-    
-    if not order_item in user_order.items.all():
-        user_order.items.add(order_item)
-        print("Agregado al carrito")
+def add_to_cart(request, *args, **kwargs):
 
-    if request.GET.get('cart') == 'si':
-        return redirect(reverse('my_cart'))
+    if request.method == 'GET':
+        user_profile = Profile.objects.get(user=request.user)
 
+        producto_id = request.GET.get('item_id', '')  
+        cantidad = request.GET.get('cantidad', '')
+        talle = request.GET.get('talle', '') 
+        modelo = request.GET.get('modelo', '')
+        path_redirect = request.GET.get('path_redirect', '')
+
+        if producto_id == '' or producto_id == None:
+            return redirect(reverse('my_cart'))
+        else:
+            producto = Producto.objects.get(id=producto_id)
+
+        print('GET: {} {} {} {}'.format(producto_id, cantidad, talle, modelo))
+
+        if producto.estado and cantidad == '' and talle == '' and modelo == '':
+    
+            user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
+            code = user_order.id
+            if status:
+                user_order.ref_code += code
+                user_order.save()
+    
+            order_item, status = OrderItem.objects.get_or_create(producto = producto, size = talle, model = modelo, owner = user_profile, is_ordered=False)
+            if status:
+                order_item.quantity = cantidad
+            else:
+                order_item.quantity = order_item.quantity + int(cantidad)
+            order_item.save()
+    
+            if not order_item in user_order.items.all():
+                user_order.items.add(order_item)
+                print("Agregado al carrito")
+
+            if path_redirect == '':
+                return redirect(reverse('my_cart'))
+            else:
+                return HttpResponseRedirect(path_redirect)
+        else:
+            return redirect(reverse('my_cart'))
     # show confirmation message and redirect back to the same page
-    return redirect(reverse('productos'))
+    return redirect(reverse('my_cart'))
     
 @login_required()
 def delete_from_cart(request):
-    orderitem_id = request.GET.get('orderitem_id')
-    item_to_delete = OrderItem.objects.filter(id=orderitem_id)
-    if item_to_delete.exists():
-        item_to_delete[0].delete()
-        messages.info(request, "Item has been deleted")
+
+    if request.method == 'GET':
+
+        orderitem_id = request.GET.get('orderitem_id', '')
+        path_redirect = request.GET.get('path_redirect', '')
+        if orderitem_id != '':
+            item_to_delete = OrderItem.objects.filter(id=orderitem_id)
+            if item_to_delete.exists():
+                item_to_delete[0].delete()
+                messages.info(request, "Item has been deleted")
+        
+        if path_redirect != '':
+            return HttpResponseRedirect(path_redirect)
+        else: 
+            return redirect(reverse('my_cart'))
+        
+
     return redirect(reverse('my_cart'))
     
 @login_required()
@@ -76,12 +100,11 @@ def my_cart(request):
             except Exception:
                 coupon = None
             
-            
 
-    user_profile = Profile.objects.get(user=request.user)
-    user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-    context={"profile":user_profile, "order":user_order, "coupon": coupon}
-    print(user_order)
+    #user_profile = Profile.objects.get(user=request.user)
+    #user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
+    #context={"profile":user_profile, "order":user_order, "coupon": coupon}
+    context={"coupon": coupon}
     
     return render(request,'cart/my_cart.html', context)
     

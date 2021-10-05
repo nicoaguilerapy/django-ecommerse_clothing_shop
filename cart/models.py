@@ -90,7 +90,16 @@ class Order(models.Model):
         return sum
 
     def __str__(self):
-        return '{0} - {1}'.format(self.owner, self.id)
+        return '{} - {} | {}'.format(self.owner, self.id, self.total)
+
+class Whish(models.Model):
+    id = models.AutoField(primary_key = True)
+    owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
+    
+    class Meta:
+        verbose_name = 'Deseo'
+        verbose_name_plural = 'Lista de Deseos'
 
 
 # method for updating

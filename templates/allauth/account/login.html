@@ -3,11 +3,122 @@
 {% load i18n %}
 {% load account socialaccount %}
 
-{% block titulo %}{% trans "Sign In" %}{% endblock %}
+{% block title %}{% trans "Sign In" %}{% endblock %}
+
+
 
 {% block content %}
-<div class="container">
 
+<main class="main-content">
+  <!--== Start Page Title Area ==-->
+  <!--== End Page Title Area ==-->
+
+  <!--== Start Contact Area ==-->
+  <div class="account-login-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 m-auto">
+          <div class="login-top">
+            <nav class="login-form-nav">
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="lastudioicon-user-1"></i>Iniciar Sesión</button>
+                <button class="nav-link nav-register" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="lastudioicon-user-2"></i>Registarse</button>
+              </div>
+            </nav>
+          </div>
+          <div class="login-bottom">
+            <div class="login-form-content tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="login-form">
+                  <form class="login-form-wrapper" id="login-form" action="{% url 'account_login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="UserName" class="form-label">Correo Electronico</label>
+                              <input type="email" class="form-control" name="login" placeholder="Correo electrónico" autofocus="autofocus" required id="id_login">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group mb-0">
+                              <label for="password" class="form-label mt-15">Contraseña</label>
+                              <input type="password" class="form-control" name="password" placeholder="Contraseña" required id="id_password">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group mt-15">
+                              <input  type="checkbox" class="form-check-input" name="remember" id="id_remember">
+                              <label class="form-check-label" for="exampleCheck1"> Recordarme</label>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group mb-0 form-group-info">
+                              <button class="btn btn-theme btn-black" type="submit">Log in</button>
+                              <a class="btn-forgot" href="{% url 'account_reset_password' %}">¿Olvidaste tu Contraseña?</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- Message Notification -->
+                <div class="form-message"></div>
+              </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="login-form">
+                  <form class="login-form-wrapper" id="register-form" action="{% url 'account_signup' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="email" class="form-label mt-15">Correo Electronico</label>
+                              <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required id="id_email">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group mb-0">
+                              <label for="regpassword" class="form-label mt-15">Contraseña</label>
+                              <input type="password" name="password1" class="form-control" placeholder="Contraseña" required id="id_password1">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group mb-0">
+                              <label for="regpassword" class="form-label mt-15">Contraseña</label>
+                              <input type="password" name="password2" class="form-control" placeholder="Contraseña (de nuevo)" required id="id_password2">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <p>Al registrarte estas aceptando los <a href="{% url 'page_detail' 0 %}">Terminos y Condiciones</a>.</p>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group mb-0 form-group-info">
+                              <button class="btn btn-theme btn-black" type="submit">Registrar</button>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--== End Contact Area ==-->
+</main>
+{% if hola %}
      <center><span><h1>{% trans "Sign In" %}</h1></span></center>
 	{% get_providers as socialaccount_providers %}
 
@@ -52,6 +163,6 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
   <br><br>
   <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
 </form>
- </div>
-</div>	
+ </div>	
+ {% endif %}
 {% endblock content %}

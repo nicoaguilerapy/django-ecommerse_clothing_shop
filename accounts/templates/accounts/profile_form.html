@@ -1,13 +1,23 @@
 {% extends 'core/index.html' %}
 {% load static %}
 {% block titulo %}Perfil{% endblock %}
-{% block body %}
+{% block content %}
+<section class="page-title-area bg-img" data-bg-img="">
+	<div class="container">
+	  <div class="row">
+		<div class="col-lg-12">
+		  <div class="page-title-content">
+			</div>
+		</div>
+	  </div>
+	</div>
+  </section>
 <style>.errorlist{color:red;}</style>
 <main role="main">
   <div class="container">
     <div class="row mt-3">
       <div class="col-md-9 mx-auto mb-5">
-        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <form class="login-form-wrapper"action="" method="post" enctype="multipart/form-data">{% csrf_token %}
           <div class="row">
             <!-- Previa del avatar -->
             <div class="col-md-2">
@@ -30,84 +40,94 @@
                 <input type="file" name="image" class="form-control-file mt-3" id="id_image">
                 <br><br>
                 <div class="row">
-                  <div class="col-6">
-                    {{ form.document.label }}
-                    {{ form.document }}
+                  <div class="col-md-6">
+                  <div class="form-group mb-6">
+                    <label for="password" class="form-label mt-15">Documento</label>
+                    <input type="text" class="form-control" name="first_name" placeholder="{% if profile.document %}{{profile.document}}{% endif %}" required id="id_document">
                   </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mb-6">
+                   </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-0">
+                      <label for="password" class="form-label mt-15">Nombre</label>
+                      <input type="text" class="form-control" name="first_name" placeholder="{% if profile.first_name %}{{profile.first_name}}{% endif %}" required id="id_first_name">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group mb-0">
+                      <label for="password" class="form-label mt-15">Apellido</label>
+                      <input type="text" class="form-control" name="last_name" placeholder="{% if profile.last_name %}{{profile.last_name}}{% endif %}" required id="id_last_name">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group mb-0">
+                      <label for="Departamente" class="form-label mt-15">Departamento</label>
+
+                  <select class="form-control" name="region" required id="id_region">
+                    <option value="" selected>-----------</option>
                   
-                </div>
-                <br>
-                <div class="row">
-                  <br>
-                  <div class="col">
-                    {{ form.first_name.label }}
-                    {{ form.first_name }}
+                    <option {% if profile.region == "PY01" %}selected {% endif %}value="PY01">Concepcion</option>
+                  
+                    <option {% if profile.region == "PY02" %}selected {% endif %}value="PY02">San Pedro</option>
+                  
+                    <option {% if profile.region == "PY03" %}selected {% endif %}value="PY03">Cordillera</option>
+                  
+                    <option {% if profile.region == "PY04" %}selected {% endif %}value="PY04">Guaira</option>
+                  
+                    <option {% if profile.region == "PY05" %}selected {% endif %}value="PY05">Caaguazu</option>
+                  
+                    <option {% if profile.region == "PY06" %}selected {% endif %}value="PY06">Caazapa</option>
+                  
+                    <option {% if profile.region == "PY07" %}selected {% endif %}value="PY07">Itapua</option>
+                  
+                    <option {% if profile.region == "PY08" %}selected {% endif %}value="PY08">Misiones</option>
+                  
+                    <option {% if profile.region == "PY09" %}selected {% endif %}value="PY09">Paraguari</option>
+                  
+                    <option {% if profile.region == "PY10" %}selected {% endif %}value="PY10">Alto Parana</option>
+                  
+                    <option {% if profile.region == "PY11" %}selected {% endif %}value="PY11">Central</option>
+                  
+                    <option {% if profile.region == "PY12" %}selected {% endif %}value="PY12">Neembucu</option>
+                  
+                    <option {% if profile.region == "PY13" %}selected {% endif %}value="PY13">Amambay</option>
+                  
+                    <option {% if profile.region == "PY14" %}selected {% endif %}value="PY14">Canindeyu</option>
+                  
+                    <option {% if profile.region == "PY15" %}selected {% endif %}value="PY15">Presidente Hayes</option>
+                  
+                    <option {% if profile.region == "PY16" %}selected {% endif %}value="PY16">Boqueron</option>
+                  
+                    <option {% if profile.region == "PY17" %}selected {% endif %}value="PY17">Alto Paraguay</option>
+                  
+                  </select>
+                    </div>
                   </div>
-                <br>
-                  <div class="col">
-                    {{ form.last_name.label }}
-                    {{ form.last_name }}
+
+                  <div class="col-md-6">
+                    <div class="form-group mb-0">
+                      <label for="Departamente" class="form-label mt-15">Ciudad</label>
+                      <input type="text" class="form-control" name="city" placeholder="{% if profile.city %}{{profile.city}}{% endif %}" required id="id_city">
+                    </div>
                   </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    Departamento
-                    <select class="form-control bg-secondary text-white mt-3" name="region" required id="id_region">
-  <option value="" selected>-----------</option>
-
-  <option {% if profile.region == "PY01" %}selected {% endif %}value="PY01">Concepcion</option>
-
-  <option {% if profile.region == "PY02" %}selected {% endif %}value="PY02">San Pedro</option>
-
-  <option {% if profile.region == "PY03" %}selected {% endif %}value="PY03">Cordillera</option>
-
-  <option {% if profile.region == "PY04" %}selected {% endif %}value="PY04">Guaira</option>
-
-  <option {% if profile.region == "PY05" %}selected {% endif %}value="PY05">Caaguazu</option>
-
-  <option {% if profile.region == "PY06" %}selected {% endif %}value="PY06">Caazapa</option>
-
-  <option {% if profile.region == "PY07" %}selected {% endif %}value="PY07">Itapua</option>
-
-  <option {% if profile.region == "PY08" %}selected {% endif %}value="PY08">Misiones</option>
-
-  <option {% if profile.region == "PY09" %}selected {% endif %}value="PY09">Paraguari</option>
-
-  <option {% if profile.region == "PY10" %}selected {% endif %}value="PY10">Alto Parana</option>
-
-  <option {% if profile.region == "PY11" %}selected {% endif %}value="PY11">Central</option>
-
-  <option {% if profile.region == "PY12" %}selected {% endif %}value="PY12">Neembucu</option>
-
-  <option {% if profile.region == "PY13" %}selected {% endif %}value="PY13">Amambay</option>
-
-  <option {% if profile.region == "PY14" %}selected {% endif %}value="PY14">Canindeyu</option>
-
-  <option {% if profile.region == "PY15" %}selected {% endif %}value="PY15">Presidente Hayes</option>
-
-  <option {% if profile.region == "PY16" %}selected {% endif %}value="PY16">Boqueron</option>
-
-  <option {% if profile.region == "PY17" %}selected {% endif %}value="PY17">Alto Paraguay</option>
-
-</select>
+                  <div class="d-flex justify-content-center">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group mb-0 form-group-info">
+                        <br>
+                        
+                        <button class="btn btn-theme btn-black" type="submit">Actualziar</button>
+                      </div>
+                    </div>
+                    </div>
                   </div>
-                <br>
-                  <div class="col">
-                    {{ form.city.label }}
-                    {{ form.city }}
                   </div>
-                </div>
-                <br>
-                <div class="row">
-                <div class="col">
-                    {{ form.phone.label }}
-                    {{ form.phone }}
-                  </div>
-                </div>
-              <input type="submit" class="btn btn-primary btn-block mt-3" value="Actualizar">
               </div>
-            </div>
+          </div>
           </div>
         </form>
       </div>

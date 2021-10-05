@@ -1,32 +1,63 @@
 {% extends 'core/index.html' %}
 {% load static %}
-{% block titulo %}
-{{page.nombre}}
-{% endblock titulo %}
+{% block title %}
+{{page.title}}
+{% endblock title %}
 
-{% block body %}
+{% block content %}
 {% if page %}
-    <section class="page-section about-heading">
-      <div class="container">
-        <div class="about-heading-content mbtm">
-          <div class="row">
-            <div class="col-xl-9 col-lg-10 mx-auto">
-              <div class="bg-faded rounded p-5 forced">
-                <h2 class="section-heading mb-4">
-                  <span class="section-heading-lower">{{page.nombre}}</span>
-                </h2>
-                <div class="section-content">
-                    {{page.contenido|safe}}
-                    {% if user.is_authenticated %}
-                    <p><a href="{% url 'admin:pages_page_change' page.id %}">Editar</a></p>
-                    {% endif %}
-                </div>
+ <!--== Start Page Title Area ==-->
+ <section class="page-title-area bg-img" data-bg-img="">
+	<div class="container">
+	  <div class="row">
+		<div class="col-lg-12">
+		  <div class="page-title-content">
+			</div>
+		</div>
+	  </div>
+	</div>
+  </section>
+  <!--== End Page Title Area ==-->
+
+
+  <section class="blog-details-area">
+    <div class="container">
+      <div class="row">
+      <div class="col-12">
+        <div class="blog-content-column">
+        <div class="blog-content-area no-sidebar">
+          <div class="post-details-content">
+          <div class="post-details-body">
+            <div class="content">
+
+
+            <center><h4>{{page.title}}</h4></center>
+            <div class="blockquote-area">
+              {{page.content|safe}}
+              <br>
+              {% if request.user.is_staff %}
+              <p><a href="{% url 'admin:pages_page_change' page.id %}">Editar</a></p>
+                {% endif %}
+            <div class="category-social-content">
+              <div class="social-items">
+                {% if hola %}
+              <a class="one" href="#/"><i class="lastudioicon-b-facebook"></i></a>
+              <a class="two" href="#/"><i class="lastudioicon-b-twitter"></i></a>
+              <a class="three" href="#/"><i class="lastudioicon-b-linkedin"></i></a>
+              <a class="four" href="#/"><i class="lastudioicon-b-pinterest"></i></a>
+              {% endif %}
               </div>
-            </div>
+            
+            </div>{% if hola %}
+            {% endif %}
+          </div>
           </div>
         </div>
+        </div>
       </div>
+      </div>
+    </div>
     </section>
 {% endif %}
-{% endblock body %}
+{% endblock content %}
 
