@@ -65,7 +65,11 @@
                   </form>
                 </div>
                 <!-- Message Notification -->
-                <div class="form-message"></div>
+                <div class="form-message"><ul class="errorlist">
+                  {% for key, value in form.errors.items %}
+                      <li>{% if key != '__all__' %}{{ key }} {% endif %}{{ value }}</li>
+                  {% endfor %}
+                  </ul></div>
               </div>
               <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="login-form">
