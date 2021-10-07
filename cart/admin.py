@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import OrderItem, Order, Coupon
+from .models import OrderItem, Order, Coupon, Wish
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
@@ -22,5 +22,6 @@ class OrderItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 
 admin.site.register(Coupon)
+admin.site.register(Wish)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)

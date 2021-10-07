@@ -111,13 +111,20 @@
                     {% if user.is_authenticated %}
                     <li><a class="dropdown-item" href="{% url 'my_profile' %}">Perfil</a></li>
                     <li><a class="dropdown-item" href="{% url 'order_list' %}">Mis Pedidos</a></li>
-                    <li><a class="dropdown-item" href="#">Mis Deseos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'wish_list' %}">Mis Deseos</a></li>
                     <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
                     {% else %}
                     <li><a class="dropdown-item" href="{% url 'account_login' %}">Iniciar Sesión</a></li>
                     <li><a class="dropdown-item" href="{% url 'account_signup' %}">Registrarse</a></li>
                     {% endif %}
                   </ul>
+                </div>
+                
+                <div class="header-action-area">
+                  <button class="btn-login" onclick="window.location.href='{% url 'wish_list' %}'">
+                    <i class="lastudioicon-heart-2"></i></i>
+                  </button>
+
                 </div>
                 
                 <div class="header-action-cart">
@@ -193,7 +200,7 @@
                   <a class="action-quick-view ht-tooltip" data-tippy-content="Ver Prenda" href="javascript:void({{ forloop.counter }});" title="Wishlist">
                     <i class="lastudioicon-search-zoom-in"></i>
                   </a>
-                  <a class="action-wishlist ht-tooltip" data-tippy-content="Añadir a Mis Deseos" href="shop-wishlist.html" title="Add to wishlist">
+                  <a class="action-wishlist ht-tooltip" data-tippy-content="Añadir a Mis Deseos" href="/cart/add-to-wishlist/?orderitem_id={{producto.id}}&path_redirect={{request.path}}" title="Add to wishlist">
                     <i class="lastudioicon-heart-2"></i>
                   </a>
                 </div>

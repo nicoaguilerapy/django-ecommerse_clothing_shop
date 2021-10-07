@@ -9,24 +9,36 @@
 {% block titulo %}Mis Pedidos{% endblock titulo %} 
 {% block barra_busqueda %}
 {% endblock barra_busqueda %}
-{% block body %}
-	<!-- breadcrumb -->
-	<div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
-		<a href="{% url 'home' %}" class="s-text16">
-			Inicio
-			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
-		</a>
-		<span class="s-text17">
-			Mis Pedidos
-		</span>
-	</div>
+{% block content %}
 
-  <br>
-<div class="containter">
-  <div class="row justify-content-center">
-    <h4>Mis Pedidos</h4>
+<section class="page-title-area bg-img" data-bg-img="">
+  <div class="container">
+    <div class="row">
+    <div class="col-lg-12">
+      <div class="page-title-content">
+      </div>
+      <div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
+        <a href="{% url 'home' %}" class="s-text16">
+          Inicio
+          <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+        <span class="s-text17">
+          Mis Pedidos
+        </span>
+      </div>
+    
+      <br>
+    <div class="containter">
+      <div class="row justify-content-center">
+        <h4>Mis Pedidos</h4>
+      </div>
+    </div
+    </div>
+    </div>
   </div>
-</div>
+  </section>
+	<!-- breadcrumb -->
+>
 
 <br>
 <br>
@@ -89,7 +101,7 @@
       <th scope="row"><center>{{order.id}}</center></th>
       <td><center>{{order.date_ordered|date:'SHORT_DATE_FORMAT'}}</center></td>
       <td><center>₲. {{order.total|intcomma}}</center></td>
-      <td><span><a href="{% url 'detail_order' order.id %}">Detalles <i class="fa fa-file-text" aria-hidden="true"></i></a></span></td>
+      <td><span><a href="{% url 'order_detail' order.pk %}">Detalles <i class="fa fa-file-text" aria-hidden="true"></i></a></span></td>
       <td><span><a href="{{link_wha}}cart/my-orders/{{order.id}}/">Compartir <i class="fa fa-whatsapp" aria-hidden="true"></i></a></span></td>
     </tr>
     {% endfor %}
@@ -123,4 +135,4 @@
 					{% endfor %}
 </div>
 </div>
-{% endblock body %}
+{% endblock content %}

@@ -48,15 +48,7 @@ class PostListView(ListView):
         
 
 
-        return qs
-
-
-
-            
-            
-            
-        
-        
+        return qs    
 
     
 class PostDetailView(DetailView):

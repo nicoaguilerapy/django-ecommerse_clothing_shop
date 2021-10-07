@@ -123,9 +123,22 @@
 					  </tr>
 					</tbody>
 				  </table>
+				  <form method="POST" action="{% url 'finish_order' %}" >
+					{% csrf_token %}
+						<input type="hidden" id="order_id" name="order_id" value="{{order.id}}">
+						{% if coupon %}
+						<input type="hidden" id="coupon_id" name="coupon_id" value="{{coupon.id}}">
+						{% else %}
+						<input type="hidden" id="coupon_id" name="coupon_id" value="-1">
+						{% endif %}
 				</div>
-				<a class="btn-theme" href="shop-checkout.html">Realizar el Pedido</a>
+
+				<button type="submit" class="btn btn-dark">
+				Realizar el Pedido
+				</button>
 			  </div>
+			</form>
+			<br>
 			</div>
 		  </div>
 		</div>

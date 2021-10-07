@@ -92,10 +92,11 @@ class Order(models.Model):
     def __str__(self):
         return '{} - {} | {}'.format(self.owner, self.id, self.total)
 
-class Whish(models.Model):
+class Wish(models.Model):
     id = models.AutoField(primary_key = True)
     owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
+    date_created = models.DateField('Fecha de Creacion', auto_now = False, auto_now_add = True)
     
     class Meta:
         verbose_name = 'Deseo'
@@ -107,7 +108,7 @@ class Whish(models.Model):
 def update_status(sender, instance, **kwargs):
     if instance.is_ordered == True:
 
-        dato_url = Fact.objects.get(slug = "dato_url")
+        dato_url = Fact.objects.get(slug = "fact_url")
         correo_pag = Email.objects.get(id = 1)
         perfil = Profile.objects.get(user = instance.owner.id)
         correo_per = perfil.user.email
