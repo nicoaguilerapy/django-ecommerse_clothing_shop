@@ -10,38 +10,35 @@
 {% block barra_busqueda %}
 {% endblock barra_busqueda %}
 {% block tittle %}Lista de Pedidos{% endblock %}
-{% block body %}
-<section class="cart bgwhite p-t-70 p-b-100">
-		<div class="container">
-			<!-- Cart item -->
-			<div class="container-table-cart pos-relative">
-  <div class="row justify-content-center">
- 
-    <h4>Pedido Nº: {{order.id}}</h4>
-  </div>
-</div>
-<br>
-<div class="row justify-content-center">
-<div class="col-3">
-  <div class="p-2">{{profile_order.nombre}} {{profile_order.apellido}}</div>
-  <div class="p-2"><a href="https://api.whatsapp.com/send?phone=595{{profile_order.celular}}&text=Tu Pedido Nº {{order.id}}">{{profile_order.celular}}</a></div>
-</div>
-<br>
-<form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
-<div>
-<div class="col-3">
+{% block content %}
+<section class="page-title-area bg-img" data-bg-img="">
+  <div class="container">
+    <div class="row">
+    <div class="col-lg-12">
+      <div class="page-title-content">
+      </div>
+      <div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
+        <a href="{% url 'home' %}" class="s-text16">
+          Inicio
+          <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+        <span class="s-text17">
+          Mis Pedidos
+        </span>
+      </div>
     
-    </div>
- 
-    <div class="col-3">
-      {{ form.as_p }}
-    </div>
-    <div class="col">               
-      <input type="submit" class="btn btn-primary btn-block" value="Cambiar Estado" />
+      <br>
+    <div class="containter">
+      <div class="row justify-content-center">
+        <h4>Pedidos Nº: {{order.id}}</h4>
+      </div>
     </div>
     </div>
-</form>
-</div>
+    </div>
+  </div>
+  </section>
+
+<br>
 <br>
 <div class="container-table-cart pos-relative">
 <div class="wrap-table-shopping-cart bgwhite">
@@ -74,5 +71,18 @@
 </div>
 </div>
 </div>
-</section>
-{% endblock body %}
+<form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+  <div class="row">
+  <div class="p-2 d-flex justify-content-center">
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    {{ form.as_p }}
+  </div>
+  </div>
+  <div class="p-2 d-flex justify-content-center">
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <input type="submit" class="btn btn-primary btn-block" value="Cambiar Estado" />
+  </div>
+  </div>
+</div> 
+</form>
+{% endblock %}

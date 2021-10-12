@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView

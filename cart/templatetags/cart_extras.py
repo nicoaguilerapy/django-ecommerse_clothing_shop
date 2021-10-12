@@ -1,5 +1,5 @@
 from accounts.models import Profile
-from cart.models import Order, OrderItem
+from cart.models import Order, OrderItem, OrderStatus
 from django import template
 
 register = template.Library()
@@ -9,6 +9,18 @@ def get_order(user_profile):
     user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
     print(user_order)
     return user_order
+
+@register.simple_tag
+def get_status_exist(user_order, status):
+    print("get_status_exist {}".format(status))
+    order_status = OrderStatus.objects.filter(order = user_order, status = status)
+    print(order_status)
+    if order_status.exists():
+        print("True")
+        return True
+    else:
+        print("False")
+        return False
 
 @register.simple_tag
 def get_order_count(order):

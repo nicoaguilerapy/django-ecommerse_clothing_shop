@@ -26,7 +26,7 @@
 
     <!--== Google Fonts ==-->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,400i,700,700i" rel="stylesheet">
-
+    
     <!--== Bootstrap CSS ==-->
     <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet"/>
     <!--== Font-awesome Icons CSS ==-->
@@ -51,6 +51,9 @@
     <link href="{% static 'assets/css/slick.css' %}" rel="stylesheet"/>
     <!--== Main Style CSS ==-->
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+    
+    <!--== Nuevos Agregados CSS ==-->
+    <link href="{% static 'assets/css/ordertracking.css' %}" rel="stylesheet" />
 
 
 
@@ -111,7 +114,7 @@
                     {% if user.is_authenticated %}
                     <li><a class="dropdown-item" href="{% url 'my_profile' %}">Perfil</a></li>
                     <li><a class="dropdown-item" href="{% url 'order_list' %}">Mis Pedidos</a></li>
-                    <li><a class="dropdown-item" href="{% url 'wish_list' %}">Mis Deseos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'my_wish' %}">Mis Deseos</a></li>
                     <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
                     {% else %}
                     <li><a class="dropdown-item" href="{% url 'account_login' %}">Iniciar Sesión</a></li>
@@ -121,7 +124,7 @@
                 </div>
                 
                 <div class="header-action-area">
-                  <button class="btn-login" onclick="window.location.href='{% url 'wish_list' %}'">
+                  <button class="btn-login" onclick="window.location.href='{% url 'my_wish' %}'">
                     <i class="lastudioicon-heart-2"></i></i>
                   </button>
 
@@ -507,7 +510,7 @@
                 <ul class="nav-menu nav">
                   <li><a href="{% url 'page_detail' 1 %}">Sobre Nosotros</a></li>
                   <li><a href="{% url 'page_detail' 2 %}">Servicios</a></li>
-                  <li><a href="">Contacto</a></li>
+                  <li><a href="{% url 'contact' %}">Contacto</a></li>
                 </ul>
               </nav>
             </div>
@@ -707,6 +710,19 @@
               <div class="product-delete"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}">X</a></div>
             </div>
             {% endfor %}
+
+            {% for item in items %}
+            <div class="product-cart-item">
+              <div class="product-img">
+                <a href="shop.html"><img src="{{item.producto.imagen.url}}" alt=""></a>
+              </div>
+              <div class="product-info">
+                <h4 class="title"><a href="shop.html">{{item.producto.titulo}}</a></h4>
+                <span class="info">{{item.quantity}} - ₲. {{item.get_item_total|intcomma}}</span>
+              </div>
+              <div class="product-delete"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}">X</a></div>
+            </div>
+            {% endfor %}
           </div>
           <div class="cart-total">
             <h4>Total: <span class="money">₲. {{order.get_cart_total|intcomma}}</span></h4>
@@ -757,6 +773,8 @@
 <!--=== Modernizr Min Js ===-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
+<script src="https://kit.fontawesome.com/b73a5f55bd.js" crossorigin="anonymous"></script>
+
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 
 <script src="{% static 'assets/js/modernizr.js' %}"></script>
@@ -797,6 +815,28 @@
 
 <!--=== Custom Js ===-->
 <script src="{% static 'assets/js/custom.js' %}"></script>
+
+<!--=== Extras ===-->
+<script src="{% static 'assets/js/jquery-3.6.0.js' %}"></script>
+
+<script src="{% static 'extras/cart.js' %}"></script>
+
+<script type="text/javascript"> 
+  $(".ordertracking").hide();
+
+  function ShowHidden() {
+    let text = "";
+    if ($("#orderButton").text()=="Abrir Seguimiento") {
+      $(".ordertracking").show();
+      text = "Ocultar Seguimiento"
+    }else{
+      $(".ordertracking").hide();
+      text = "Abrir Seguimiento"
+    }
+
+    $("#orderButton").html(text);
+  }
+</script>
 
 </body>
 

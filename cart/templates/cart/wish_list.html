@@ -38,7 +38,7 @@
                     {% for wish in wish_list %}
 
                     <tr>
-                        <td class="pro-remove"><a href=""><i class="lastudioicon-e-remove"></i></a></td>
+                        <td class="pro-remove"><a href="/cart/delete-from-wish/?orderitem_id={{wish.id}}&path_redirect={{request.path}}"><i class="lastudioicon-e-remove"></i></a></td>
                         <td class="pro-thumbnail">
                           <div class="pro-info">
                             <div class="pro-img">

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import OrderItem, Order, Coupon, Wish
+from .models import OrderItem, Order, Coupon, OrderStatus, Wish
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
@@ -12,8 +12,8 @@ class OrderItemResource(resources.ModelResource):
         model = OrderItem
 
 class OrderAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    search_fields = ('owner', 'ref_code', 'date_ordered','status',)
-    list_display = ( 'id', 'owner', 'ref_code', 'is_ordered','date_ordered', 'status', 'total',)
+    search_fields = ('owner', 'ref_code', 'date_ordered',)
+    list_display = ( 'id', 'owner', 'ref_code', 'is_ordered','date_ordered', 'total',)
     resourse_class = OrderResource
 
 class OrderItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -23,5 +23,6 @@ class OrderItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 admin.site.register(Coupon)
 admin.site.register(Wish)
+admin.site.register(OrderStatus)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)

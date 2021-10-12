@@ -4,7 +4,7 @@ from .models import *
 class CouponForm(forms.ModelForm):
     class Meta:
         model = Coupon
-        fields = ['code','amount', 'percentage', 'estado']
+        fields = ['code','amount', 'percentage', ]
 
         widgets = {
             'code': forms.TextInput(
@@ -33,4 +33,4 @@ class CouponForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['status']
+        fields = ['id']

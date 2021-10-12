@@ -7,12 +7,14 @@
 {% load thumbnail %}
 {% block title %}Lista de Pedidos{% endblock title %} 
 {% block content %}
+
 <section class="page-title-area bg-img" data-bg-img="">
   <div class="container">
     <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg">
       <div class="page-title-content">
       </div>
+
       <div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
         <a href="{% url 'home' %}" class="s-text16">
           Inicio
@@ -28,21 +30,69 @@
         </span>
       </div>
       <br>
-    <div class="containter">
-      <div class="row justify-content-center">
+
+    <div class="containter d-flex justify-content-between">
+      <div class="row">
         <h4>Pedido Nº: {{user_order.id}}</h4>
-      </div>
-      <br>
-      <div class="row justify-content-center"> 
         <h4>Fecha: {{user_order.date_ordered|date:'SHORT_DATE_FORMAT'}}</h4>
       </div>
+      <br>
+      <div class="row"> 
+        <button class="btn-theme btn-black" id="orderButton" onclick="ShowHidden()">Abrir Seguimiento</button>
+      </div>
     </div>
     </div>
+    </div>
+    <div class="col-lg">
+
+      
     </div>
   </div>
   </section>
 	<!-- breadcrumb -->
 
+
+<div class="ordertracking">
+  <div class="container">
+    <article class="card">
+        <div class="card-body">
+            <h6>Pedido ID: {{user_order.id}}</h6>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Día Estimado de Delivery:</strong> <br>{{order.date_delivery}} </div>
+                    <div class="col"> <strong>Enviado por:</strong> <br> {{order.delivery_by}} </div>
+                    <div class="col"> <strong>Estado:</strong> <br>  </div>
+                    <div class="col"> <strong>Tracking #:</strong> <br>  {{order.tracking}}  </div>
+                </div>
+            </article>
+            <div class="track">
+                
+              {% get_status_exist order 'PL' as problemaslogisticos  %}
+                
+                {% if problemaslogisticos %}
+                <div class="step problem"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
+                <div class="step problem"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Empaquetado</span> </div>
+                <div class="step problem"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> En Camino</span> </div>
+                <div class="step problem"> <span class="icon"> <i class="fas fa-exclamation-triangle"></i> </span> <span class="text">Problemas Logisticos</span> </div>
+            
+                {% else %}
+                  
+                {% get_status_exist order 'RE' as recibido  %}
+                <div class="step {% if recibido %}active{% endif %}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
+                {% get_status_exist order 'EM' as empaquetado  %}
+                <div class="step {% if empaquetado %}active{% endif %}"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Empaquetado</span> </div>
+                {% get_status_exist order 'EC' as encamino  %}
+                <div class="step {% if encamino %}active{% endif %}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> En Camino</span> </div>
+                {% get_status_exist order 'LR' as listoretiro  %}
+                <div class="step {% if listoretiro %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Listo para Retiro</span> </div>
+                {% endif %}
+              </div>
+            <hr>
+            <hr>
+        </div>
+    </article>
+</div>
+</div>
 <br>
 <br>
 <div class="container-table-cart pos-relative">
@@ -86,4 +136,7 @@
 </div>
 </div>
 
+
+
 {% endblock content %}
+

@@ -1,6 +1,8 @@
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.core.serializers import serialize
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -9,17 +11,38 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from accounts.models import Profile
+from cart.forms import OrderForm
 from productos.models import Producto
-from .models import Order, OrderItem, Coupon, Wish
-from .forms import OrderForm
+from .models import Order, OrderItem, Coupon, OrderStatus, Wish
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from datetime import date
+import json
 
+@login_required()
+def my_cart(request):
+    coupon = None
+    
+    if request.method == 'POST':
+        code  = request.POST.get('coupon')
+        if not code == '' or None:
+            try:
+                coupon = Coupon.objects.get(code = code, estado = True)
+            except Exception:
+                coupon = None
+            
 
+    #user_profile = Profile.objects.get(user=request.user)
+    #user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
+    #context={"profile":user_profile, "order":user_order, "coupon": coupon}
+    context={"coupon": coupon}
+    
+    return render(request,'cart/my_cart.html', context)
+
+#cart
 @login_required()
 def add_to_cart(request, *args, **kwargs):
 
@@ -87,7 +110,65 @@ def delete_from_cart(request):
         
 
     return redirect(reverse('my_cart'))
+    
+@login_required()
+def finish_order(request):
+    
+    if request.method == 'POST':
+        coupon_id = int(request.POST.get('coupon_id'))
+        order_id = request.POST.get('order_id')
+        
+        order = Order.objects.get(id = order_id)
+        order.is_ordered = True
+        
+        subtotal = order.get_cart_total()
+        
+        if coupon_id > 0:
+            coupon = Coupon.objects.get(id = coupon_id)
+            discount_1 = coupon.amount
+            discount_2 = (subtotal*coupon.percentage)/100
+            total = subtotal - discount_1 - discount_2
+        else:
+            total = subtotal
+            
+        order.total = total
+        order.save()
+        
+        order_items = order.items.all()
 
+        order_items.update(is_ordered=True, date_ordered=datetime.now())
+        
+       
+        print("terminado")
+
+        texto= "Tengo un pedido en espera, Pedido Nº: {}, link: https://localhost.com/cart/my-orders/{}/".format(order_id, order_id)
+        cadena = "https://api.whatsapp.com/send?phone=595993326313&text={}".format(texto)
+        
+        return redirect(reverse('order_list'))
+        
+    return redirect(reverse('my_orders')+"?chout=ok")
+
+@method_decorator(login_required, name='dispatch')
+class MyCartList(ListView):
+    model = Order
+    
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            profile = Profile.objects.get(user = self.request.user)
+            order, status = Order.objects.get_or_create(owner = profile, is_ordered = False)
+            qs1 = Order.objects.filter(owner = profile, is_ordered = False)[:1]
+            qs2 = OrderItem.objects.filter(order = qs1)
+
+            data1 = serialize('json', qs1)
+            data2 = serialize('json', qs2)
+
+            data = json.dumps({'order': data1, 'items': data2})
+
+            return HttpResponse(data, 'application/json')
+        else:
+            return redirect(reverse('my_cart'))
+
+#wish
 @login_required()
 def add_wishlist(request):
 
@@ -114,63 +195,29 @@ def add_wishlist(request):
         
 
     return redirect(reverse('wish_list'))
-    
+
 @login_required()
-def my_cart(request):
-    coupon = None
-    
-    if request.method == 'POST':
-        code  = request.POST.get('coupon')
-        if not code == '' or None:
-            try:
-                coupon = Coupon.objects.get(code = code, estado = True)
-            except Exception:
-                coupon = None
-            
+def delete_from_wish(request):
 
-    #user_profile = Profile.objects.get(user=request.user)
-    #user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-    #context={"profile":user_profile, "order":user_order, "coupon": coupon}
-    context={"coupon": coupon}
-    
-    return render(request,'cart/my_cart.html', context)
-    
-@login_required()
-def finish_order(request):
-    
-    if request.method == 'POST':
-        coupon_id = int(request.POST.get('coupon_id'))
-        order_id = request.POST.get('order_id')
-        
-        order = Order.objects.get(id = order_id)
-        order.is_ordered = True
-        
-        subtotal = order.get_cart_total()
-        
-        if coupon_id > 0:
-            coupon = Coupon.objects.get(id = coupon_id)
-            discount_1 = coupon.amount
-            discount_2 = (subtotal*coupon.percentage)/100
-            total = subtotal - discount_1 - discount_2
-        else:
-            total = subtotal
-            
-        order.total = total
-        
-        order_items = order.items.all()
+    if request.method == 'GET':
 
-        order_items.update(is_ordered=True, date_ordered=datetime.now())
+        orderitem_id = request.GET.get('orderitem_id', '')
+        path_redirect = request.GET.get('path_redirect', '')
+        if orderitem_id != '':
+            item_to_delete = Wish.objects.filter(id=orderitem_id)
+            if item_to_delete.exists():
+                item_to_delete[0].delete()
+                messages.info(request, "Item has been deleted")
         
+        if path_redirect != '':
+            return HttpResponseRedirect(path_redirect)
+        else: 
+            return redirect(reverse('my_wish'))
         
-        order.save()
-        print("terminado")
 
-        texto= "Tengo un pedido en espera, Pedido Nº: {}, link: https://localhost.com/cart/my-orders/{}/".format(order_id, order_id)
-        cadena = "https://api.whatsapp.com/send?phone=595993326313&text={}".format(texto)
-        return redirect(cadena)
-        
-    return redirect(reverse('my_orders')+"?chout=ok")
+    return redirect(reverse('my_wish'))
 
+#order
 @method_decorator(login_required, name='dispatch')
 class OrderListView(ListView):
     model = Order
@@ -205,7 +252,8 @@ class WishListView(ListView):
         profile = Profile.objects.get(user = self.request.user)
         qs = Wish.objects.filter(owner = profile).order_by('-date_created')
         return qs
-        
+
+@method_decorator(login_required, name='dispatch')        
 class OrderView(TemplateView):
     model = Order
     template_name = "cart/order_detail.html"
@@ -217,18 +265,15 @@ class OrderView(TemplateView):
         context['profile_order'] = Profile.objects.get(id = order.owner.id)
         return context
 
-
 @login_required()
 def order_detail(request, id):
 
     user_order = Order.objects.get(id = id)
     items = user_order.items.all()
-    
-    profile = Profile.objects.get(id = user_order.owner.id)
 
-    user_user = profile.user
-    my_orders = {}
-    context={"user_order":user_order, "items":items, "user_user":user_user, "my_orders":my_orders}
+    order_status = OrderStatus.objects.filter(order = user_order)
+
+    context={"user_order":user_order, "items":items, "order_status": order_status}
     print(context)
     
     return render(request,'cart/order_detail.html', context)
@@ -273,5 +318,17 @@ class OrderAdminList(ListView):
 
 
 
+#herramientas
+def delete_all_orderstatus(request):
+    list = OrderStatus.objects.all()
+    for item in list:
+        item.delete()
 
-    
+    return redirect(reverse('home'))
+
+def delete_all_order(request):
+    list = Order.objects.all()
+    for item in list:
+        item.delete()
+
+    return redirect(reverse('home'))
