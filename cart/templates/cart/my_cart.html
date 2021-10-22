@@ -37,13 +37,13 @@
 					  </tr>
 					</thead>
 					<tbody>
-						{% for item in order.get_cart_items %}
+						{% for item in order_temp.get_cart_items %}
 					  <tr>
 						<td class="pro-remove"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}"><i class="lastudioicon-e-remove"></i></a></td>
 						<td class="pro-thumbnail">
 						  <div class="pro-info">
 							<div class="pro-img">
-							  <a href="{% url 'product_detail' item.producto.id item.producto.slug  %}"><img src="{{item.producto.imagen.url}}" alt="Moren-Shop"></a>
+							  <a href="{% url 'product_detail' item.item.id item.item.slug  %}"><img src="{{item.item.image.url}}" alt="Moren-Shop"></a>
 							</div>
 						  </div>
 						</td>
@@ -69,7 +69,7 @@
 			  </div>
 			</form>
 			</div>
-			{% get_order_total order as total_order %}
+			{% get_order_total order_temp as total_order %}
 			<div class="col-lg-4">
 			  <div class="cart-payment">
 				<div class="cart-subtotal">

@@ -9,7 +9,7 @@
 {% load thumbnail %}
 {% get_profile request as profile %}
 {% if profile %}
-  {% get_order profile as order %}
+  {% get_order profile as order_temp %}
 {% endif %}
 <!DOCTYPE html>
 <html lang="en">
@@ -132,7 +132,7 @@
                 
                 <div class="header-action-cart">
                   <button class="btn-cart cart-icon">
-                    <span class="cart-count">{{order.get_count}}</span>
+                    <span class="cart-count">{{order_temp.get_count}}</span>
                     <i class="lastudioicon-shopping-cart-2"></i>
                   </button>
                 </div>
@@ -152,21 +152,21 @@
       <div class="home-slider-content">
         <div class="swiper-container home-slider2-container">
           <div class="swiper-wrapper">
-            {% for portada in portadas|slice:":3" %}
+            {% for cover in cover_pages|slice:":3" %}
             <div class="swiper-slide">              
               <!-- Start Slide Item -->
               
               <div class="home-slider-item">
                 <div class="thumb">
-                  <div class="bg-thumb bg-overlay bg-img" data-bg-img="{{portada.imagen_principal.url}}"></div>
+                  <div class="bg-thumb bg-overlay bg-img" data-bg-img="{{cover.image.url}}"></div>
                 </div>
                 <div class="slider-content-area">
                   <div class="content">
                     <div class="inner-content">
-                      <h2>{{portada.titulo}}</h2>
-                      <p>{{portada.subtitulo}}</p>
-                      <div class="price">{{portada.precio}}</div>
-                      <a href="{{portadas.enlace}}" class="btn-theme btn-black btn-border">{{portada.boton}}</a>
+                      <h2>{{cover.title}}</h2>
+                      <p>{{cover.subtitle}}</p>
+                      <div class="price">{{cover.price}}</div>
+                      <a href="{{cover.link}}" class="btn-theme btn-black btn-border">{{cover.button}}</a>
                     </div>
                   </div>
                 </div>
@@ -190,13 +190,13 @@
           <h2 class="title">Nuevos Modelos</h2>
         </div>
         <div class="row row-gutter-50" data-aos="fade-up" data-aos-duration="1000">
-          {% for producto in productos|slice:":3" %}
+          {% for item in items|slice:":3" %}
           <div class="col-sm-12 col-md-6 col-lg-4">
             <!-- Start Product Item -->
             <div class="product-item">
               <div class="product-thumb">
                 <a href="#">
-                  <img src="{{producto.imagen.url}}" alt="Moren-Shop">
+                  <img src="{{item.get_image.imagen.url}}" alt="Moren-Shop">
                   <span class="thumb-overlay"></span>
                 </a>
                 <div class="product-action">
@@ -209,9 +209,9 @@
                 </div>
                 <div class="product-action-info">
                   <div class="content-inner">
-                    <h4 class="title"><a href="{% url 'product_detail' producto.id producto.slug %}">{{producto.titulo}}</a></h4>
+                    <h4 class="title"><a href="{% url 'product_detail' item.id item.slug %}">{{item.title}}</a></h4>
                     <div class="prices">
-                      <span class="price">₲. {{producto.precio|intcomma}}</span>
+                      <span class="price">₲. {{item.price|intcomma}}</span>
                     </div>
                   </div>
                 </div>
@@ -253,13 +253,13 @@
           </div>
         </div>
         <div class="row row-gutter-60" data-aos="fade-up" data-aos-duration="1200">
-          {% for producto in productos|slice:":9" %}
+          {% for item in items|slice:":9" %}
           <div class="col-sm-6 col-md-4">
             <!-- Start Product Item -->
             <div class="product-item">
               <div class="product-thumb">
                 <a href="shop-single-product.html">
-                  <img src="{{producto.imagen.url}}" alt="Moren-Shop">
+                  <img src="{{item.get_image.imagen.url}}" alt="Moren-Shop">
                   <span class="thumb-overlay"></span>
                 </a>
                 <div class="product-action">
@@ -277,9 +277,9 @@
               </div>
               <div class="product-info">
                 <div class="content-inner">                  
-                  <h4 class="title"><a href="shop-single-product.html">{{producto.titulo}}</a></h4>
+                  <h4 class="title"><a href="shop-single-product.html">{{item.title}}</a></h4>
                   <div class="prices">
-                    <span class="price">₲. {{producto.precio|intcomma }}</span>
+                    <span class="price">₲. {{item.price|intcomma }}</span>
                   </div>
                 </div>
               </div>
@@ -302,16 +302,16 @@
       <div class="container-fluid xs-pr-15 xs-pl-15 p-0">
         
         <div class="row row-gutter-6 category-items-style2">
-          {% for categoria in categorias %}
+          {% for category in categories %}
           <div class="col-sm-6 col-lg-3">
             <div class="category-item">
               <div class="thumb">
-                <a href="shop.html">{% thumbnail categoria.imagen_principal "477x477" crop="center" as im %}
+                <a href="shop.html">{% thumbnail category.image "477x477" crop="center" as im %}
                   <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
                   {% endthumbnail %}</a>
               </div>
               <div class="content">
-                <h4 class="title">{{categoria.nombre}}</h4>
+                <h4 class="title">{{category.name}}</h4>
               </div>
             </div>
           </div>
@@ -529,25 +529,25 @@
             <div class="widget-item">
               <h4>Categorias</h4>
               <nav class="widget-menu-wrap menu-col-2">
-                {% for categoria in categorias|slice:":4" %}
+                {% for category in categories|slice:":4" %}
                   {% if forloop.first %}
                 <ul class="nav-menu nav">
                   <li><a href="#">All</a></li>            
-                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  <li><a href="shop.html">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.counter == 2 %}
-                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  <li><a href="shop.html">{{category.name}}</a></li>
                   </ul>
                   {% endif %}
                   {% if forloop.counter == 3 %}
                 <ul class="nav-menu nav">
-                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  <li><a href="shop.html">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.counter == 4 %}
-                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  <li><a href="shop.html">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.counter == 5 %}
-                  <li><a href="shop.html">{{categoria.nombre}}</a></li>
+                  <li><a href="shop.html">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.last %}
                 </ul>
@@ -698,26 +698,13 @@
         <div class="sidebar-cart">
           <h4 class="sidebar-cart-title">Carrito</h4>
           <div class="product-cart">
-            {% for item in order.get_cart_items %}
+            {% for item in order_temp.get_cart_items %}
             <div class="product-cart-item">
               <div class="product-img">
-                <a href="shop.html"><img src="{{item.producto.imagen.url}}" alt=""></a>
+                <a href="shop.html"><img src="{{item.item.image.url}}" alt=""></a>
               </div>
               <div class="product-info">
-                <h4 class="title"><a href="shop.html">{{item.producto.titulo}}</a></h4>
-                <span class="info">{{item.quantity}} - ₲. {{item.get_item_total|intcomma}}</span>
-              </div>
-              <div class="product-delete"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}">X</a></div>
-            </div>
-            {% endfor %}
-
-            {% for item in items %}
-            <div class="product-cart-item">
-              <div class="product-img">
-                <a href="shop.html"><img src="{{item.producto.imagen.url}}" alt=""></a>
-              </div>
-              <div class="product-info">
-                <h4 class="title"><a href="shop.html">{{item.producto.titulo}}</a></h4>
+                <h4 class="title"><a href="shop.html">{{item.item.title}}</a></h4>
                 <span class="info">{{item.quantity}} - ₲. {{item.get_item_total|intcomma}}</span>
               </div>
               <div class="product-delete"><a href="/cart/delete-from-cart/?orderitem_id={{item.id}}&path_redirect={{request.path}}">X</a></div>

@@ -1,0 +1,59 @@
+@method_decorator(staff_member_required, name='dispatch')
+class ProductoAdminListView(ListView):
+	model = Producto
+	paginate_by = 10
+	template_name = "productos/admin/product_list.html"
+		
+	def get_queryset(self, *args, **kwargs):
+		qs = Producto.objects.all()
+
+		if self.request.GET.get('orden')=="mayor-menor":
+			qs = Producto.objects.all().order_by('-precio')
+
+		if self.request.GET.get('orden')=="menor-mayor":
+			qs = Producto.objects.all().order_by('precio')
+			
+		if self.request.GET.get('orden')=="nuevo-viejo":
+			qs = Producto.objects.all().order_by('fecha_creacion')
+			
+		if self.request.GET.get('orden')=="viejo-nuevo":
+			qs = Producto.objects.all().order_by('-fecha_creacion') 
+
+		if self.request.GET.get('buscar'):
+			return qs.filter(Q( titulo__icontains = self.request.GET.get('buscar') )
+							 |Q( precio__icontains = self.request.GET.get('buscar') )
+							 |Q( descripcion__icontains = self.request.GET.get('buscar') ), estado = True).distinct()
+			
+		return qs
+	
+@method_decorator(staff_member_required, name='dispatch')
+class ProductoAdminCreateView(CreateView):
+	form_class = ProductoForm
+	template_name = "productos/admin/product_form.html"
+	success_url = reverse_lazy('admin_product_list')
+
+@method_decorator(staff_member_required, name='dispatch')
+class ProductoAdminUpdateView(UpdateView):
+	model = Producto
+	form_class = ProductoForm
+	template_name = "productos/admin/product_form.html"
+	template_name_suffix = '_update_form'
+	success_url = reverse_lazy('admin_product_list')
+
+@method_decorator(staff_member_required, name='dispatch')
+class ProductoAdminDelete(DeleteView):
+	model = Producto
+	template_name = "productos/admin/producto_confirm_delete.html"
+	success_url = reverse_lazy('admin_product_list')
+    
+        
+    
+        
+    
+            
+            
+        
+        
+
+
+    

@@ -7,6 +7,14 @@ class OrderResource(resources.ModelResource):
     class Meta:
         model = Order
 
+class CouponResource(resources.ModelResource):
+    class Meta:
+        model = Coupon
+
+class OrderStatusResource(resources.ModelResource):
+    class Meta:
+        model = OrderStatus
+
 class OrderItemResource(resources.ModelResource):
     class Meta:
         model = OrderItem
@@ -19,10 +27,17 @@ class OrderAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class OrderItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resourse_class = OrderItemResource
 
+class OrderStatusAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ('id', 'name', 'date_created',)
+    list_display = ( 'id', 'get_order', 'name', 'date_created',)
+
+class CouponAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ('id', 'code', 'amount', 'percentage', 'status')
+    list_display = ( 'id', 'code', 'amount', 'percentage', 'status')
 
 
-admin.site.register(Coupon)
-admin.site.register(Wish)
-admin.site.register(OrderStatus)
+
+admin.site.register(Coupon, CouponAdmin)
+admin.site.register(OrderStatus, OrderStatusAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)

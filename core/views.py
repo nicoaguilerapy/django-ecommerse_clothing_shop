@@ -36,12 +36,9 @@ class Index(TemplateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(Index, self).get_context_data(**kwargs)
-		portadas = Portada.objects.filter(estado = True)
-		productos = Producto.objects.filter(estado = True)
-		categorias = Categoria.objects.all()
+		cover_pages = CoverPage.objects.filter(visibility = True)
 		posts = Post.objects.filter(status = True)
-		context['portadas'] = portadas
-		context['productos'] = productos
+		context['cover_pages'] = cover_pages
 		context['posts'] = posts
 		return context
 

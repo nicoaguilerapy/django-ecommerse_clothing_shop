@@ -1,95 +1,56 @@
 from django import forms
-from .models import Producto, Portada, Categoria
+from .models import Item, CoverPage, Category
 
 class CategoriaForm(forms.ModelForm):
     class Meta:
-        model = Categoria
-        fields = ['nombre','imagen_principal','orden']
+        model = Category
+        fields = ['name','image','priority']
 
         widgets = {
-            'nombre': forms.TextInput(
+            'name': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el Nombre',
-                    'id': 'nombre'
+                    'id': 'name'
                 }
             ),
         }
         
-class PortadaForm(forms.ModelForm):
+class CoverPageForm(forms.ModelForm):
     class Meta:
-        model = Portada
-        fields = ['titulo','subtitulo','boton', 'orden', 'enlace', 'estado', 'imagen_principal']
+        model = CoverPage
+        fields = ['title','subtitle','button', 'priority', 'link', 'visibility', 'image']
         labels = {
-            'precio_oferta': 'Precio Oferta',
-            'categoria': 'Categorias',
         }
         widgets = {
-            'titulo': forms.TextInput(
+            'title': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el Titulo',
-                    'id': 'titulo'
+                    'id': 'title'
                 }
             ),
-            'subtitulo': forms.TextInput(
+            'subtittle': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el subtitulo',
-                    'id': 'subtitulo'
+                    'id': 'subtittle'
                 }
             ),
-            'enlace': forms.TextInput(
+            'link': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el enlace',
-                    'id': 'enlace'
+                    'id': 'link'
                 }
             ),
-            'boton': forms.TextInput(
+            'button': forms.TextInput(
                 attrs = {
                     'class':'form-control',
                     'placeholder':'Ingrese el campo del Botón',
-                    'id': 'boton'
+                    'id': 'button'
                 }
             ),
 
         }
-        
-class ProductoForm(forms.ModelForm):
-    class Meta:
-        model = Producto
-        fields = ['titulo','descripcion','precio','precio_oferta', 'oferta', 'categorias', 'orden', 'estado']
-        labels = {
-            'titulo': 'Titulo del Producto',
-            'descripcion': 'Descripcion del Producto',
-            'precio': 'Precio',
-            'precio_oferta': 'Precio Oferta',
-            'categorias': 'Categorias',
-            'estado': 'Activo/Inactivo',
-        }
-        widgets = {
-            'titulo': forms.TextInput(
-                attrs = {
-                    'class':'form-control',
-                    'placeholder':'Ingrese el titulo',
-                    'id': 'titulo'
-                }
-            ),
-            'descripcion': forms.Textarea(
-                attrs = {
-                    'class':'form-control',
-                    'rows':3,
-                    'placeholder':'Ingrese la descripcion',
-                    'id':'descripcion'
-                }
-            ),
-            'categorias': forms.SelectMultiple(
-                attrs = {
-                    'class':'form-control'
-                }
-            ),
-            'iamgen1': forms.ClearableFileInput(attrs = {'class':'form-control mt-3', }),
-            'iamgen2': forms.ClearableFileInput(attrs = {'class':'form-control mt-3', }),
-            'iamgen3': forms.ClearableFileInput(attrs = {'class':'form-control mt-3', }),
-        }
+

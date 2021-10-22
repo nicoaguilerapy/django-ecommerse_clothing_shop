@@ -86,28 +86,14 @@
   </thead>
   <tbody>
     {% for order in order_list %}
+         
         {% get_link_wha_order number_first order.id dato_url as link_wha %}
-    {% if order.status == 'CA' %}
-      <tr class="table-danger">
-		{% elif order.status == 'PR' %}
-      <tr class="table-primary">
-    {% elif order.status == 'FI' %}
-      <tr class="table-success">
-    {% else %}
       <tr class="table-active">
-    {% endif %}
       <th scope="row"><center>{{order.id}}</center></th>
       <td><center>{{order.date_ordered|date:'SHORT_DATE_FORMAT'}}</center></td>
       <td><center>₲. {{order.total|intcomma}}</center></td>
-    {% if order.status == 'CA' %}
-    <td><center>Cancelado</center></td>
-		{% elif order.status == 'PR' %}
-    <td><center>En Proceso</center></td>
-    {% elif order.status == 'FI' %}
-    <td><center>Finalizado</center></td>
-    {% else %}
-    <td><center>Pendiente</center></td>
-    {% endif %}
+      <td><center>{{order.get_status}}</center></td>
+	
       
       <td><span><a href="{% url 'order_detail' order.pk %}">Detalles <i class="fa fa-file-text" aria-hidden="true"></i></a></span></td>
       <td><span><a href="{{link_wha}}cart/my-orders/{{order.id}}/">Compartir <i class="fa fa-whatsapp" aria-hidden="true"></i></a></span></td>

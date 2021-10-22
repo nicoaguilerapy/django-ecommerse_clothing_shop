@@ -1,5 +1,5 @@
 from django import template
-from productos.models import Producto, Categoria, Portada
+from productos.models import Item, Category, CoverPage
 from random import sample
 import random
 from django.db.models import Q
@@ -10,12 +10,12 @@ register = template.Library()
 
 @register.simple_tag
 def get_modelos(id):
-    modelos = Producto.objects.get(id = id)
+    modelos = Item.objects.get(id = id)
     return modelos.modelos.split(',')
 
 @register.simple_tag
 def get_talles(id):
-    talles = Producto.objects.get(id = id)
+    talles = Item.objects.get(id = id)
     return talles.talles.split(',')
 
 @register.simple_tag
@@ -24,21 +24,21 @@ def multipli(a, b):
     return c
 
 @register.simple_tag
-def get_portadas():
-    portadas = Portada.objects.filter(estado = True)
+def get_cover_pages():
+    portadas = CoverPage.objects.filter(visibility = True)
     return portadas
 
 @register.simple_tag
-def get_productos(limit):
-    productos = Producto.objects.filter(estado = True)[:limit]
-    return productos
+def get_items(limit):
+    items = Item.objects.filter(visibility = True)[:limit]
+    return items
 
 @register.simple_tag
 def get_url_aleatoria(obj):
-    productos_list = Producto.objects.filter(estado = True, categorias=obj.id)
-    cantidad = productos_list.count()
+    items_list = Item.objects.filter(visibility = True, categories=obj.id)
+    cantidad = items_list.count()
     print(cantidad)
-    producto_random = random.sample(list(productos_list), 1)
+    producto_random = random.sample(list(items_list), 1)
     print(producto_random)
     return producto_random
 
@@ -48,16 +48,16 @@ def get_slug_categoria(id):
     return  slugify(categoria.nombre)
 
 @register.simple_tag
-def get_productos_categoria(obj):
-    cantidad_obj = obj.categorias.all()
-    productos_all = Producto.objects.filter(~Q(id = obj.id))
-    productos_list = productos_all.filter(estado = True, categorias__in=cantidad_obj)
-    cantidad = productos_list.count()
+def get_items_categoria(obj):
+    cantidad_obj = obj.categories.all()
+    items_all = Item.objects.filter(~Q(id = obj.id))
+    items_list = items_all.filter(visibility = True, categories__in=cantidad_obj)
+    cantidad = items_list.count()
     numeros = 4
     if cantidad < 4:
-        productos_list = productos_all.filter(estado = True)
+        items_list = items_all.filter(visibility = True)
         
-    productos_aleatorios = random.sample(list(productos_list), numeros)
-    return productos_aleatorios
+    items_aleatorios = random.sample(list(items_list), numeros)
+    return items_aleatorios
 
 

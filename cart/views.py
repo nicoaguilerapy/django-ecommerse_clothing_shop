@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from accounts.models import Profile
 from cart.forms import OrderForm
-from productos.models import Producto
+from productos.models import Item
 from .models import Order, OrderItem, Coupon, OrderStatus, Wish
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -30,7 +30,7 @@ def my_cart(request):
         code  = request.POST.get('coupon')
         if not code == '' or None:
             try:
-                coupon = Coupon.objects.get(code = code, estado = True)
+                coupon = Coupon.objects.get(code = code, status = True)
             except Exception:
                 coupon = None
             
@@ -58,11 +58,11 @@ def add_to_cart(request, *args, **kwargs):
         if producto_id == '' or producto_id == None:
             return redirect(reverse('my_cart'))
         else:
-            producto = Producto.objects.get(id=producto_id)
+            producto = Item.objects.get(id=producto_id)
 
         print('GET: {} {} {} {}'.format(producto_id, cantidad, talle, modelo))
 
-        if producto.estado and cantidad != '' and talle != '' and modelo != '':
+        if producto.visibility and cantidad != '' and talle != '' and modelo != '':
     
             user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
             code = user_order.id
@@ -70,7 +70,7 @@ def add_to_cart(request, *args, **kwargs):
                 user_order.ref_code += code
                 user_order.save()
     
-            order_item, status = OrderItem.objects.get_or_create(producto = producto, size = talle, model = modelo, owner = user_profile, is_ordered=False)
+            order_item, status = OrderItem.objects.get_or_create(item = producto, size = talle, model = modelo, owner = user_profile, is_ordered=False)
             if status:
                 order_item.quantity = cantidad
             else:
@@ -146,7 +146,7 @@ def finish_order(request):
         
         return redirect(reverse('order_list'))
         
-    return redirect(reverse('my_orders')+"?chout=ok")
+    return redirect(reverse('order_list')+"?chout=ok")
 
 @method_decorator(login_required, name='dispatch')
 class MyCartList(ListView):
@@ -181,7 +181,7 @@ def add_wishlist(request):
         if producto_id == '' or producto_id == None:
             return redirect(reverse('wish_list'))
         else:
-            producto = Producto.objects.get(id=producto_id)
+            producto = Item.objects.get(id=producto_id)
 
         wish, status = Wish.objects.get_or_create(owner = user_profile, producto = producto)
         
@@ -217,6 +217,17 @@ def delete_from_wish(request):
 
     return redirect(reverse('my_wish'))
 
+@method_decorator(login_required, name='dispatch')
+class WishListView(ListView):
+    model = Wish
+    paginate_by = 10
+    template_name = "cart/wish_list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        profile = Profile.objects.get(user = self.request.user)
+        qs = Wish.objects.filter(owner = profile).order_by('-date_created')
+        return qs
+
 #order
 @method_decorator(login_required, name='dispatch')
 class OrderListView(ListView):
@@ -226,9 +237,9 @@ class OrderListView(ListView):
     def get_queryset(self, *args, **kwargs):
         profile = Profile.objects.get(user = self.request.user)
         qs = Order.objects.filter(is_ordered = True, owner = profile).order_by('-date_ordered')
-        
         if self.request.GET.get('status'):
-            qs = qs.filter(status = self.request.GET.get('status')).order_by('-date_ordered')
+            
+            qs = qs.filter(status__name = self.request.GET.get('status')).order_by('-date_ordered')
         
         if self.request.GET.get('date'):
             today = date.today()
@@ -242,17 +253,6 @@ class OrderListView(ListView):
                                    date_ordered__month = today.month).order_by('-date_ordered')
         return qs
 
-@method_decorator(login_required, name='dispatch')
-class WishListView(ListView):
-    model = Wish
-    paginate_by = 10
-    template_name = "cart/wish_list.html"
-
-    def get_queryset(self, *args, **kwargs):
-        profile = Profile.objects.get(user = self.request.user)
-        qs = Wish.objects.filter(owner = profile).order_by('-date_created')
-        return qs
-
 @method_decorator(login_required, name='dispatch')        
 class OrderView(TemplateView):
     model = Order
@@ -262,21 +262,9 @@ class OrderView(TemplateView):
         context = super(OrderView, self).get_context_data(**kwargs)
         order = Order.objects.get(id = self.kwargs['pk'])
         context['items'] = order.items.all()
-        context['profile_order'] = Profile.objects.get(id = order.owner.id)
+        context['order'] = order
+        print(context)
         return context
-
-@login_required()
-def order_detail(request, id):
-
-    user_order = Order.objects.get(id = id)
-    items = user_order.items.all()
-
-    order_status = OrderStatus.objects.filter(order = user_order)
-
-    context={"user_order":user_order, "items":items, "order_status": order_status}
-    print(context)
-    
-    return render(request,'cart/order_detail.html', context)
 
 @method_decorator(staff_member_required, name='dispatch')
 class OrderAdminUpdate(UpdateView):

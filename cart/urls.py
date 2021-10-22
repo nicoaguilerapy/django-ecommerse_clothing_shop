@@ -12,7 +12,7 @@ urlpatterns = [
     path('wishlist/', WishListView.as_view(), name='my_wish'),
     path('add-to-wishlist/', add_wishlist, name='add_to_wishlist'),
     path('delete-from-wish/', delete_from_wish, name='delete_from_wish'),
-    path('my-orders/<int:id>/', order_detail, name = 'order_detail'),
+    path('my-orders/<int:pk>/', OrderView.as_view(), name = 'order_detail'),
     path('admin/order/', OrderAdminList.as_view(), name = 'admin_order_list'),
     path('admin/order/update/<int:pk>/', OrderAdminUpdate.as_view(), name = 'admin_order_edit'),
 

@@ -7,20 +7,18 @@ register = template.Library()
 @register.simple_tag
 def get_order(user_profile):
     user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-    print(user_order)
     return user_order
 
 @register.simple_tag
-def get_status_exist(user_order, status):
-    print("get_status_exist {}".format(status))
-    order_status = OrderStatus.objects.filter(order = user_order, status = status)
-    print(order_status)
-    if order_status.exists():
-        print("True")
-        return True
-    else:
-        print("False")
-        return False
+def get_status_exist(user_order, status_aux):
+    print("get_status_exist: {}".format(status_aux))
+    for stat in user_order.status.all():
+        if stat.name == status_aux:
+            print("True")
+            return True
+
+    print("False")
+    return False
 
 @register.simple_tag
 def get_order_count(order):

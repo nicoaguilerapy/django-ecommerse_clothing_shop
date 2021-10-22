@@ -1,6 +1,6 @@
-from .models import Categoria
+from .models import Category
 
 def ctx_dict(request):
     ctx = {}
-    ctx['categorias'] = Categoria.objects.all()
+    ctx['categories'] = Category.objects.all()
     return ctx

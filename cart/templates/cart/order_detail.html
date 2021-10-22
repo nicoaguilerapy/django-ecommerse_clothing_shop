@@ -21,20 +21,20 @@
           <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
         </a>
     
-        <a href="{% url 'order_list' %}"" class="s-text16">
+        <a href="{% url 'order_list' %}" class="s-text16">
           Mis Pedidos
           <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
         </a>
         <span class="s-text17">
-          Pedido Nº: {{user_order.id}}
+          Pedido Nº: {{order.id}}
         </span>
       </div>
       <br>
 
     <div class="containter d-flex justify-content-between">
       <div class="row">
-        <h4>Pedido Nº: {{user_order.id}}</h4>
-        <h4>Fecha: {{user_order.date_ordered|date:'SHORT_DATE_FORMAT'}}</h4>
+        <h4>Pedido Nº: {{order.id}}</h4>
+        <h4>Fecha: {{order.date_ordered|date:'SHORT_DATE_FORMAT'}}</h4>
       </div>
       <br>
       <div class="row"> 
@@ -56,12 +56,12 @@
   <div class="container">
     <article class="card">
         <div class="card-body">
-            <h6>Pedido ID: {{user_order.id}}</h6>
+            <h6>Pedido ID: {{order.id}}</h6>
             <article class="card">
                 <div class="card-body row">
                     <div class="col"> <strong>Día Estimado de Delivery:</strong> <br>{{order.date_delivery}} </div>
                     <div class="col"> <strong>Enviado por:</strong> <br> {{order.delivery_by}} </div>
-                    <div class="col"> <strong>Estado:</strong> <br>  </div>
+                    <div class="col"> <strong>Estado:</strong> <br>  {{order.get_status_current}} </div>
                     <div class="col"> <strong>Tracking #:</strong> <br>  {{order.tracking}}  </div>
                 </div>
             </article>
@@ -70,21 +70,19 @@
               {% get_status_exist order 'PL' as problemaslogisticos  %}
                 
                 {% if problemaslogisticos %}
-                <div class="step problem"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
-                <div class="step problem"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Empaquetado</span> </div>
-                <div class="step problem"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> En Camino</span> </div>
-                <div class="step problem"> <span class="icon"> <i class="fas fa-exclamation-triangle"></i> </span> <span class="text">Problemas Logisticos</span> </div>
-            
+                <div class="step {% if recibido %}active{% endif %}"> <span class="icon"> <i class="fa fa-clock"></i> </span> <span class="text">Pendiente</span> </div>
                 {% else %}
                   
+                {% get_status_exist order 'PE' as recibido  %}
+                <div class="step {% if recibido %}active{% endif %}"> <span class="icon"> <i class="fa fa-clock"></i> </span> <span class="text">Pendiente</span> </div>
                 {% get_status_exist order 'RE' as recibido  %}
-                <div class="step {% if recibido %}active{% endif %}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
+                <div class="step {% if recibido %}active{% endif %}"> <span class="icon"> <i class="fa fa-box-open"></i> </span> <span class="text">Recibido</span> </div>
                 {% get_status_exist order 'EM' as empaquetado  %}
-                <div class="step {% if empaquetado %}active{% endif %}"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Empaquetado</span> </div>
+                <div class="step {% if empaquetado %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> Empaquetado</span> </div>
                 {% get_status_exist order 'EC' as encamino  %}
                 <div class="step {% if encamino %}active{% endif %}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> En Camino</span> </div>
                 {% get_status_exist order 'LR' as listoretiro  %}
-                <div class="step {% if listoretiro %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Listo para Retiro</span> </div>
+                <div class="step {% if listoretiro %}active{% endif %}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Listo para Retiro</span> </div>
                 {% endif %}
               </div>
             <hr>
@@ -129,7 +127,7 @@
       <td></td>
       <td></td>
       <th scope="row">Total</th>
-      <th scope="row">₲. {{user_order.total|intcomma}}</th>
+      <th scope="row">₲. {{order.total|intcomma}}</th>
     </tr>
   </tbody>
 </table>

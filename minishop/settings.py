@@ -10,16 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from logging import DEBUG
 import os
 import django_heroku
 import dj_database_url
 from decouple import config
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -102,7 +107,13 @@ WSGI_APPLICATION = 'minishop.wsgi.application'
 
 ALLOWED_HOSTS = ["*"]
 
-if DEBUG:
+IS_DEPLOY = env("DEPLOY")
+
+
+
+if  IS_DEPLOY == 'N':
+
+    DEBUG = True
 
     DATABASES = {
     'default': {
@@ -112,6 +123,9 @@ if DEBUG:
     }
     
 else:
+
+    DEBUG = False
+
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
