@@ -69,9 +69,9 @@ class Item(models.Model):
 
     def get_price(self):
         if self.offer:
-            return self.price
-        else:
             return self.price_offer
+        else:
+            return self.price
 
     def __str__(self):
         return self.title

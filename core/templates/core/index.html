@@ -711,8 +711,8 @@
             </div>
             {% endfor %}
           </div>
-          <div class="cart-total">
-            <h4>Total: <span class="money">₲. {{order.get_cart_total|intcomma}}</span></h4>
+          <div class="cart-total">{% get_order_total order_temp as total_order %}
+            <h4>Total: <span class="money">₲. {{total_order|intcomma}}</span></h4>
           </div>
          
           <div class="cart-checkout-btn">
