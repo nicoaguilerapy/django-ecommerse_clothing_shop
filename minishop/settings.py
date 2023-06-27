@@ -128,12 +128,12 @@ else:
 
     DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'des4iu1bhnhgbp',
-        'HOST': 'ec2-54-208-96-16.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER':'hyxbtwqdaonksr',
-        'PASSWORD':'9f5589049e476a79ea7b044ceac6b4f5215152b5fa4a21387032fcc9af608389',
+        'ENGINE': '',
+        'NAME': '',
+        'HOST': '',
+        'PORT': 0,
+        'USER':'',
+        'PASSWORD':'',
     }
 }
 
@@ -224,11 +224,11 @@ django_heroku.settings(locals())
 
 #MY EMAIL SETTING
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.cremark.com.py'  
+EMAIL_HOST = ''  
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587  #This will be different based on your Host, for Namecheap I use this`
-EMAIL_HOST_USER = 'testeo@cremark.com.py' # Ex: info@pure.com
-EMAIL_HOST_PASSWORD = 'bC+^G23eP]HB' # for the email you created through cPanel. The password for that
+EMAIL_HOST_USER = '' # Ex: info@pure.com
+EMAIL_HOST_PASSWORD = '' # for the email you created through cPanel. The password for that
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
