@@ -304,8 +304,6 @@ class OrderAdminList(ListView):
                                    date_ordered__month = today.month).order_by('-date_ordered')
         return qs
 
-
-
 #herramientas
 def delete_all_orderstatus(request):
     list = OrderStatus.objects.all()

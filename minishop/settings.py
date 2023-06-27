@@ -30,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'vqqpx^(5ib$_*tn!_*nyq+740912dnl!uq0%2rm(68f&zhcxr3'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -107,35 +107,18 @@ WSGI_APPLICATION = 'minishop.wsgi.application'
 
 ALLOWED_HOSTS = ["*"]
 
-IS_DEPLOY = env("DEPLOY")
+IS_DEPLOY = True if config("DEPLOY") == 'Y' else False
 
 
+DEBUG = True if config("DEBUG") == 'Y' else False
 
-if  IS_DEPLOY == 'N':
-
-    DEBUG = True
-
-    DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }   
     }
     
-else:
-
-    DEBUG = False
-
-    DATABASES = {
-    'default': {
-        'ENGINE': '',
-        'NAME': '',
-        'HOST': '',
-        'PORT': 0,
-        'USER':'',
-        'PASSWORD':'',
-    }
-}
 
 
 
@@ -234,7 +217,13 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-
+#MY EMAIL SETTING
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
 

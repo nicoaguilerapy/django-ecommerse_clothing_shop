@@ -41,8 +41,11 @@ def get_sum_total(a, b, c):
 
 @register.simple_tag
 def get_order_total(order):
-    value = int(order.get_cart_total())
-    print("order total {}".format(value))
+    try:
+        value = int(order.get_cart_total())
+        print("order total {}".format(value))
+    except:
+        value = 0
     return value
 
 @register.simple_tag
