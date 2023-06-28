@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn minishop.wsgi --log-file -
+web: gunicorn minishop.wsgi --log-file -

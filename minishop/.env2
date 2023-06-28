@@ -1,0 +1,7 @@
+EMAIL_HOST_USER = labeasypy@gmail.com
+EMAIL_HOST_PASSWORD = mritxvzuvvmevdve
+PGDATABASE=ecommerce
+PGHOST=localhost
+PGUSER=postgres
+PGPORT=5433
+PGPASSWORD=123123
