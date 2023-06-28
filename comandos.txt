@@ -1,0 +1,4 @@
+C:\Entornos\ecommerse_env\Scripts\activate
+
+
+C:\GitHub\django-ecommerse_pagopar

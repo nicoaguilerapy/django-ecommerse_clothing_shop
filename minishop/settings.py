@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 from logging import DEBUG
 import os
-import django_heroku
 import dj_database_url
 from decouple import config
 import environ
@@ -45,12 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
-    
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'corsheaders',
-    
+
     'accounts',
     'ckeditor',
     'sorl.thumbnail',
@@ -107,19 +106,25 @@ WSGI_APPLICATION = 'minishop.wsgi.application'
 
 ALLOWED_HOSTS = ["*"]
 
-IS_DEPLOY = True if config("DEPLOY") == 'Y' else False
+DEPLOY = True if config("DEPLOY") == 'Y' else False
 
 
 DEBUG = True if config("DEBUG") == 'Y' else False
 
+
+
+#database postgres
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }   
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('PGDATABASE'),
+        'USER': config('PGUSER'),
+        'PASSWORD': config('PGPASSWORD'),
+        'HOST': config('PGHOST'),
+        'PORT': config('PGPORT'),
     }
-    
-
+}
 
 
 
@@ -202,29 +207,24 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
 
 SITE_ID = 1
 
-django_heroku.settings(locals())
 
-
-#MY EMAIL SETTING
-EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = ''  
+# MY EMAIL SETTING
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = ''
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587  #This will be different based on your Host, for Namecheap I use this`
-EMAIL_HOST_USER = '' # Ex: info@pure.com
-EMAIL_HOST_PASSWORD = '' # for the email you created through cPanel. The password for that
+EMAIL_PORT = 587  # This will be different based on your Host, for Namecheap I use this`
+EMAIL_HOST_USER = ''  # Ex: info@pure.com
+# for the email you created through cPanel. The password for that
+EMAIL_HOST_PASSWORD = ''
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-#MY EMAIL SETTING
+# MY EMAIL SETTING
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-
-
-
-
