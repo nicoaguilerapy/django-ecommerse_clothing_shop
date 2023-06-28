@@ -114,8 +114,15 @@ DEBUG = True if config("DEBUG") == 'Y' else False
 
 
 #database postgres
-
-DATABASES = {
+if not DEPLOY:
+    DATABASES = {
+         'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }   
+    }
+else: 
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': config('PGDATABASE'),

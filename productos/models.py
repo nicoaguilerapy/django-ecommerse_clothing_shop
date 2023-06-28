@@ -37,7 +37,7 @@ class Category(models.Model):
         ordering = ["priority"]
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.nombre)
+        self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
     
     def __str__(self):
