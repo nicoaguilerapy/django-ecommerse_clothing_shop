@@ -34,10 +34,6 @@ def my_cart(request):
             except Exception:
                 coupon = None
             
-
-    #user_profile = Profile.objects.get(user=request.user)
-    #user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-    #context={"profile":user_profile, "order":user_order, "coupon": coupon}
     context={"coupon": coupon}
     
     return render(request,'cart/my_cart.html', context)
@@ -118,7 +114,10 @@ def finish_order(request):
         coupon_id = int(request.POST.get('coupon_id'))
         order_id = request.POST.get('order_id')
         
-        order = Order.objects.get(id = order_id)
+        try:
+            order = Order.objects.get(id = order_id)
+        except:
+            return redirect(reverse('my_cart'))
         order.is_ordered = True
         
         subtotal = order.get_cart_total()
@@ -141,7 +140,7 @@ def finish_order(request):
        
         print("terminado")
 
-        texto= "Tengo un pedido en espera, Pedido Nº: {}, link: https://localhost.com/cart/my-orders/{}/".format(order_id, order_id)
+        texto= "Tengo un pedido en espera, Pedido Nº: {}"
         cadena = "https://api.whatsapp.com/send?phone=595993326313&text={}".format(texto)
         
         return redirect(reverse('order_list'))
@@ -153,7 +152,7 @@ class MyCartList(ListView):
     model = Order
     
     def get(self, request, *args, **kwargs):
-        if request.is_ajax():
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             profile = Profile.objects.get(user = self.request.user)
             order, status = Order.objects.get_or_create(owner = profile, is_ordered = False)
             qs1 = Order.objects.filter(owner = profile, is_ordered = False)[:1]

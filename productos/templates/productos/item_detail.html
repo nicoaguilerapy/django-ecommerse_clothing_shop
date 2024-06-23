@@ -1,10 +1,10 @@
 {% extends 'core/index.html' %}
 {% load static %}
-{% load productos_extras %}
+{% load items_extras %}
 {% load social_extras %}
 {% load humanize %}
 {% load thumbnail %}
-{% block titulo %} {{producto.titulo}} | Tienda{% endblock titulo %}
+{% block titulo %} {{item.titulo}} | Tienda{% endblock titulo %}
 {% block barra_busqueda %}
 {% endblock barra_busqueda %}
 {% block body %}
@@ -12,11 +12,11 @@
 <script>
 	$(document).ready(function()
 	{
-		var productosvar = $("#modelo");
+		var itemsvar = $("#modelo");
 		$tallesvar=$("#talles")
 
 		$options = $tallesvar.find('option')
-		$productosvar.on('change', function(){
+		$itemsvar.on('change', function(){
 			$tallesvar.html($options.filter('[value="'+this.value+'"]'))
 
 		}).trigger('change');
@@ -31,10 +31,10 @@
 				<div class="wrap-slick3 flex-sb flex-w">
 					<div class="wrap-slick3-dots"></div>
 					<div class="slick3">
-						{% if producto.imagen %}
-						<div class="item-slick3" data-thumb="{{producto.imagen.url}}">
+						{% if item.imagen %}
+						<div class="item-slick3" data-thumb="{{item.imagen.url}}">
 							<div class="wrap-pic-w">
-								<img src="{{producto.imagen.url}}" alt="IMG-PRODUCT">
+								<img src="{{item.imagen.url}}" alt="IMG-PRODUCT">
 							</div>
 						</div>
 						{% endif %}
@@ -54,17 +54,17 @@
 			
 			<div class="w-size14 p-t-30 respon5">
 				<h4 class="product-detail-name m-text16 p-b-13">
-					{{producto.titulo}} {% if request.user.is_staff %}
-                    	<p><a href="{% url 'admin:productos_producto_change' object.id %}">Editar</a></p>
+					{{item.titulo}} {% if request.user.is_staff %}
+                    	<p><a href="{% url 'admin:items_item_change' object.id %}">Editar</a></p>
                     {% endif %}
 				</h4>
 
-				{% if producto.oferta %}
+				{% if item.oferta %}
 					<span class="m-text17">
-					₲. 	{{producto.precio_oferta}}
+					₲. 	{{item.precio_oferta}}
 					</span>
 				{% else %}
-					₲. 	{{producto.precio}}
+					₲. 	{{item.precio}}
 				{% endif %}
 				<!--  -->
 				<div class="p-t-33 p-b-60">
@@ -72,7 +72,7 @@
 						<div class="w-size16 flex-m flex-w">
 							
 						<form method="GET" action="/cart/add-to-cart/">
-							<span class="s-text8">ID: <input type="text" readonly class="form-control-plaintext" id="item_id" name="item_id" value="{{producto.id}}"></span>
+							<span class="s-text8">ID: <input type="text" readonly class="form-control-plaintext" id="item_id" name="item_id" value="{{item.id}}"></span>
 							<br>
 							{% if detalles %}
 							<span class="s-text8">Modelo:</span>
@@ -129,7 +129,7 @@
 
 				<div class="p-b-45">
 					<br>
-					<span class="s-text8">Categorias: {% for cate in producto.categorias.all %}
+					<span class="s-text8">Categorias: {% for cate in item.categorias.all %}
                   <a href="{% url 'categoria' cate.id cate.nombre|slugify %}">{{cate.nombre}}</a>{% if not forloop.last %},{% endif %}
                 {% endfor %}</span>
 					
@@ -145,7 +145,7 @@
 
 					<div class="dropdown-content dis-none p-t-15 p-b-23">
 						<p class="s-text8">
-						{{producto.descripcion|safe}}	
+						{{item.descripcion|safe}}	
                         </p>
 					</div>
 				</div>
@@ -158,24 +158,24 @@
 		<div class="container">
 			<div class="sec-title p-b-60">
 				<h3 class="m-text5 t-center">
-					Productos Similares 
+					items Similares 
 				</h3>
 			</div>
 
 			<!-- Slide2 -->
 			<div class="wrap-slick2">
 				<div class="slick2">
-				{% get_productos_categoria producto as productos_list %}
-					{% for producto in productos_list %}
+				{% get_items_categoria item as items_list %}
+					{% for item in items_list %}
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-						<form action="{% url 'detalle_producto' producto.id producto.slug %}">	
+						<form action="{% url 'detalle_item' item.id item.slug %}">	
 							<div class="block2">				
 								<div class="block2-img wrap-pic-w of-hidden pos-relative">
-									{% thumbnail producto.imagen "270x360" crop="center" as im %}
+									{% thumbnail item.imagen "270x360" crop="center" as im %}
 									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
 									{% endthumbnail %}
 									<div class="block2-overlay trans-0-4">
-										<input type="hidden" id="" name="item_id" id="item_id" value="{{producto.id}}">
+										<input type="hidden" id="" name="item_id" id="item_id" value="{{item.id}}">
 										<input type="hidden" id="" name="cantidad" id="cantidad" value="1">
 										<div class="block2-btn-addcart w-size1 trans-0-4">
 											<!-- Button -->
@@ -188,19 +188,19 @@
 							
 
 								<div class="block2-txt p-t-20">
-									<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="block2-name dis-block s-text3 p-b-5">
-										{{producto.titulo}}
+									<a href="{% url 'detalle_item' item.id item.slug %}" class="block2-name dis-block s-text3 p-b-5">
+										{{item.titulo}}
 									</a>
-									{% if producto.oferta %}
+									{% if item.oferta %}
 									<span class="block2-oldprice m-text6 p-r-5">
-										₲. <strike>{{producto.precio|intcomma }}</strike>
+										₲. <strike>{{item.precio|intcomma }}</strike>
 									</span>
 									<span class="block2-newprice m-text8 p-r-5">
-										₲. {{producto.precio_oferta|intcomma }}
+										₲. {{item.precio_oferta|intcomma }}
 									</span>
 									{% else %}
 									<span class="block2-price m-text6 p-r-5">
-										₲. {{producto.precio|intcomma }}
+										₲. {{item.precio|intcomma }}
 									</span>
 									{% endif %}
 								</div>

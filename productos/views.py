@@ -22,6 +22,7 @@ class ItemListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
         context['count'] = self.get_queryset().count()
+        print(context['item_list'])
         return context
 
     def get_queryset(self, *args, **kwargs):

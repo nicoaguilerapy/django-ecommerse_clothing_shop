@@ -1,7 +1,6 @@
 from django.db import models
 from accounts.models import Profile
 from productos.models import Item
-from django_countries.fields import CountryField
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_init

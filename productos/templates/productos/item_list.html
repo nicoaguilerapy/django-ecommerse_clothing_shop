@@ -85,7 +85,8 @@
 					</div>
 					<!-- Productos -->
 					<div class="row">
-						{% for producto in producto_list %}
+						{% for item in item_list %}
+						
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
 						<form action="{% url 'detalle_producto' producto.id producto.slug %}">	
 							<div class="block2">				
