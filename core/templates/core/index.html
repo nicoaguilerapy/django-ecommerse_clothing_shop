@@ -96,7 +96,7 @@
               <div class="header-navigation-area">
                 <ul class="main-menu nav justify-content-center position-relative">
                   <li><a href="{% url 'home' %}">Inicio</a></li>
-                  <li><a href="{% url 'product_list' %}">Tienda</a></li>
+                  <li><a href="{% url 'item_list' %}">Tienda</a></li>
                   <li ><a href="{% url 'post_list' %}">Blog</a></li>
                   <li><a href="{% url 'home' %}">Sobre Nosotros</a></li>
                   <li><a href="{% url 'contact' %}">Contacto</a></li>
@@ -234,7 +234,7 @@
             <div class="divider-content divider-content-style1" data-aos="fade-up" data-aos-duration="1000">
               <h2>¿Tienes un encuentro <br> y no sabes que llevar?</h2>
               <p>Te invitamos a mirar la tienda,<br> donde hay un prenda especial para ti.</p>
-              <a href="shop.html" class="btn-theme btn-white">Ir a la Tienda</a>
+              <a href="{% url 'item_list' %}" class="btn-theme btn-white">Ir a la Tienda</a>
             </div>
           </div>
         </div>
@@ -306,7 +306,7 @@
           <div class="col-sm-6 col-lg-3">
             <div class="category-item">
               <div class="thumb">
-                <a href="shop.html">{% thumbnail category.image "477x477" crop="center" as im %}
+                <a href="{% url 'category_list' category.id category.slug  %}">{% thumbnail category.image "477x477" crop="center" as im %}
                   <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
                   {% endthumbnail %}</a>
               </div>
@@ -340,22 +340,22 @@
                   <!--== Start Blog Post Item ==-->
                   <div class="post-item">
                     <div class="thumb">
-                      <a href="#">{% thumbnail post.image "345x283" crop="center" as im %}
+                      <a href="{% url 'post_detail' post.id post.slug %}">{% thumbnail post.image "345x283" crop="center" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="Moren-Shop">
                         {% endthumbnail %}</a>
                     </div>
                     <div class="content">
                       <div class="post-meta">
                         <img src="{% static 'assets/img/icons/s1.jpg' %}" alt="Image">
-                        <a href="blog.html">{{post.author}}</a>
+                        <a href="{% url 'post_detail' post.id post.slug %}">{{post.author}}</a>
                       </div>
                       <div class="inner-content">
                         <h4 class="title">
-                          <a href="#">{{post.title}}</a>
+                          <a href="{% url 'post_detail' post.id post.slug %}">{{post.title}}</a>
                         </h4>
                         <p>{{post.description}}</p>
                       </div>
-                      <a href="#" class="btn-theme btn-border btn-black">Continuar Leyendo</a>
+                      <a href="{% url 'post_detail' post.id post.slug %}" class="btn-theme btn-border btn-black">Continuar Leyendo</a>
                     </div>
                   </div>
                   <!--== End Blog Post Item ==-->
@@ -533,21 +533,21 @@
                   {% if forloop.first %}
                 <ul class="nav-menu nav">
                   <li><a href="#">All</a></li>            
-                  <li><a href="shop.html">{{category.name}}</a></li>
+                  <li><a href="{% url 'category_list' category.id category.slug  %}">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.counter == 2 %}
-                  <li><a href="shop.html">{{category.name}}</a></li>
+                  <li><a href="{% url 'category_list' category.id category.slug  %}">{{category.name}}</a></li>
                   </ul>
                   {% endif %}
                   {% if forloop.counter == 3 %}
                 <ul class="nav-menu nav">
-                  <li><a href="shop.html">{{category.name}}</a></li>
+                  <li><a href="{% url 'category_list' category.id category.slug  %}">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.counter == 4 %}
-                  <li><a href="shop.html">{{category.name}}</a></li>
+                  <li><a href="{% url 'category_list' category.id category.slug  %}">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.counter == 5 %}
-                  <li><a href="shop.html">{{category.name}}</a></li>
+                  <li><a href="{% url 'category_list' category.id category.slug  %}">{{category.name}}</a></li>
                   {% endif %}
                   {% if forloop.last %}
                 </ul>

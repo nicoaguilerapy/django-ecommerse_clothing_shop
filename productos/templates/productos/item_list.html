@@ -7,7 +7,7 @@
 {% block barra_busqueda %}
 {% endblock barra_busqueda %}
 
-{% block body %}
+{% block content %}
 <!-- Content page -->
 	<section class="bgwhite p-t-55 p-b-65">
 		<div class="container">
@@ -22,14 +22,14 @@
 
 						<ul class="p-b-54">
 								<li class="p-t-4">
-								<a href="{% url 'productos' %}{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}" class="s-text13 active1">
+								<a href="{% url 'item_list' %}{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}" class="s-text13 active1">
 									All
 								</a>
 							</li>
-						{% for categoria in categorias %}
+							{% for category in categories %}
 						<li class="p-t-4">
-								<a href="{% url 'categoria' categoria.id categoria.nombre|slugify %}{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}" class="s-text13 active1">
-									{{categoria.nombre}}
+								<a href="{% url 'category_list' category.id category.slug  %}{% if request.GET.buscar %}?buscar={{request.GET.buscar}}{% endif %}" class="s-text13 active1">
+									{{category.name}}
 								</a>
 							</li>
 						{% endfor %}
@@ -85,17 +85,18 @@
 					</div>
 					<!-- Productos -->
 					<div class="row">
+		
 						{% for item in item_list %}
 						
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-						<form action="{% url 'detalle_producto' producto.id producto.slug %}">	
+						<form action="{% url 'item_detail' item.id item.slug %}">	
 							<div class="block2">				
 								<div class="block2-img wrap-pic-w of-hidden pos-relative">
-									{% thumbnail producto.imagen "270x360" crop="center" as im %}
+									{% thumbnail item.image "270x360" crop="center" as im %}
 									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
 									{% endthumbnail %}
 									<div class="block2-overlay trans-0-4">
-										<input type="hidden" id="" name="item_id" id="item_id" value="{{producto.id}}">
+										<input type="hidden" id="" name="item_id" id="item_id" value="{{item.id}}">
 										<input type="hidden" id="" name="cantidad" id="cantidad" value="1">
 										<div class="block2-btn-addcart w-size1 trans-0-4">
 											<!-- Button -->
@@ -108,19 +109,19 @@
 							
 
 								<div class="block2-txt p-t-20">
-									<a href="{% url 'detalle_producto' producto.id producto.slug %}" class="block2-name dis-block s-text3 p-b-5">
-										{{producto.titulo}}
+									<a href="{% url 'item_detail' item.id item.slug %}" class="block2-name dis-block s-text3 p-b-5">
+										{{item.title}}
 									</a>
-									{% if producto.oferta %}
+									{% if producto.offer %}
 									<span class="block2-oldprice m-text6 p-r-5">
-										₲. <strike>{{producto.precio|intcomma }}</strike>
+										₲. <strike>{{producto.price|intcomma }}</strike>
 									</span>
 									<span class="block2-newprice m-text8 p-r-5">
-										₲. {{producto.precio_oferta|intcomma }}
+										₲. {{producto.price_offer|intcomma }}
 									</span>
 									{% else %}
 									<span class="block2-price m-text6 p-r-5">
-										₲. {{producto.precio|intcomma }}
+										₲. {{producto.price|intcomma }}
 									</span>
 									{% endif %}
 								</div>
@@ -148,4 +149,4 @@
 			</div>
 		</div>
 	</section>
-{% endblock body %}
+{% endblock content %}

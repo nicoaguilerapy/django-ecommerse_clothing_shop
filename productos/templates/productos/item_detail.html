@@ -1,13 +1,13 @@
 {% extends 'core/index.html' %}
 {% load static %}
-{% load items_extras %}
+{% load productos_extras %}
 {% load social_extras %}
 {% load humanize %}
 {% load thumbnail %}
 {% block titulo %} {{item.titulo}} | Tienda{% endblock titulo %}
 {% block barra_busqueda %}
 {% endblock barra_busqueda %}
-{% block body %}
+{% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 	$(document).ready(function()
@@ -55,7 +55,7 @@
 			<div class="w-size14 p-t-30 respon5">
 				<h4 class="product-detail-name m-text16 p-b-13">
 					{{item.titulo}} {% if request.user.is_staff %}
-                    	<p><a href="{% url 'admin:items_item_change' object.id %}">Editar</a></p>
+                    	<p><a href="{% url 'admin:productos_item_change' item.id %}">Editar</a></p>
                     {% endif %}
 				</h4>
 
@@ -129,8 +129,8 @@
 
 				<div class="p-b-45">
 					<br>
-					<span class="s-text8">Categorias: {% for cate in item.categorias.all %}
-                  <a href="{% url 'categoria' cate.id cate.nombre|slugify %}">{{cate.nombre}}</a>{% if not forloop.last %},{% endif %}
+					<span class="s-text8">Categorias: {% for cate in item.categories.all %}
+                  <a href="{% url 'category_list' cate.id cate.slug %}">{{cate.name}}</a>{% if not forloop.last %},{% endif %}
                 {% endfor %}</span>
 					
 				</div>
@@ -168,10 +168,10 @@
 				{% get_items_categoria item as items_list %}
 					{% for item in items_list %}
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-						<form action="{% url 'detalle_item' item.id item.slug %}">	
+						<form action="{% url 'item_detail' item.id item.slug %}">	
 							<div class="block2">				
 								<div class="block2-img wrap-pic-w of-hidden pos-relative">
-									{% thumbnail item.imagen "270x360" crop="center" as im %}
+									{% thumbnail item.image "270x360" crop="center" as im %}
 									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="IMG-PRODUCT">
 									{% endthumbnail %}
 									<div class="block2-overlay trans-0-4">
@@ -188,7 +188,7 @@
 							
 
 								<div class="block2-txt p-t-20">
-									<a href="{% url 'detalle_item' item.id item.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									<a href="{% url 'item_detail' item.id item.slug %}" class="block2-name dis-block s-text3 p-b-5">
 										{{item.titulo}}
 									</a>
 									{% if item.oferta %}
@@ -216,4 +216,4 @@
 	</section>
 
 
-{% endblock body %}
+{% endblock content %}

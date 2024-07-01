@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.simple_tag
 def get_link_wha(numero, mensaje):
-    numero_modif = int(numero)
+    numero_modif = int(numero.replace("+","").replace(" ", ""))
     cadena = "https://api.whatsapp.com/send?phone=595{}&text={}".format(numero_modif, mensaje)
     return cadena
 
@@ -29,5 +29,4 @@ def get_numbers():
 @register.simple_tag
 def get_number_one():
     number = Number.objects.get(id=1)
-    value = number.number
     return number.number

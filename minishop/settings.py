@@ -108,23 +108,12 @@ WSGI_APPLICATION = 'minishop.wsgi.application'
 
 ALLOWED_HOSTS = ["*"]
 
-DEPLOY = True if config("DEPLOY") == 'Y' else False
-
 
 DEBUG = True if config("DEBUG") == 'Y' else False
 
 
 
-#database postgres
-if not DEPLOY:
-    DATABASES = {
-         'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }   
-    }
-else: 
-    DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': config('PGDATABASE'),

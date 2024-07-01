@@ -44,7 +44,7 @@ def get_url_aleatoria(obj):
 
 @register.simple_tag
 def get_slug_categoria(id):
-    categoria = Categoria.objects.get(id=int(id))
+    categoria = Category.objects.get(id=int(id))
     return  slugify(categoria.nombre)
 
 @register.simple_tag
@@ -56,8 +56,10 @@ def get_items_categoria(obj):
     numeros = 4
     if cantidad < 4:
         items_list = items_all.filter(visibility = True)
+    else:
+        items_list = random.sample(list(items_list), numeros)
         
-    items_aleatorios = random.sample(list(items_list), numeros)
-    return items_aleatorios
+    
+    return items_list
 
 

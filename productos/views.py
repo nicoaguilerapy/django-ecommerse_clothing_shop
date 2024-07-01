@@ -52,13 +52,13 @@ class CategoryListView(ListView):
     
     def get_queryset(self):
         
-        qs = Item.objects.filter(visibility = True, categorias=self.kwargs['id'])
+        qs = Item.objects.filter(visibility = True, categories=self.kwargs['id'])
         
         if self.request.GET.get('orden')=="mayor-menor":
-            qs = Item.objects.filter(visibility = True, categorias=self.kwargs['id']).order_by('-price')
+            qs = Item.objects.filter(visibility = True, categories=self.kwargs['id']).order_by('-price')
         
         if self.request.GET.get('orden')=="menor-mayor":
-            qs = Item.objects.filter(visibility = True, categorias=self.kwargs['id']).order_by('price')
+            qs = Item.objects.filter(visibility = True, categories=self.kwargs['id']).order_by('price')
             
         if self.request.GET.get('buscar'):
             return qs.filter(Q( title__icontains = self.request.GET.get('buscar') ) | Q( price__icontains = self.request.GET.get('buscar') ), visibility = True).distinct()
